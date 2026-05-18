@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التفكير الإبداعي - اختبارات تفاعلية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c1: #0f0c29;
+    --c2: #302b63;
+    --c3: #24243e;
+    --gold: #f5c518;
+    --gold2: #e8a800;
+    --teal: #00d4aa;
+    --teal2: #00a884;
+    --rose: #ff6b9d;
+    --purple: #a855f7;
+    --white: #f0f0f8;
+    --card: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, var(--c1) 0%, var(--c2) 50%, var(--c3) 100%);
+    min-height: 100vh;
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===== PARTICLES BG ===== */
+  .particles {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: float-up linear infinite;
+    opacity: 0;
+  }
+  @keyframes float-up {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 80px 20px 60px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: #000;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 6px 20px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    animation: badge-glow 2s ease-in-out infinite alternate;
+  }
+  @keyframes badge-glow {
+    from { box-shadow: 0 0 10px rgba(245,197,24,0.3); }
+    to { box-shadow: 0 0 30px rgba(245,197,24,0.8), 0 0 60px rgba(245,197,24,0.3); }
+  }
+  .hero h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    animation: title-in 1s cubic-bezier(0.22,1,0.36,1);
+  }
+  @keyframes title-in {
+    from { opacity:0; transform: translateY(40px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 500px;
+    margin: 0 auto 40px;
+    animation: title-in 1s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  /* ===== CHAPTER TABS ===== */
+  .tabs-container {
+    position: relative; z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 20px 40px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 14px 28px;
+    border: 2px solid var(--card-border);
+    background: var(--card);
+    color: rgba(255,255,255,0.7);
+    border-radius: 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  .tab-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .tab-btn:hover::before { opacity: 1; }
+  .tab-btn:hover {
+    border-color: var(--teal);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,212,170,0.2);
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    border-color: var(--teal);
+    color: #000;
+    font-weight: 800;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0,212,170,0.35);
+  }
+  .tab-btn .tab-icon { font-size: 1.3rem; margin-left: 8px; }
+  .tab-btn .tab-num {
+    display: inline-block;
+    width: 24px; height: 24px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 50%;
+    font-size: 0.8rem;
+    line-height: 24px;
+    text-align: center;
+    margin-right: 8px;
+  }
+
+  /* ===== QUIZ SECTION ===== */
+  .quiz-section {
+    position: relative; z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    display: none;
+    animation: section-in 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .quiz-section.active { display: block; }
+  @keyframes section-in {
+    from { opacity:0; transform: translateY(30px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+
+  /* ===== CHAPTER HEADER ===== */
+  .chapter-header {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 36px;
+    margin-bottom: 32px;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter-header::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,212,170,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .chapter-header h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .chapter-header p { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.7; }
+  .chapter-stats {
+    display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50px;
+    padding: 6px 18px;
+    font-size: 0.85rem;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-container {
+    margin-bottom: 28px;
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-label { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+  .progress-count { font-weight: 700; color: var(--gold); font-size: 1rem; }
+  .progress-track {
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    border-radius: 50px;
+    transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
+    width: 0%;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 20px; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
+    animation: shimmer 1.5s ease infinite;
+  }
+  @keyframes shimmer {
+    from { opacity: 0; }
+    50% { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* ===== QUESTION CARD ===== */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--teal), var(--purple));
+    border-radius: 0 20px 20px 0;
+  }
+  .q-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--teal), var(--purple));
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 15px rgba(0,212,170,0.3);
+  }
+  .q-text {
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.75;
+    margin-bottom: 22px;
+    color: var(--white);
+  }
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .option-btn {
+    padding: 14px 18px;
+    border: 2px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.85);
+    border-radius: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: rgba(0,212,170,0.5);
+    background: rgba(0,212,170,0.1);
+    transform: translateX(-4px);
+    box-shadow: 4px 0 20px rgba(0,212,170,0.15);
+  }
+  .option-btn.correct {
+    border-color: #22c55e;
+    background: rgba(34,197,94,0.15);
+    color: #86efac;
+    animation: correct-pulse 0.5s ease;
+  }
+  @keyframes correct-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+  .option-btn.wrong {
+    border-color: #ef4444;
+    background: rgba(239,68,68,0.15);
+    color: #fca5a5;
+  }
+  .option-btn.reveal {
+    border-color: rgba(34,197,94,0.5);
+    background: rgba(34,197,94,0.08);
+    color: #86efac;
+  }
+  .option-btn:disabled { cursor: not-allowed; }
+  .option-label {
+    display: inline-block;
+    width: 22px; height: 22px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    text-align: center;
+    line-height: 22px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-left: 10px;
+  }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    animation: fade-in 0.3s ease;
+  }
+  @keyframes fade-in { from { opacity:0; transform: translateY(-5px); } to { opacity:1; transform: translateY(0); } }
+  .feedback.correct-fb { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.3); display: flex; }
+  .feedback.wrong-fb { background: rgba(239,68,68,0.12); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); display: flex; }
+
+  /* ===== SCORE CARD ===== */
+  .score-card {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 50px 40px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    animation: section-in 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .score-card.visible { display: block; }
+  .score-emoji { font-size: 4rem; margin-bottom: 20px; display: block; }
+  .score-circle {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: conic-gradient(var(--teal) 0%, var(--purple) var(--pct, 0%), rgba(255,255,255,0.1) var(--pct, 0%));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+  .score-circle::before {
+    content: '';
+    position: absolute; inset: 12px;
+    background: var(--c2);
+    border-radius: 50%;
+  }
+  .score-num {
+    position: relative; z-index: 1;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--gold);
+  }
+  .score-label { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--white); }
+  .score-sub { color: rgba(255,255,255,0.55); margin-bottom: 32px; }
+  .score-breakdown {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .breakdown-item {
+    background: rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 16px 24px;
+    min-width: 100px;
+  }
+  .breakdown-num { font-size: 1.8rem; font-weight: 900; }
+  .breakdown-num.correct-num { color: #22c55e; }
+  .breakdown-num.wrong-num { color: #ef4444; }
+  .breakdown-lbl { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+
+  .restart-btn {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, var(--teal), var(--purple));
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0,212,170,0.3);
+  }
+  .restart-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0,212,170,0.4);
+  }
+
+  /* ===== FLOATING DECO ===== */
+  .deco {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+  }
+  .deco-1 { width: 500px; height: 500px; background: var(--teal); top: -100px; right: -100px; animation: deco-drift 12s ease-in-out infinite alternate; }
+  .deco-2 { width: 400px; height: 400px; background: var(--purple); bottom: -100px; left: -100px; animation: deco-drift 10s ease-in-out infinite alternate-reverse; }
+  .deco-3 { width: 300px; height: 300px; background: var(--gold); top: 40%; left: 40%; animation: deco-drift 15s ease-in-out infinite alternate; }
+  @keyframes deco-drift {
+    from { transform: translate(0,0) scale(1); }
+    to { transform: translate(40px, 40px) scale(1.1); }
+  }
+
+  /* ===== SUMMARY TABLE ===== */
+  .summary-msg {
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.25);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* scroll */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--teal2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Decorative blobs -->
+<div class="deco deco-1"></div>
+<div class="deco deco-2"></div>
+<div class="deco deco-3"></div>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">✦ د. أحمد خميس · FMI 2025 ✦</div>
+  <h1>التفكير الإبداعي</h1>
+  <p>اختبار معلوماتك في المحاضرات الثلاث · 20 سؤال لكل فصل</p>
+</div>
+
+<!-- Tabs -->
+<div class="tabs-container">
+  <button class="tab-btn active" onclick="showQuiz(0)">
+    <span class="tab-icon">🧠</span>
+    المحاضرة الأولى
+    <span class="tab-num">20</span>
+  </button>
+  <button class="tab-btn" onclick="showQuiz(1)">
+    <span class="tab-icon">💡</span>
+    المحاضرة الثانية
+    <span class="tab-num">20</span>
+  </button>
+  <button class="tab-btn" onclick="showQuiz(2)">
+    <span class="tab-icon">🚀</span>
+    المحاضرة الثالثة
+    <span class="tab-num">20</span>
+  </button>
+</div>
+
+<!-- Quiz Sections -->
+<div id="quiz-0" class="quiz-section active"></div>
+<div id="quiz-1" class="quiz-section"></div>
+<div id="quiz-2" class="quiz-section"></div>
+
+<script>
+// ========================
+// DATA
+// ========================
+const chapters = [
+  {
+    id: 0,
+    title: "المحاضرة الأولى: التفكير",
+    desc: "مفهوم التفكير، خصائصه، أشكاله، ومهاراته المختلفة — من التفكير الحسي إلى التفكير الإبداعي الخلّاق",
+    icon: "🧠",
+    color: "#00d4aa",
+    questions: [
+      {
+        q: "ما أبرز الصفات التمييزية التي تُميّز الإنسان عن باقي المخلوقات الأخرى؟",
+        opts: ["اللغة والتواصل", "التفكير", "العواطف والمشاعر", "الذاكرة"],
+        ans: 1
+      },
+      {
+        q: "وفقاً لتعريف جروان (1999)، التفكير في أبسط تعريف له هو سلسلة من النشاطات العقلية التي يقوم بها الدماغ عندما:",
+        opts: ["يكون الإنسان نائماً", "يتعرض لمثير يُستقبل عبر الحواس الخمس", "يخطط الإنسان للمستقبل", "يتذكر الماضي"],
+        ans: 1
+      },
+      {
+        q: "أيٌّ من التالي ليس من خصائص التفكير الواردة في المحاضرة؟",
+        opts: ["هادف", "نسبي", "ثابت ولا يتغير", "متفاعل مع البيئة"],
+        ans: 2
+      },
+      {
+        q: "يُعرِّف دي بونو (De Bono, 1976) التفكير بأنه:",
+        opts: ["حفظ المعلومات واسترجاعها", "استكشاف متبصر للخبرة من أجل الوصول إلى الهدف", "ردود الفعل الغريزية", "القدرة على التواصل الاجتماعي"],
+        ans: 1
+      },
+      {
+        q: "التفكير الحسي يُعدّ:",
+        opts: ["أعقد أشكال التفكير", "يتعامل الفرد فيه مع ما يستطيع مشاهدته أو سماعه فقط", "خاصاً بحل المشكلات المجردة", "لا يحتاج إلى مثيرات حسية"],
+        ans: 1
+      },
+      {
+        q: "التفكير العاطفي يُطلق عليه أيضاً:",
+        opts: ["التفكير المنطقي", "التفكير الوجداني أو الهوائي", "التفكير الاستنتاجي", "التفكير التحليلي"],
+        ans: 1
+      },
+      {
+        q: "ما الذي يتضمنه التفكير المنطقي (Logical Thinking)؟",
+        opts: ["تقييم مصداقية الظواهر والوصول إلى أحكام منطقية من خلال معايير وقواعد", "الخيال والإبداع الحر بلا قواعد", "فهم المشاعر وتفسيرها", "تخزين المعلومات في الذاكرة بعيدة المدى"],
+        ans: 0
+      },
+      {
+        q: "الشق الأيمن من الدماغ مختص بـ:",
+        opts: ["الكلام والأرقام والقدرات العددية والربط المنطقي", "الأمور الذوقية والجمالية والإيقاعية وقدرات التخيل والإبداع", "الاستنتاج المنطقي والتحليل", "جمع المعلومات وتصنيفها"],
+        ans: 1
+      },
+      {
+        q: "عدد خلايا الدماغ تقريباً:",
+        opts: ["10 آلاف خلية", "مليون خلية", "10 مليارات خلية عصبية", "مليار خلية"],
+        ans: 2
+      },
+      {
+        q: "ما التعريف الدقيق للتفكير الخلاّق (Creative Thinking)؟",
+        opts: ["التفكير الذي يلتزم بالأنماط التقليدية", "النظر إلى شيء ما بطريقة جديدة — التفكير خارج الصندوق", "حفظ المعلومات واسترجاعها بدقة", "التحليل الدقيق للمشكلات بأسلوب علمي"],
+        ans: 1
+      },
+      {
+        q: "مهارات التفكير الأساسية (الدنيا) — Lower Thinking Skills — تُعنى بـ:",
+        opts: ["حل المشكلات المعقدة وإصدار أحكام", "الأعمال اليومية الروتينية كاكتساب المعرفة وتذكرها وتصنيفها", "التفكير الناقد والإبداعي", "اتخاذ القرارات الكبرى"],
+        ans: 1
+      },
+      {
+        q: "مهارات التفكير العليا أو المركبة تشمل:",
+        opts: ["التذكر والملاحظة والإصغاء", "التفكير الناقد والإبداعي والاستدلالي وما وراء المعرفي", "طرح الأسئلة والوصف والتصنيف", "الحفظ والتطبيق فقط"],
+        ans: 1
+      },
+      {
+        q: "مهارة التصنيف هي عملية عقلية يتم من خلالها:",
+        opts: ["وضع الأشياء في مجموعات أو فئات على أساس خصائصها", "تقييم الأفكار ودرجة منطقيتها", "استرجاع المعلومات المخزّنة في الذاكرة", "ملاحظة الظواهر والإحساس بها"],
+        ans: 0
+      },
+      {
+        q: "مهارة الملاحظة تعني:",
+        opts: ["تخمين الأحداث المستقبلية", "الحصول على المعلومات من البيئة من خلال توظيف حاسة أو أكثر", "طرح الأسئلة لاستجلاء الحقائق", "تحديد العلاقات بين السبب والنتيجة"],
+        ans: 1
+      },
+      {
+        q: "الإصغاء الفعّال يقصد به:",
+        opts: ["الاستماع السطحي لكلمات الطرف الآخر فقط", "تحويل الانتباه إلى الشخص الذي يتحاور معك واستيعاب الرسالة الكاملة", "الانشغال بصياغة الردود أثناء الحديث", "الاستماع للمعلومات الجديدة فقط"],
+        ans: 1
+      },
+      {
+        q: "مهارة التذكر تهدف إلى:",
+        opts: ["تحليل المشكلات وإيجاد حلول إبداعية", "تخزين المعلومات في الذاكرة بعيدة المدى والاحتفاظ بها", "إصدار أحكام بناء على أدلة ومعطيات", "ملاحظة التناقضات والنواقص في البيئة المحيطة"],
+        ans: 1
+      },
+      {
+        q: "تقنية الحرف الأول (First Letter Technique) في مهارة التذكر تعني:",
+        opts: ["كتابة المعلومة على بطاقات وحفظها", "أخذ الحرف الأول من كل كلمة ومحاولة بناء كلمة أو جملة ذات معنى", "تكرار المعلومة بصوت عالٍ عدة مرات", "رسم خرائط ذهنية للمعلومات"],
+        ans: 1
+      },
+      {
+        q: "التفكير التحليلي يتناول:",
+        opts: ["توليد الأفكار الجديدة وابتكار الحلول", "القدرة على تحليل المثيرات البيئية إلى أجزاء منفصلة والتفكير فيها بشكل مستقل", "الحكم على مصداقية المعلومات وتقييمها", "تخيّل مواقف جديدة بعيداً عن الواقع"],
+        ans: 1
+      },
+      {
+        q: "وفقاً للمحاضرة، يتأثر التفكير بـ:",
+        opts: ["العوامل الوراثية فقط", "مستوى الذكاء وحده", "البيئة المحيطة (السياق الاجتماعي والثقافي، والبيئة المادية، والوضع الجسدي والصحي)", "الحالة المزاجية فقط"],
+        ans: 2
+      },
+      {
+        q: "التفكير العلمي يشمل:",
+        opts: ["الملاحظة والإحساس بالمشكلة ووضع الفروض واختبارها وتحليل النتائج", "إطلاق الأحكام دون أدلة", "الخيال الحر والإبداع بلا قواعد", "حفظ النظريات وتطبيقها حرفياً"],
+        ans: 0
+      }
+    ]
+  },
+  {
+    id: 1,
+    title: "المحاضرة الثانية: الإبداع",
+    desc: "مفهوم الإبداع، خصائصه، الإبداع والابتكار، أنواع الإبداعات، الإبداع والذكاء، أنواع الذكاء، معوقات الإبداع",
+    icon: "💡",
+    color: "#f5c518",
+    questions: [
+      {
+        q: "الإبداع يُطلق عليه بالإنجليزية:",
+        opts: ["Innovation", "Creativity", "Intelligence", "Invention"],
+        ans: 1
+      },
+      {
+        q: "الابتكار يُطلق عليه بالإنجليزية:",
+        opts: ["Creativity", "Discovery", "Innovation", "Imagination"],
+        ans: 2
+      },
+      {
+        q: "ما هدف الإبداع وفق المقارنة بين الإبداع والابتكار؟",
+        opts: ["تحويل الأفكار إلى واقع", "الاكتشاف والاختراع", "تطبيق الأفكار الإبداعية", "الجانب التطبيقي"],
+        ans: 1
+      },
+      {
+        q: "ما هدف الابتكار وفق المقارنة بين الإبداع والابتكار؟",
+        opts: ["الاكتشاف والاختراع", "توليد أفكار جديدة", "تحويل الأفكار إلى واقع وتطبيقها", "النظر في الجانب النظري"],
+        ans: 2
+      },
+      {
+        q: "وجهة النظر الثالثة في العلاقة بين الإبداع والابتكار تقول إن:",
+        opts: ["الإبداع والابتكار مفاهيم تبادلية", "الابتكار يأتي أولاً ثم الإبداع", "الإبداع يأتي أولاً ثم الابتكار بعد ذلك", "لا علاقة بين الإبداع والابتكار"],
+        ans: 2
+      },
+      {
+        q: "الإبداع يتناول الجانب:",
+        opts: ["التطبيقي", "النظري", "العملي", "الابتكاري"],
+        ans: 1
+      },
+      {
+        q: "الابتكار يتناول الجانب:",
+        opts: ["النظري", "التطبيقي", "الفكري المجرد", "الاكتشافي"],
+        ans: 1
+      },
+      {
+        q: "الإبداع كظاهرة مركبة يتفاعل فيها:",
+        opts: ["الشخص المبدع والبيئة الإبداعية والعملية الإبداعية والناتج الإبداعي", "الذكاء والموهبة فقط", "المعلمون والطلاب", "الفرد والمجتمع فقط"],
+        ans: 0
+      },
+      {
+        q: "من خصائص الإبداع:",
+        opts: ["يشترط الجدة للآخرين دائماً", "القدرة على النظر للأمور من زاوية مختلفة عن نظر الآخرين", "الالتزام التام بالأفكار التقليدية السائدة", "رفض الجديد والتمسك بالمألوف"],
+        ans: 1
+      },
+      {
+        q: "هل يشترط الإبداع أن تكون الفكرة جديدة للآخرين؟",
+        opts: ["نعم، يجب أن تكون جديدة على مستوى العالم", "لا، يكفي أن تكون جديدة بالنسبة للمبدع فقط", "يجب أن تكون جديدة على مستوى المؤسسة فقط", "يجب أن تكون جديدة على مستوى الدولة"],
+        ans: 1
+      },
+      {
+        q: "من أنواع الإبداعات الواردة في المحاضرة:",
+        opts: ["الإبداع العلمي، الرياضي، الفني، الأدبي، الفلسفي", "الإبداع التعبيري، الفني، الخالق، الطارئ، المتجدد", "الإبداع اللغوي، المكاني، الجسمي، الاجتماعي، المنطقي", "الإبداع الإدراكي، الذاكراتي، الحسي، الحركي، العاطفي"],
+        ans: 1
+      },
+      {
+        q: "موقف عدد من علماء النفس والباحثين من العلاقة بين الإبداع والذكاء هو:",
+        opts: ["الذكاء شرط أساسي ضروري للإبداع دائماً", "لا توجد علاقة حتمية بين الإبداع والذكاء", "الإبداع لا يحتاج إلى أي قدر من الذكاء", "الذكاء والإبداع متضادان"],
+        ans: 1
+      },
+      {
+        q: "من تعريفات الذكاء الواردة في المحاضرة:",
+        opts: ["الذاكرة الفائقة وسرعة الاسترجاع", "القدرة على الابتكار والفهم والحكم الصحيح والتوجيه الهادف للسلوك", "القدرة على الحفظ وتكرار المعلومات", "القدرة على التكيف الجسمي مع البيئة"],
+        ans: 1
+      },
+      {
+        q: "الذكاء اللغوي يتمثل في مهنة:",
+        opts: ["المعماري والنحات", "الشاعر والإعلامي", "الملحن والعازف", "الرياضي واللاعب"],
+        ans: 1
+      },
+      {
+        q: "الذكاء المكاني يتمثل في مهنة:",
+        opts: ["الشاعر والكاتب", "الملحن الموسيقي", "المعماري والنحات", "الرياضي والراقص"],
+        ans: 2
+      },
+      {
+        q: "الذكاء الموسيقي يتعلق بـ:",
+        opts: ["القدرة على التحليل المنطقي والرياضي", "القدرة على إنتاج وتقدير الإيقاعات والنغمات والتعبيرات الموسيقية المتنوعة", "معالجة اللغات وإنتاج الكلمات", "إدراك المحيط البصري والمكاني"],
+        ans: 1
+      },
+      {
+        q: "الذكاء الاجتماعي (بين الأشخاص) يتعلق بـ:",
+        opts: ["التعرف على المشاعر الذاتية وتمييزها", "القدرة على التمييز والاستجابة لمزاجة ودوافع ورغبات الآخرين بشكل مناسب", "القدرة على التعامل مع الأشياء بمهارة", "معالجة الأنماط الرياضية والمنطقية"],
+        ans: 1
+      },
+      {
+        q: "من معوقات الإبداع الواردة في المحاضرة:",
+        opts: ["التفكير الناقد وتقييم الأفكار", "الإبقاء على العادات المألوفة، والأحكام المسبقة، والجمود والكسل", "تشجيع التعاون والتفاعل الاجتماعي", "إتاحة فرص التأمل والتعبير عن الرأي"],
+        ans: 1
+      },
+      {
+        q: "من فرص بيئة الإبداع المناسبة التي أشارت إليها الدبيات العلمية:",
+        opts: ["التقييم المستمر والمراقبة الصارمة", "النظر إلى الفشل كفرصة للتعلم، وتشجيع الاكتشاف وحب المعرفة", "فرض قيود صارمة على الأفكار المطروحة", "المنافسة الحادة بين الأفراد"],
+        ans: 1
+      },
+      {
+        q: "ما مكونات الإبداع كمهارات تفكير الواردة في المحاضرة؟",
+        opts: ["الذكاء والموهبة والخبرة", "الطلاقة والمرونة والأصالة والإفاضة والتفاصيل والحساسية للمشكلات", "التذكر والملاحظة والتصنيف والوصف", "الاستنتاج وتحديد الأولويات واتخاذ القرار"],
+        ans: 1
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: "المحاضرة الثالثة: التفكير الإبداعي",
+    desc: "تعريف التفكير الإبداعي، أهميته، أساليبه، مراحله، مقارنته بالتفكير النمطي، مهاراته، ومتطلباته",
+    icon: "🚀",
+    color: "#a855f7",
+    questions: [
+      {
+        q: "التفكير الإبداعي هو:",
+        opts: ["التفكير الروتيني القائم على التكرار", "التفكير خارج الصندوق بعيداً عن الأفكار التقليدية", "التفكير المنطقي الصارم", "التفكير العاطفي والوجداني"],
+        ans: 1
+      },
+      {
+        q: "من أهمية التفكير الإبداعي وفق المحاضرة:",
+        opts: ["يُقلل من الإنتاجية ويزيد التكاليف", "الطريق للوصول إلى الاكتشافات الجديدة ومعبراً إلى النجاح والتفوق", "يُعقّد حل المشكلات", "يحدّ من التعاون الجماعي"],
+        ans: 1
+      },
+      {
+        q: "أسلوب التفكير التجويدي يتميز بأنه:",
+        opts: ["يعمل الأشياء بشكل مختلف", "يعمل الأشياء بشكل أفضل ويتقبل المشكلة كما قُدمت له", "لا يقبل التعريف المقدم للمشكلة", "يثير التساؤلات ويتجاهل الوسائل"],
+        ans: 1
+      },
+      {
+        q: "أسلوب التفكير التجديدي يتميز بأنه:",
+        opts: ["يعمل الأشياء بشكل أفضل فقط", "يعتبر منغماً في توصله إلى الأفكار", "يعمل الأشياء بشكل مختلف ولا يقبل التعريف المقدم للمشكلة", "تتحول الوسائل عنده إلى أهداف"],
+        ans: 2
+      },
+      {
+        q: "المرحلة الأولى من مراحل عملية التفكير الإبداعي هي:",
+        opts: ["الاختمار", "الإشراق", "الإعداد أو التحضير", "التحقق"],
+        ans: 2
+      },
+      {
+        q: "ما الذي يتم في مرحلة الاختمار؟",
+        opts: ["الحصول على النتائج النهائية وفحص الأفكار الإبداعية", "التفكير الجاد في القضية وتنظيم الأفكار المرتبطة بها ورفض غير المرتبطة", "تجميع المعلومات والأفكار ذات العلاقة استعداداً للمرحلة التالية", "ظهور الفكرة الجديدة والحل المناسب للمشكلة"],
+        ans: 1
+      },
+      {
+        q: "في مرحلة الإلهام أو الإشراق:",
+        opts: ["يتم تحضير العقل لعملية الإبداع", "يتم تنظيم الأفكار ورفض غير المرتبطة", "تنطلق شرارة الإبداع وتظهر الفكرة الجديدة أو الحل المناسب للمشكلة", "يتم فحص الفكرة الإبداعية والتحقق من أصالتها"],
+        ans: 2
+      },
+      {
+        q: "مرحلة التحقق تمثل:",
+        opts: ["البداية في عملية الإبداع", "ثاني مراحل عملية الإبداع", "آخر مراحل عملية الإبداع حيث يتم الحصول على النتائج النهائية وفحص الأفكار", "مرحلة تجميع المعلومات والأفكار"],
+        ans: 2
+      },
+      {
+        q: "التفكير النمطي يتصف بـ:",
+        opts: ["المرونة والخروج عن المألوف", "الأصالة وعدم التكرار", "الحيادية والجمود والروتينية ورفض الأفكار الجديدة", "تعدد الرؤى وتوليد حلول متنوعة"],
+        ans: 2
+      },
+      {
+        q: "التفكير الإبداعي — مقارنةً بالتفكير النمطي — يتصف بـ:",
+        opts: ["التكرار والروتين وتقييد الأفكار الجديدة", "لا يمكن التنبؤ بنتائجه ويتصف بالمرونة والخروج عن المألوف", "محدود بقوانين وقواعد منطقية ويمكن التنبؤ بنتائجه", "تفكير أحادي الرؤى لا يخرج عما هو متعارف عليه"],
+        ans: 1
+      },
+      {
+        q: "الأصالة في مهارات التفكير الإبداعي تعني:",
+        opts: ["إنتاج أكبر عدد ممكن من البدائل والأفكار", "قدرة الفرد على إنتاج أفكار أو حلول جديدة غير مألوفة غير مكررة", "قدرة الفرد على تغيير تفكيره بتغير الموقف", "قدرة الفرد على تطوير الأفكار وإضافة تفاصيل جديدة"],
+        ans: 1
+      },
+      {
+        q: "الطلاقة في التفكير الإبداعي تعني:",
+        opts: ["التميز في التفكير والقدرة على النفاذ إلى ما وراء المباشر", "قدرة الفرد على الوصول إلى أكبر عدد ممكن من البدائل والأفكار بسرعة وسهولة", "تغيير مسار التفكير مع تغير متطلبات الموقف", "إدراك الأخطاء ونواحي النقص والقصور في الأشياء"],
+        ans: 1
+      },
+      {
+        q: "طلاقة التداعي تعني:",
+        opts: ["إنتاج أكبر عدد من الكلمات ذات الدلالة الواحدة (المترادفات)", "سرعة التفكير في إعطاء الكلمات وتوليدها في نسق جيد", "تقديم إضافات إلى أشكال معينة لتكوين رسوم حقيقية", "قدرة الفرد على إدراك العلاقات القائمة بين الألفاظ"],
+        ans: 0
+      },
+      {
+        q: "الطلاقة الفكرية تعني:",
+        opts: ["سرعة تفكير الفرد في إعطاء الكلمات وتوليدها في نسق جيد", "قدرة الفرد على إيجاد عدد كبير من الأفكار التي ترتبط ببعضها ارتباطاً معيناً في زمن محدد", "إنتاج أكبر عدد من الكلمات ذات الدلالة الواحدة", "قدرة الفرد على تكوين العبارات والجمل بشروط محددة"],
+        ans: 1
+      },
+      {
+        q: "المرونة في التفكير الإبداعي تعني:",
+        opts: ["إنتاج أفكار غير مألوفة لم تكن معروفة سابقاً", "قدرة الفرد على إنتاج عدد كبير من الأفكار في زمن قصير", "قدرة الفرد على تغيير تفكيره بتغير الموقف وتوليد أفكار متنوعة", "قدرة الفرد على تطوير فكرة معينة بإضافة تفاصيل جديدة لها"],
+        ans: 2
+      },
+      {
+        q: "عكس المرونة الذهنية هو:",
+        opts: ["الطلاقة الفكرية", "الجمود الذهني الذي يعني تبني أنماط ذهنية محددة سلفاً غير قابلة للتغيير", "الأصالة والتميز", "الحساسية للمشكلات"],
+        ans: 1
+      },
+      {
+        q: "الحساسية للمشكلات تعني:",
+        opts: ["قدرة الفرد على إنتاج أكبر عدد من الأفكار", "قدرة الفرد على تطوير الأفكار وبلورتها", "قدرة الفرد على إدراك الأخطاء ونواحي النقص والقصور ورؤية المشكلات في الأشياء والأنظمة", "قدرة الفرد على تغيير تفكيره بتغير الموقف"],
+        ans: 2
+      },
+      {
+        q: "مهارة التفاصيل أو التوسع تعني:",
+        opts: ["إنتاج أكبر عدد من البدائل والأفكار اللفظية", "قدرة الفرد على تطوير فكرة معينة من خبرات سابقة وإضافة تفاصيل جديدة متنوعة لها", "القدرة على إدراك المشكلات وجوانب النقص في البيئة المحيطة", "تغيير مسار التفكير وفق متطلبات الموقف"],
+        ans: 1
+      },
+      {
+        q: "من المتطلبات الأساسية للتفكير الإبداعي:",
+        opts: ["خلو الذهن والخبرة والدافع", "التأمل والتفكير، المغامرة والجرأة، الإصرار والتحدي", "الجمود والتقليد والالتزام بالعادات", "الحكم المسبق على الأفكار ورفض الجديد"],
+        ans: 1
+      },
+      {
+        q: "من المتطلبات الثانوية للتفكير الإبداعي:",
+        opts: ["التأمل والمغامرة والتغيير", "الإصرار والتحدي وترك الجمود", "خلو الذهن، والخبرة، والدافع", "الربط والمقارنة وترك التقليد"],
+        ans: 2
+      }
+    ]
+  }
+];
+
+// ========================
+// STATE
+// ========================
+const state = chapters.map(() => ({
+  answered: new Array(20).fill(null),
+  score: 0,
+  done: false
+}));
+
+// ========================
+// BUILD
+// ========================
+function buildQuiz(chIdx) {
+  const ch = chapters[chIdx];
+  const s = state[chIdx];
+  const cont = document.getElementById('quiz-' + chIdx);
+  cont.innerHTML = '';
+
+  // Chapter header
+  const hdr = document.createElement('div');
+  hdr.className = 'chapter-header';
+  hdr.innerHTML = `
+    <h2>${ch.icon} ${ch.title}</h2>
+    <p>${ch.desc}</p>
+    <div class="chapter-stats">
+      <span class="stat-pill">📝 20 سؤال</span>
+      <span class="stat-pill">🎯 اختيار من متعدد</span>
+      <span class="stat-pill">⚡ تغذية راجعة فورية</span>
+    </div>
+  `;
+  cont.appendChild(hdr);
+
+  // Progress
+  const prog = document.createElement('div');
+  prog.className = 'progress-container';
+  prog.innerHTML = `
+    <div class="progress-info">
+      <span class="progress-label">تقدمك في الاختبار</span>
+      <span class="progress-count" id="prog-count-${chIdx}">0 / 20</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill-${chIdx}"></div>
+    </div>
+  `;
+  cont.appendChild(prog);
+
+  // Questions
+  ch.questions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `q-${chIdx}-${qi}`;
+
+    const labels = ['أ', 'ب', 'ج', 'د'];
+    const optsHtml = q.opts.map((o, oi) => `
+      <button class="option-btn" id="opt-${chIdx}-${qi}-${oi}"
+              onclick="answer(${chIdx}, ${qi}, ${oi})"
+              ${s.answered[qi] !== null ? 'disabled' : ''}>
+        <span class="option-label">${labels[oi]}</span>
+        ${o}
+      </button>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="q-number">${qi + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options-grid">${optsHtml}</div>
+      <div class="feedback" id="fb-${chIdx}-${qi}"></div>
+    `;
+    cont.appendChild(card);
+
+    // Restore previous answer state
+    if (s.answered[qi] !== null) {
+      restoreState(chIdx, qi);
+    }
+  });
+
+  // Score card
+  const sc = document.createElement('div');
+  sc.className = 'score-card' + (s.done ? ' visible' : '');
+  sc.id = `score-${chIdx}`;
+  if (s.done) renderScore(chIdx, sc);
+  cont.appendChild(sc);
+
+  updateProgress(chIdx);
+}
+
+function answer(chIdx, qi, selected) {
+  const ch = chapters[chIdx];
+  const s = state[chIdx];
+  if (s.answered[qi] !== null) return;
+
+  const correct = ch.questions[qi].ans;
+  s.answered[qi] = selected;
+  if (selected === correct) s.score++;
+
+  restoreState(chIdx, qi);
+  updateProgress(chIdx);
+
+  // Check done
+  if (s.answered.every(a => a !== null)) {
+    s.done = true;
+    setTimeout(() => showScore(chIdx), 700);
+  }
+
+  // Scroll to next
+  const nextCard = document.getElementById(`q-${chIdx}-${qi+1}`);
+  if (nextCard) setTimeout(() => nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' }), 400);
+}
+
+function restoreState(chIdx, qi) {
+  const ch = chapters[chIdx];
+  const s = state[chIdx];
+  const selected = s.answered[qi];
+  const correct = ch.questions[qi].ans;
+  const labels = ['أ', 'ب', 'ج', 'د'];
+
+  ch.questions[qi].opts.forEach((_, oi) => {
+    const btn = document.getElementById(`opt-${chIdx}-${qi}-${oi}`);
+    if (!btn) return;
+    btn.disabled = true;
+    if (oi === selected && selected === correct) {
+      btn.classList.add('correct');
+    } else if (oi === selected && selected !== correct) {
+      btn.classList.add('wrong');
+    } else if (oi === correct) {
+      btn.classList.add('reveal');
+    }
+  });
+
+  const fb = document.getElementById(`fb-${chIdx}-${qi}`);
+  if (fb) {
+    if (selected === correct) {
+      fb.className = 'feedback correct-fb';
+      fb.innerHTML = '✅ إجابة صحيحة! ممتاز';
+    } else {
+      fb.className = 'feedback wrong-fb';
+      const correctLabel = labels[correct];
+      fb.innerHTML = `❌ إجابة خاطئة — الإجابة الصحيحة: (${correctLabel}) ${ch.questions[qi].opts[correct]}`;
+    }
+  }
+}
+
+function updateProgress(chIdx) {
+  const s = state[chIdx];
+  const answered = s.answered.filter(a => a !== null).length;
+  const fill = document.getElementById(`prog-fill-${chIdx}`);
+  const count = document.getElementById(`prog-count-${chIdx}`);
+  if (fill) fill.style.width = (answered / 20 * 100) + '%';
+  if (count) count.textContent = answered + ' / 20';
+}
+
+function showScore(chIdx) {
+  const sc = document.getElementById(`score-${chIdx}`);
+  if (!sc) return;
+  sc.classList.add('visible');
+  renderScore(chIdx, sc);
+  sc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function renderScore(chIdx, el) {
+  const s = state[chIdx];
+  const pct = Math.round(s.score / 20 * 100);
+  const wrong = 20 - s.score;
+  let emoji = '🎯';
+  let msg = 'جيد!';
+  if (pct >= 90) { emoji = '🏆'; msg = 'ممتاز! نتيجة رائعة'; }
+  else if (pct >= 75) { emoji = '🌟'; msg = 'جيد جداً!'; }
+  else if (pct >= 60) { emoji = '👍'; msg = 'جيد — يمكنك التحسين'; }
+  else { emoji = '📚'; msg = 'راجع المحاضرة مرة أخرى'; }
+
+  el.innerHTML = `
+    <span class="score-emoji">${emoji}</span>
+    <div class="score-circle" style="--pct:${pct}%">
+      <span class="score-num">${pct}%</span>
+    </div>
+    <div class="score-label">${msg}</div>
+    <div class="score-sub">لقد أجبت على جميع أسئلة ${chapters[chIdx].title}</div>
+    <div class="score-breakdown">
+      <div class="breakdown-item">
+        <div class="breakdown-num correct-num">${s.score}</div>
+        <div class="breakdown-lbl">إجابات صحيحة</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-num wrong-num">${wrong}</div>
+        <div class="breakdown-lbl">إجابات خاطئة</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-num" style="color:var(--gold)">20</div>
+        <div class="breakdown-lbl">مجموع الأسئلة</div>
+      </div>
+    </div>
+    <button class="restart-btn" onclick="restart(${chIdx})">🔄 إعادة الاختبار</button>
+  `;
+}
+
+function restart(chIdx) {
+  state[chIdx].answered = new Array(20).fill(null);
+  state[chIdx].score = 0;
+  state[chIdx].done = false;
+  buildQuiz(chIdx);
+  document.getElementById('quiz-' + chIdx).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ========================
+// TABS
+// ========================
+function showQuiz(idx) {
+  document.querySelectorAll('.quiz-section').forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ========================
+// PARTICLES
+// ========================
+function spawnParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['#00d4aa', '#a855f7', '#f5c518', '#ff6b9d', '#60a5fa'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 8 + 3;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*15+10}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+}
+
+// ========================
+// INIT
+// ========================
+spawnParticles();
+chapters.forEach((_, i) => buildQuiz(i));
+</script>
+</body>
+</html>
