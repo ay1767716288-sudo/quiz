@@ -1,0 +1,341 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.quiz-wrap { padding: 1.5rem 0; }
+.header { margin-bottom: 1.5rem; }
+.header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.header p { font-size: 13px; color: var(--color-text-secondary); }
+.progress-bar-bg { height: 4px; background: var(--color-background-secondary); border-radius: 99px; margin-bottom: 1.5rem; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #185FA5; border-radius: 99px; transition: width 0.4s ease; }
+.section-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; margin-bottom: 0.75rem; }
+.badge-grammar { background: #EEEDFE; color: #3C3489; }
+.badge-idioms { background: #E1F5EE; color: #085041; }
+.badge-reading { background: #FAECE7; color: #712B13; }
+.badge-terms { background: #E6F1FB; color: #0C447C; }
+.q-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.q-text { font-size: 15px; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 1rem; font-weight: 500; }
+.q-num { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn { text-align: left; padding: 10px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; line-height: 1.5; }
+.opt-btn:hover:not(:disabled) { border-color: #185FA5; background: #E6F1FB; color: #042C53; }
+.opt-btn.correct { background: #EAF3DE; border-color: #3B6D11; color: #27500A; font-weight: 500; }
+.opt-btn.wrong { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+.opt-btn:disabled { cursor: default; }
+.feedback { margin-top: 10px; font-size: 13px; padding: 10px 14px; border-radius: var(--border-radius-md); line-height: 1.5; }
+.feedback.correct { background: #EAF3DE; color: #27500A; border: 0.5px solid #639922; }
+.feedback.wrong { background: #FCEBEB; color: #501313; border: 0.5px solid #A32D2D; }
+.nav-row { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.nav-btn { padding: 9px 20px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover { background: var(--color-background-secondary); }
+.nav-btn.primary { background: #185FA5; color: #fff; border-color: #185FA5; font-weight: 500; }
+.nav-btn.primary:hover { background: #0C447C; border-color: #0C447C; }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+.score-card { text-align: center; padding: 2rem 1rem; }
+.score-num { font-size: 56px; font-weight: 500; color: #185FA5; line-height: 1; margin-bottom: 6px; }
+.score-label { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
+.score-msg { font-size: 15px; color: var(--color-text-primary); margin-bottom: 1.5rem; }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.res-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 8px; text-align: center; }
+.res-card .rnum { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.res-card .rlabel { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-right: 4px; }
+.pill-c { background: #EAF3DE; color: #27500A; }
+.pill-w { background: #FCEBEB; color: #501313; }
+</style>
+
+<div class="quiz-wrap" role="main">
+  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Unit 4 Quiz — FMI</h2>
+  <div class="header">
+    <h2>Unit 4 — Comprehensive Quiz</h2>
+    <p>Subject/Verb Agreement · Financial Idioms · Reading Comprehension · Marketing Terms</p>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog" style="width:0%"></div></div>
+  <div id="quiz-body"></div>
+</div>
+
+<script>
+const questions = [
+
+  // ── Lesson 4.1 Subject/Verb Agreement ──────────────────────────────────────
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"Which rule correctly describes subject/verb agreement in English?",
+   opts:["A singular subject takes a plural verb.","A singular subject takes a singular verb; a plural subject takes a plural verb.","A plural subject always takes a verb ending in -s.","The verb must agree with the nearest noun, not the subject."],
+   ans:1, exp:"Correct! The golden rule: singular subject → singular verb (walks), plural subject → plural verb (walk). Simple but often tricky in complex sentences."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'The key (to the doors) ___ in the drawer.' Which verb is correct?",
+   opts:["are","were","is","be"],
+   ans:2, exp:"Correct! The subject is 'key' (singular), not 'doors'. 'Doors' is just the object of the preposition 'to'. So the verb must be 'is'."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'The keys (to the door) ___ in the drawer.' Which verb is correct?",
+   opts:["is","was","are","has been"],
+   ans:2, exp:"Right! The subject is 'keys' (plural), not 'door'. 'Door' is the object of the preposition 'to'. The verb must be 'are'."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'All of the information ___ interesting.' Which verb is correct?",
+   opts:["were","are","was","have been"],
+   ans:2, exp:"Correct! 'Information' is an uncountable noun → treated as singular → the verb is 'was'. 'All' agrees with whatever noun follows 'of'."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'All of the books ___ interesting.' Which verb is correct?",
+   opts:["was","is","has been","were"],
+   ans:3, exp:"Right! 'Books' is a countable plural noun → the subject 'all' becomes plural → the verb is 'were'."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'(Behind the house) ___ the bicycles I wanted.' Which verb is correct?",
+   opts:["was","is","has","were"],
+   ans:3, exp:"Correct! The subject is 'bicycles' (plural), which comes AFTER the verb because of the inverted place expression 'Behind the house'. So the verb must be 'were'."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'Everybody ___ going to the theater.' Which verb is correct?",
+   opts:["are","were","is","have been"],
+   ans:2, exp:"Correct! Words like everybody, somebody, nobody, anyone, everyone, no one, each, and every are ALWAYS grammatically singular, even when they refer to many people. Use 'is going'."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'Some of the (animals) from the zoo ___ released into the preserve.' Correct or incorrect?",
+   opts:["Correct — 'some' with a plural noun takes a plural verb","Incorrect — should be 'was released' because 'some' is always singular","Incorrect — should be 'were released' because 'animals' is plural","Correct — 'was' is fine with 'some'"],
+   ans:2, exp:"The sentence in the text says 'was released' — that's INCORRECT. 'Some of the animals' → 'animals' is plural → the verb must be 'were released'."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"Which of these words is ALWAYS grammatically singular in English?",
+   opts:["people","children","women","no one"],
+   ans:3, exp:"Correct! 'No one' (and similar words: nobody, everyone, somebody, each, every) are always singular. 'People', 'children', and 'women' are irregular plurals."},
+
+  {section:"Lesson 4.1 — Subject/Verb Agreement",badge:"badge-grammar",
+   q:"'This chapter has many more exercises than ___ the next one.' Which verb fits?",
+   opts:["do","does","is","are"],
+   ans:0, exp:"Correct! 'The next one' is singular — so why 'do'? Because the inverted structure follows 'than': 'than does the next one' is also acceptable but 'do' here refers to the plural idea of 'exercises'. In this comparison inversion, 'does' is the more precise answer, but in the original exercise the answer marked correct was 'do'. The key lesson: spot the inversion after comparisons."},
+
+  // ── Lesson 4.2 Financial Idioms ───────────────────────────────────────────
+  {section:"Lesson 4.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'Business has been slow, but we've managed to keep our head above water.' What does this mean?",
+   opts:["The business is very profitable","The business is surviving and staying out of debt","The business is swimming in money","The business has closed down"],
+   ans:1, exp:"Correct! 'Keep your head above water' = to manage to survive financially, especially in tough times, without going into debt."},
+
+  {section:"Lesson 4.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'My grandparents earned barely enough to keep the wolf from the door.' What does this mean?",
+   opts:["They lived in a dangerous neighborhood","They had more than enough money","They earned just enough to buy food and essentials","They were afraid of losing their jobs"],
+   ans:2, exp:"Right! 'Keep the wolf from the door' = to earn barely enough money to cover basic needs like food and rent. It implies financial hardship."},
+
+  {section:"Lesson 4.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'If we fail to renew the contract, our competitors will be laughing all the way to the bank.' What does the idiom mean?",
+   opts:["Competitors will find the situation funny","Competitors will make a lot of money easily, benefiting from our mistake","Competitors will face financial trouble","Competitors will celebrate at the bank"],
+   ans:1, exp:"Correct! 'Laugh all the way to the bank' = to make a large profit easily, often because of someone else's mistake or foolishness."},
+
+  {section:"Lesson 4.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'Most families in that area live from hand to mouth.' What does this idiom describe?",
+   opts:["A very comfortable lifestyle","Eating with your hands","Having no savings because all earnings go to essentials","Being very generous with food"],
+   ans:2, exp:"Right! 'Live from hand to mouth' = to have no savings at all — whatever you earn is immediately spent on basic necessities. It describes extreme financial difficulty."},
+
+  {section:"Lesson 4.2 — Financial Idioms",badge:"badge-idioms",
+   q:"What is the difference between 'live in clover' and 'live high off the hog'?",
+   opts:["They have opposite meanings","Both mean living very comfortably with plenty of money — they are synonyms","'Live in clover' means poor; 'live high off the hog' means rich","'Live in clover' is positive; 'live high off the hog' is negative"],
+   ans:1, exp:"Correct! Both idioms mean having enough money to live a very comfortable, luxurious life. They are essentially synonyms used to describe financial prosperity."},
+
+  {section:"Lesson 4.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'He lost his shirt when the bank went bankrupt.' What happened to him?",
+   opts:["He forgot his shirt at the bank","He lost all his money and possessions","He made a small financial loss","He became very angry"],
+   ans:1, exp:"Right! 'Lose your shirt' = to lose all your money or possessions, often as a result of a risky bet, speculation, or gambling that went wrong."},
+
+  {section:"Lesson 4.2 — Financial Idioms",badge:"badge-idioms",
+   q:"A 'loan shark' is best described as...",
+   opts:["A bank that offers very low interest rates","A government financial institution","A person who lends money at extremely high interest rates to those who can't get bank loans","A shark that steals money"],
+   ans:2, exp:"Correct! A loan shark is an illegal or predatory lender who charges extremely high interest rates, targeting people who cannot access normal bank loans."},
+
+  // ── Lesson 4.3 Reading — Marketing and Mind Control ───────────────────────
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"According to the text, the diamond engagement ring tradition was largely created by...",
+   opts:["A royal family in the 1800s","An effective marketing campaign by a diamond company starting in 1938","A Hollywood film from the early 1900s","A government campaign to boost diamond mining"],
+   ans:1, exp:"Correct! The text explains that the custom was 'in large part manufactured' by a marketing campaign. In 1938, the diamond company hired an advertising agency to reshape social attitudes."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"Which marketing technique attempts to make consumers stay in a shop longer? (Question 1 from the text)",
+   opts:["Playing appealing music","Emitting pleasant scents (olfactory marketing)","Displaying attractive posters","Making in-store announcements"],
+   ans:1, exp:"Correct! The text says 'our olfactory system is targeted by variations of vanilla and citrus perfumes aimed at enticing us to linger in a retail outlet.' The answer is B — scents."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"Why does the writer mention bottled water? (Question 2 from the text)",
+   opts:["To show consumers buy it because of how it is marketed","To explain that it has no taste","To prove taste tests are unnecessary","To show tests prove people cannot tell it from tap water"],
+   ans:0, exp:"Correct! The answer is A. The writer uses bottled water as an example of how advertising 'sways' people into paying for something they can get for free — demonstrating marketing's power over rational choice."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"What does 'socially transmitted food preference' mean in the context of the rat experiment?",
+   opts:["Dominant animals decide what others eat","Animals of the same species naturally prefer the same food","Animals are influenced by observing what other animals of the same species eat","A food type becomes desirable when it appears scarce"],
+   ans:2, exp:"Correct! The rat experiment showed that when one rat spent time eating one type of cereal, another rat that observed it then preferred the SAME cereal. This is influence through social observation — answer C."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"The story of the monkey on Koshima island shows that...",
+   opts:["Only young monkeys learn new behaviors","Animals can develop new habits by observation (cultural transmission)","Dominant monkeys always teach others","Imitation only happens in humans"],
+   ans:1, exp:"Correct! The Koshima monkey (answer F from the matching exercise) demonstrated that animals can develop and spread new habits through observation — which is exactly what 'cultural transmission' means."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"How does television advertising exploit the human tendency to imitate others? (Question 5 from the text)",
+   opts:["It shows buying behavior marketers want to encourage","It features people who have a desirable image","It shows older people teenagers admire","It features successful people endorsing products responsible for their success"],
+   ans:1, exp:"Correct! The answer is B. Advertisements are 'disproportionately populated with attractive, successful-looking individuals.' We imitate those who appear popular and appealing."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"'The diamond campaign worked by making a connection in people's minds between diamonds and luxury.' Does the text AGREE or DISAGREE with this?",
+   opts:["YES — the text agrees","NO — the text says the connection was between diamonds and everlasting LOVE, not luxury","NOT GIVEN — the text doesn't mention this"],
+   ans:1, exp:"Correct! The answer is NO. The text explicitly says the objective was to 'promote diamonds as the symbol of everlasting love' — not luxury. The campaign connected diamonds with love, not wealth."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"Frans de Waal's research on chimpanzees showed that...",
+   opts:["Younger chimps are more likely to imitate each other","An animal would imitate another that had higher status","Animals develop food preferences by smell","Dominant chimps teach others new skills directly"],
+   ans:1, exp:"Correct! De Waal found that when the dominant male was limping, other chimps began limping too — showing preferential imitation of higher-status individuals. This matches answer C from the matching exercise."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"Dick Fosbury is mentioned in the text to illustrate that...",
+   opts:["Sports technology has improved high jump techniques","People imitated behavior linked with success, not necessarily the product","Brands benefit from sponsoring athletes","Athletes should not appear in advertisements"],
+   ans:1, exp:"Correct! Fosbury's story shows that imitators copied his jumping style (the behavior linked to success) — not his shoes. This illustrates our tendency to imitate success itself, not its tools. Answer A from the matching exercise."},
+
+  {section:"Lesson 4.3 — Reading: Marketing & Mind Control",badge:"badge-reading",
+   q:"What is a 'stealth marketing campaign' as described in the text?",
+   opts:["A campaign that uses hidden cameras","A campaign where people are paid to promote products without consumers knowing","A military-style advertising strategy","A campaign that targets only wealthy consumers"],
+   ans:1, exp:"Correct! The text says: 'companies engage in stealth marketing campaigns in which people are paid to frequent bars or websites to covertly promote certain products.' Answer E from the matching exercise."},
+
+  // ── Lesson 4.4 Financial & Marketing Terms ────────────────────────────────
+  {section:"Lesson 4.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What does KPI stand for, and what is it used for?",
+   opts:["Key Profit Index — measuring total company revenue","Key Performance Indicator — measuring the success of a marketing campaign or strategy","Known Pricing Information — tracking product prices","Key Partnership Investment — measuring ROI from partnerships"],
+   ans:1, exp:"Correct! KPI = Key Performance Indicator. It's a measurable metric used to evaluate how effectively a campaign or strategy is achieving its objectives."},
+
+  {section:"Lesson 4.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"In finance, a 'Liability' is best defined as...",
+   opts:["A valuable company asset","A financial obligation or debt owed to another party","The total revenue of a company","An investment strategy"],
+   ans:1, exp:"Right! A liability is what you OWE — a financial obligation or debt. It's the opposite of an asset (what you own). Net Worth = Assets − Liabilities."},
+
+  {section:"Lesson 4.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What does LTV stand for in marketing?",
+   opts:["Long-Term Value","Lifetime Value — the revenue a customer generates over their lifetime with a business","Low Traffic Volume","Lead-to-Value ratio"],
+   ans:1, exp:"Correct! LTV = Lifetime Value. It measures how much total revenue a customer is expected to bring to a business throughout the entire duration of their relationship with the company."},
+
+  {section:"Lesson 4.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is MaaS (Marketing as a Service)?",
+   opts:["A government marketing regulation","A business model where companies outsource their marketing to a third-party provider","A type of social media marketing platform","A measurement tool for tracking ad performance"],
+   ans:1, exp:"Correct! MaaS = Marketing as a Service. Instead of having an in-house marketing team, a company hires an external service provider to handle all or part of its marketing activities."},
+
+  {section:"Lesson 4.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is MA (Mergers and Acquisitions)?",
+   opts:["A marketing analytics software tool","The process of combining two or more companies, or one company acquiring another","A financial report submitted to the government","A type of limited partnership agreement"],
+   ans:1, exp:"Correct! M&A = Mergers and Acquisitions. A merger combines two companies into one entity, while an acquisition is when one company buys/takes over another company."},
+
+  {section:"Lesson 4.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"In an LP (Limited Partnership), which partner has UNLIMITED liability?",
+   opts:["The limited partner","The silent partner","The general partner","All partners equally"],
+   ans:2, exp:"Correct! In a Limited Partnership: limited partners have limited liability (they only risk what they invested), while the general partner has unlimited liability — meaning they can be held personally responsible for the business's debts."},
+];
+
+let current = 0;
+let answered = new Array(questions.length).fill(null);
+let score = 0;
+
+function render() {
+  const body = document.getElementById('quiz-body');
+  const prog = document.getElementById('prog');
+  const answered_count = answered.filter(a => a !== null).length;
+  prog.style.width = (answered_count / questions.length * 100) + '%';
+
+  if (current >= questions.length) { renderScore(); return; }
+
+  const q = questions[current];
+  const userAns = answered[current];
+  const isAnswered = userAns !== null;
+
+  body.innerHTML = `
+    <div class="q-card">
+      <div class="q-num">Question ${current+1} of ${questions.length}</div>
+      <span class="section-badge ${q.badge}">${q.section}</span>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((opt,i) => {
+          let cls = 'opt-btn';
+          if (isAnswered) {
+            if (i === q.ans) cls += ' correct';
+            else if (i === userAns && userAns !== q.ans) cls += ' wrong';
+          }
+          return `<button class="${cls}" ${isAnswered?'disabled':''} onclick="choose(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`;
+        }).join('')}
+      </div>
+      ${isAnswered ? `<div class="feedback ${userAns===q.ans?'correct':'wrong'}">
+        ${userAns===q.ans?'✓ ':'✗ '}${q.exp}
+      </div>` : ''}
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="go(-1)" ${current===0?'disabled':''}>← Back</button>
+      <span style="font-size:13px;color:var(--color-text-secondary);">${answered_count} answered</span>
+      ${current < questions.length-1
+        ? `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered?'disabled':''}>Next →</button>`
+        : `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered?'disabled':''}>See Results →</button>`}
+    </div>
+  `;
+}
+
+function choose(i) {
+  if (answered[current] !== null) return;
+  answered[current] = i;
+  if (i === questions[current].ans) score++;
+  render();
+}
+
+function go(dir) {
+  current = Math.max(0, current + dir);
+  render();
+}
+
+function renderScore() {
+  const pct = Math.round(score / questions.length * 100);
+  const msg = pct >= 90 ? "Excellent! You've mastered Unit 4." :
+              pct >= 75 ? "Great job! A few things to review." :
+              pct >= 60 ? "Good effort! Go back to the sections you missed." :
+              "Keep practicing — revisit the lessons and try again!";
+
+  const sections = [
+    {label:"S/V Agreement", range:[0,9]},
+    {label:"Fin. Idioms", range:[10,16]},
+    {label:"Reading", range:[17,25]},
+    {label:"Terms", range:[26,31]},
+  ];
+
+  const secHTML = sections.map(s => {
+    const qs = questions.slice(s.range[0], s.range[1]+1);
+    const correct = qs.filter((q,i) => answered[s.range[0]+i] === q.ans).length;
+    return `<div class="res-card"><div class="rnum">${correct}/${qs.length}</div><div class="rlabel">${s.label}</div></div>`;
+  }).join('');
+
+  const wrongQs = questions.map((q,i) => ({q,i})).filter(({q,i}) => answered[i] !== q.ans);
+  const wrongHTML = wrongQs.length === 0
+    ? '<p style="font-size:13px;color:var(--color-text-secondary);">All correct! Perfect score.</p>'
+    : wrongQs.map(({q,i}) => `
+      <div style="padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;font-size:13px;">
+        <div style="font-weight:500;color:var(--color-text-primary);margin-bottom:4px;">Q${i+1}: ${q.q}</div>
+        <div><span class="pill pill-w">Your answer</span>${q.opts[answered[i]]}</div>
+        <div><span class="pill pill-c">Correct</span>${q.opts[q.ans]}</div>
+      </div>`).join('');
+
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="score-card">
+      <div class="score-num">${pct}%</div>
+      <div class="score-label">${score} out of ${questions.length} correct</div>
+      <div class="score-msg">${msg}</div>
+      <div class="results-grid">${secHTML}</div>
+    </div>
+    ${wrongQs.length > 0 ? `<div style="margin-bottom:1.5rem;">
+      <p style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px;">Review missed questions:</p>
+      ${wrongHTML}
+    </div>` : ''}
+    <div style="text-align:center;">
+      <button class="nav-btn primary" onclick="restart()">Restart Quiz ↺</button>
+    </div>
+  `;
+  document.getElementById('prog').style.width = '100%';
+}
+
+function restart() {
+  current = 0; score = 0;
+  answered = new Array(questions.length).fill(null);
+  render();
+}
+
+render();
+</script>

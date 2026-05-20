@@ -1,0 +1,294 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.quiz-wrap { padding: 1.5rem 0; }
+.header { margin-bottom: 1.5rem; }
+.header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.header p { font-size: 13px; color: var(--color-text-secondary); }
+.progress-bar-bg { height: 4px; background: var(--color-background-secondary); border-radius: 99px; margin-bottom: 1.5rem; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #1D9E75; border-radius: 99px; transition: width 0.4s ease; }
+.section-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; margin-bottom: 0.75rem; }
+.badge-grammar { background: #EEEDFE; color: #3C3489; }
+.badge-idioms { background: #E1F5EE; color: #085041; }
+.badge-reading { background: #FAECE7; color: #712B13; }
+.badge-terms { background: #E6F1FB; color: #0C447C; }
+.q-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.q-text { font-size: 15px; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 1rem; font-weight: 500; }
+.q-num { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn { text-align: left; padding: 10px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; line-height: 1.5; }
+.opt-btn:hover:not(:disabled) { border-color: #1D9E75; background: #E1F5EE; color: #085041; }
+.opt-btn.correct { background: #EAF3DE; border-color: #3B6D11; color: #27500A; font-weight: 500; }
+.opt-btn.wrong { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+.opt-btn:disabled { cursor: default; }
+.feedback { margin-top: 10px; font-size: 13px; padding: 10px 14px; border-radius: var(--border-radius-md); line-height: 1.5; }
+.feedback.correct { background: #EAF3DE; color: #27500A; border: 0.5px solid #639922; }
+.feedback.wrong { background: #FCEBEB; color: #501313; border: 0.5px solid #A32D2D; }
+.nav-row { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.nav-btn { padding: 9px 20px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover { background: var(--color-background-secondary); }
+.nav-btn.primary { background: #1D9E75; color: #fff; border-color: #1D9E75; font-weight: 500; }
+.nav-btn.primary:hover { background: #0F6E56; border-color: #0F6E56; }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+.score-card { text-align: center; padding: 2rem 1rem; }
+.score-num { font-size: 56px; font-weight: 500; color: #1D9E75; line-height: 1; margin-bottom: 6px; }
+.score-label { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
+.score-msg { font-size: 15px; color: var(--color-text-primary); margin-bottom: 1.5rem; }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.res-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 8px; text-align: center; }
+.res-card .rnum { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.res-card .rlabel { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-right: 4px; }
+.pill-c { background: #EAF3DE; color: #27500A; }
+.pill-w { background: #FCEBEB; color: #501313; }
+</style>
+
+<div class="quiz-wrap" role="main">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Unit 5 Quiz — FMI</h2>
+  <div class="header">
+    <h2>Unit 5 — Comprehensive Quiz</h2>
+    <p>Parallel Structure · Financial Idioms · Reading Comprehension · Marketing Terms</p>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog" style="width:0%"></div></div>
+  <div id="quiz-body"></div>
+</div>
+
+<script>
+const questions = [
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which sentence is CORRECT in terms of parallel structure?",
+   opts:["She likes to swim and dancing.","She likes to swim and to dance.","She likes swimming and to dance.","She likes to swim and danced."],ans:1,
+   exp:"Correct! 'to swim and to dance' are both infinitives — perfectly parallel. You can also say 'swimming and dancing' (both gerunds)."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Identify the error: 'He eats, sleeps, and is exercising every day.'",
+   opts:["No error","'is exercising' should be 'exercises' for parallel form","'eats' should be 'eating'","'sleeps' should be 'sleeping'"],ans:1,
+   exp:"Right! All verbs should be in simple present: 'He eats, sleeps, and exercises every day.'"},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which paired conjunction requires 'and' as its second part?",
+   opts:["either","neither","both","not only"],ans:2,
+   exp:"Exactly! 'Both ... and' is the correct paired conjunction. Never write 'both ... or'."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Fix this sentence: 'He wants either to go by train or by plane.'",
+   opts:["He wants either to go by train or by plane. (already correct)","He wants to go either by train or by plane.","He wants either go by train or to go by plane.","He wants either train or planing to go."],ans:1,
+   exp:"Correct! Move 'either' so the parallel parts match: 'by train' and 'by plane' are now both prepositional phrases."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which sentence correctly uses a COMPARISON with parallel structure?",
+   opts:["To be rich is better than being poor.","Dining in a restaurant is more fun than to eat at home.","What is written is more easily understood than what is spoken.","His plan is better than to use the old method."],ans:2,
+   exp:"Correct! 'What is written' and 'what is spoken' are both noun clauses — perfectly parallel. The others mix infinitives and gerunds."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"'She held jobs as a typist, a housekeeper, and in a restaurant.' What is wrong?",
+   opts:["Nothing is wrong","'in a restaurant' is not parallel to 'a typist' or 'a housekeeper'","'a typist' should be 'typing'","'housekeeper' should be 'housekeeping'"],ans:1,
+   exp:"Exactly! The list needs nouns: 'a typist, a housekeeper, and a waitress' (or 'a restaurant worker'). 'In a restaurant' is a phrase, not a noun like the others."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"'She would like neither to see a movie or to go bowling.' What is the error?",
+   opts:["No error — the sentence is fine","'or' should be 'nor' — neither ... nor is the correct pairing","'to see' should be 'seeing'","'bowling' should be 'to bowl'"],ans:1,
+   exp:"Right! 'Neither ... nor' always go together. Using 'or' with 'neither' is incorrect."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which type of words can coordinate conjunctions (and, but, or) join?",
+   opts:["Only nouns and verbs","Only phrases and clauses","Nouns, verbs, adjectives, phrases, or clauses — as long as both sides match","Only adjectives and adverbs"],ans:2,
+   exp:"Correct! And, but, or can join any equal grammatical elements — the key rule is that both sides must be the same type."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'He made a killing on the stock market.' What does 'made a killing' mean?",
+   opts:["He lost a lot of money","He had great financial success","He committed a crime","He spent money foolishly"],ans:1,
+   exp:"Correct! 'Make a killing' means to achieve great financial success or profit."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"What does 'money burns a hole in your pocket' mean?",
+   opts:["You lost your money","You save money carefully","You are eager to spend money quickly","Your salary is too small"],ans:2,
+   exp:"Right! This idiom describes someone who cannot resist spending money as soon as they get it."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'Watch how you spend your money — it doesn't grow on trees!' What does this mean?",
+   opts:["Money is easy to find","Money is not plentiful or easily obtained","You should invest in agriculture","Money grows naturally over time"],ans:1,
+   exp:"Correct! 'Money doesn't grow on trees' means money is not freely available — you must work and be careful with it."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"What is 'money laundering'?",
+   opts:["Washing coins to make them clean","Spending money in a foolish way","Concealing the source of illegally-obtained money to make it appear legitimate","Donating money to charity"],ans:2,
+   exp:"Exactly! Money laundering is when people hide the illegal origin of money so it appears to come from a legal source."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'He's got more money than sense!' What does this idiom describe?",
+   opts:["A very wise investor","Someone who has a lot of money but spends it foolishly","Someone who is very poor","A person who saves every penny"],ans:1,
+   exp:"Right! 'More money than sense' describes someone rich who wastes their money on foolish purchases."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'The owner is a millionaire and he's influential — money talks!' What does 'money talks' mean?",
+   opts:["Rich people speak loudly","People with a lot of money have power and influence","Money gives you good communication skills","Rich people are always right"],ans:1,
+   exp:"Correct! 'Money talks' means that having wealth gives you power and the ability to influence people and decisions."},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"According to the text, what should you do EVERY TIME someone contacts your company?",
+   opts:["Send them a discount coupon","Ask them where they found out about you","Offer them a free trial","Add them to your email newsletter"],ans:1,
+   exp:"Correct! The text says: 'Every time someone contacts your company, ask them where they found out about you.' This helps you advertise in the right places."},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"What does 'think like a customer' help you achieve in your advertising?",
+   opts:["Spend less on advertising","Say the right things in your advertising","Reach more social media platforms","Hire better employees"],ans:1,
+   exp:"Right! The text says 'Find out what makes your customers tick, and you're halfway to saying the right things in your advertising.'"},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"According to the reading, how much more likely are consumers to be influenced by word-of-mouth than by TV or radio ads?",
+   opts:["10% more likely","25% more likely","50% more likely","Twice as likely"],ans:2,
+   exp:"Correct! The text states: 'consumers are 50% more likely to be influenced by word-of-mouth recommendations than by TV or radio ads.'"},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"What is the ONE WORD from the text that completes this: 'A _____ of forms of advertising will make it more likely that potential customers will find out about you.'",
+   opts:["combination","variety","selection","mix"],ans:3,
+   exp:"Exactly! The text says 'using a mix of these increases your chances of being seen.' The answer is 'mix'."},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"According to the article, what is your 'greatest asset' when finding new customers?",
+   opts:["Your advertising budget","Your website","Your reputation","Your product quality"],ans:2,
+   exp:"Correct! The text states: 'your reputation is your greatest asset.' Happy customers recommend you; unhappy ones warn others."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is 'Net Worth'?",
+   opts:["Total income per year","The value of assets minus liabilities","The profit after taxes","Total sales revenue"],ans:1,
+   exp:"Right! Net Worth = Assets − Liabilities. It's what you truly 'own' after subtracting what you owe."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"An 'Option' contract gives the holder...",
+   opts:["The obligation to buy an asset at market price","The right, but not the obligation, to buy or sell at a specific price","A guarantee of profit from an investment","Ownership of the asset immediately"],ans:1,
+   exp:"Correct! An option gives you the right (not the obligation) to buy or sell at a pre-agreed price. You choose whether to use it."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What does PII stand for?",
+   opts:["Personal Investment Information","Programmatic Internet Interface","Personally Identifiable Information","Public Investment Index"],ans:2,
+   exp:"Exactly! PII = Personally Identifiable Information — data like your name, address, email, or credit card that could identify you specifically."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is 'Programmatic Advertising'?",
+   opts:["Advertising that uses TV programs","Software that automates the buying and selling of ads","A manual method of placing ads in newspapers","Advertising only on social media platforms"],ans:1,
+   exp:"Correct! Programmatic advertising uses software to automate the ad-buying process, making it faster and more efficient than manual methods."},
+];
+
+let current = 0;
+let answered = new Array(questions.length).fill(null);
+let score = 0;
+
+function render() {
+  const body = document.getElementById('quiz-body');
+  const prog = document.getElementById('prog');
+  const answered_count = answered.filter(a => a !== null).length;
+  prog.style.width = (answered_count / questions.length * 100) + '%';
+
+  if (current >= questions.length) {
+    renderScore();
+    return;
+  }
+
+  const q = questions[current];
+  const userAns = answered[current];
+  const isAnswered = userAns !== null;
+
+  body.innerHTML = `
+    <div class="q-card">
+      <div class="q-num">Question ${current+1} of ${questions.length}</div>
+      <span class="section-badge ${q.badge}">${q.section}</span>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((opt, i) => {
+          let cls = 'opt-btn';
+          if (isAnswered) {
+            if (i === q.ans) cls += ' correct';
+            else if (i === userAns && userAns !== q.ans) cls += ' wrong';
+          }
+          return `<button class="${cls}" ${isAnswered ? 'disabled' : ''} onclick="choose(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`;
+        }).join('')}
+      </div>
+      ${isAnswered ? `<div class="feedback ${userAns === q.ans ? 'correct' : 'wrong'}">
+        ${userAns === q.ans ? '✓ ' : '✗ '} ${q.exp}
+      </div>` : ''}
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="go(-1)" ${current === 0 ? 'disabled' : ''}>← Back</button>
+      <span style="font-size:13px;color:var(--color-text-secondary);">${answered_count} answered</span>
+      ${current < questions.length - 1
+        ? `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered ? 'disabled' : ''}>Next →</button>`
+        : `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered ? 'disabled' : ''}>See Results →</button>`}
+    </div>
+  `;
+}
+
+function choose(i) {
+  if (answered[current] !== null) return;
+  answered[current] = i;
+  if (i === questions[current].ans) score++;
+  render();
+}
+
+function go(dir) {
+  current += dir;
+  if (current < 0) current = 0;
+  render();
+}
+
+function renderScore() {
+  const pct = Math.round(score / questions.length * 100);
+  const msg = pct >= 90 ? "Excellent work! You've mastered Unit 5." :
+              pct >= 75 ? "Great job! Just a few things to review." :
+              pct >= 60 ? "Good effort! Review the sections you missed." :
+              "Keep practicing — revisit the lessons and try again!";
+
+  const sectionScores = [
+    {label:"Parallel Structure", range:[0,7]},
+    {label:"Financial Idioms", range:[8,13]},
+    {label:"Reading", range:[14,18]},
+    {label:"Terms", range:[19,22]},
+  ];
+
+  const secHTML = sectionScores.map(s => {
+    const qs = questions.slice(s.range[0], s.range[1]+1);
+    const correct = qs.filter((q,i) => answered[s.range[0]+i] === q.ans).length;
+    return `<div class="res-card">
+      <div class="rnum">${correct}/${qs.length}</div>
+      <div class="rlabel">${s.label}</div>
+    </div>`;
+  }).join('');
+
+  const wrongQs = questions.map((q,i) => ({q, i})).filter(({q,i}) => answered[i] !== q.ans);
+  const wrongHTML = wrongQs.length === 0 ? '<p style="font-size:13px;color:var(--color-text-secondary);">All correct! Perfect score.</p>' :
+    wrongQs.map(({q,i}) => `
+      <div style="padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;font-size:13px;">
+        <div style="font-weight:500;color:var(--color-text-primary);margin-bottom:4px;">Q${i+1}: ${q.q}</div>
+        <div><span class="pill pill-w">Your answer</span> ${q.opts[answered[i]]}</div>
+        <div><span class="pill pill-c">Correct</span> ${q.opts[q.ans]}</div>
+      </div>`).join('');
+
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="score-card">
+      <div class="score-num">${pct}%</div>
+      <div class="score-label">${score} out of ${questions.length} correct</div>
+      <div class="score-msg">${msg}</div>
+      <div class="results-grid">${secHTML}</div>
+    </div>
+    ${wrongQs.length > 0 ? `<div style="margin-bottom:1.5rem;">
+      <p style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px;">Review missed questions:</p>
+      ${wrongHTML}
+    </div>` : ''}
+    <div style="text-align:center;">
+      <button class="nav-btn primary" onclick="restart()">Restart Quiz ↺</button>
+    </div>
+  `;
+  document.getElementById('prog').style.width = '100%';
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  answered = new Array(questions.length).fill(null);
+  render();
+}
+
+render();
+</script>
