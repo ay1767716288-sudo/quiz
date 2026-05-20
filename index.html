@@ -1,1913 +1,294 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="dark">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nutrition — Numbers MCQ × 67</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:wght@400;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --green: #2d6a4f;
-    --green-light: #52b788;
-    --gold: #d4a017;
-    --red: #c0392b;
-    --amber: #e67e22;
-    --bg: #faf8f3;
-    --card: #ffffff;
-    --text: #1a1a1a;
-    --muted: #6b7280;
-    --border: #e5e0d5;
-    --correct: #d1fae5;
-    --incorrect: #fee2e2;
-    --correct-border: #34d399;
-    --incorrect-border: #f87171;
-    --opt-bg: #f7f4ef;
-    --score-bg: #ffffff;
-    --section-bg: #2d6a4f;
-    --exp-bg: #f0faf5;
-    --exp-text: #2d6a4f;
-  }
-  [data-theme="dark"] {
-    --bg: #141414;
-    --card: #1e1e1e;
-    --text: #f0f0f0;
-    --muted: #a0a0a0;
-    --border: #2e2e2e;
-    --correct: #0e2a1a;
-    --incorrect: #2a0e0e;
-    --correct-border: #22a060;
-    --incorrect-border: #cc4444;
-    --opt-bg: #252525;
-    --score-bg: #1a1a1a;
-    --section-bg: #1e3a2a;
-    --exp-bg: #162210;
-    --exp-text: #6dce9e;
-  }
-
-  /* Dark mode polish */
-  [data-theme="dark"] .q-card {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  }
-  [data-theme="dark"] .q-card:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-  }
-  [data-theme="dark"] .opt-btn:hover:not(:disabled) {
-    border-color: var(--green-light);
-    background: #1c2e20;
-  }
-  [data-theme="dark"] .opt-btn .opt-letter {
-    background: #333;
-    color: #ddd;
-  }
-  [data-theme="dark"] .opt-btn.correct .opt-letter {
-    background: #22a060;
-    color: #fff;
-  }
-  [data-theme="dark"] .opt-btn.incorrect .opt-letter {
-    background: #cc4444;
-    color: #fff;
-  }
-  [data-theme="dark"] .score-bar {
-    border-bottom-color: #2e2e2e;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.5);
-  }
-  [data-theme="dark"] .progress-track {
-    background: #2e2e2e;
-  }
-  [data-theme="dark"] .header {
-    background: #1a3a28;
-  }
-  [data-theme="dark"] .q-num {
-    background: #2d6a4f;
-    opacity: 0.9;
-  }
-  [data-theme="dark"] .explanation {
-    border-left-color: var(--green-light);
-  }
-  [data-theme="dark"] .result-banner {
-    background: #1a3a28;
-    border: 1.5px solid #2d6a4f;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    font-family: 'Source Serif 4', Georgia, serif;
-    color: var(--text);
-    min-height: 100vh;
-    transition: background 0.3s, color 0.3s;
-  }
-
-  /* HEADER */
-  .header {
-    background: var(--green);
-    color: #fff;
-    padding: 32px 24px 28px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px);
-  }
-  .header-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 8px;
-  }
-  .dark-toggle {
-    position: absolute;
-    top: 0; right: 0;
-    background: rgba(255,255,255,0.15);
-    border: 1.5px solid rgba(255,255,255,0.3);
-    border-radius: 20px;
-    padding: 6px 14px;
-    color: #fff;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-    letter-spacing: 1px;
-  }
-  .dark-toggle:hover { background: rgba(255,255,255,0.25); }
-  .header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 5vw, 40px);
-    font-weight: 900;
-    line-height: 1.1;
-    position: relative;
-  }
-  .header h1 span {
-    color: var(--gold);
-  }
-  .header-sub {
-    font-family: 'Cairo', sans-serif;
-    font-size: 14px;
-    opacity: 0.8;
-    margin-top: 8px;
-    position: relative;
-  }
-
-  .header-controls {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 12px;
-    z-index: 1000;
-  }
-  .mode-switcher {
-    display: flex;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(8px);
-    padding: 4px;
-    border-radius: 30px;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  }
-  .mode-btn {
-    padding: 6px 16px;
-    border-radius: 25px;
-    border: none;
-    background: transparent;
-    color: #fff;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-  .mode-btn.active {
-    background: var(--gold);
-    color: #1a1a1a;
-    box-shadow: 0 2px 8px rgba(212,160,23,0.4);
-  }
-  .dark-toggle {
-    background: rgba(255,255,255,0.15);
-    border: 1.5px solid rgba(255,255,255,0.3);
-    border-radius: 20px;
-    padding: 6px 14px;
-    color: #fff;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-    letter-spacing: 1px;
-  }
-  
-  @media (max-width: 600px) {
-    .header-controls {
-      position: relative;
-      top: 0; right: 0;
-      align-items: center;
-      padding-bottom: 10px;
-    }
-  }
-
-  /* SCORE BAR */
-  .score-bar {
-    background: var(--score-bg);
-    border-bottom: 2px solid var(--border);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-    transition: background 0.3s, border-color 0.3s;
-  }
-  .score-stat {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-  .score-stat .num {
-    font-size: 22px;
-    font-weight: 600;
-  }
-  .score-stat .lbl { color: var(--muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
-  .score-stat.correct .num { color: var(--green); }
-  .score-stat.wrong .num { color: var(--red); }
-  .score-stat.remain .num { color: var(--amber); }
-  .progress-wrap { flex: 1; min-width: 120px; }
-  .progress-track {
-    height: 8px;
-    background: var(--border);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--green), var(--green-light));
-    border-radius: 99px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-  .progress-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 4px;
-    text-align: right;
-  }
-
-  /* SECTION HEADERS */
-  .section-header {
-    background: var(--section-bg);
-    color: #fff;
-    padding: 10px 20px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.3s;
-  }
-  .section-header .count {
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-size: 10px;
-  }
-
-  /* QUESTIONS */
-  .questions {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 20px 16px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .q-card {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: box-shadow 0.2s, background 0.3s, border-color 0.3s;
-  }
-  .q-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-
-  .q-head {
-    padding: 16px 20px 12px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .q-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 600;
-    color: #fff;
-    background: var(--green);
-    border-radius: 6px;
-    padding: 3px 8px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .q-text {
-    font-size: 15px;
-    line-height: 1.6;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .q-options {
-    padding: 0 16px 16px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .opt-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: var(--opt-bg);
-    cursor: pointer;
-    text-align: left;
-    font-family: 'Source Serif 4', serif;
-    font-size: 14px;
-    color: var(--text);
-    transition: all 0.15s;
-    width: 100%;
-  }
-  .opt-btn:hover:not(:disabled) {
-    border-color: var(--green);
-    background: var(--exp-bg);
-  }
-  .opt-btn .opt-letter {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 600;
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    background: var(--border);
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.15s;
-  }
-
-  /* States */
-  .opt-btn.correct {
-    background: var(--correct);
-    border-color: var(--correct-border);
-  }
-  .opt-btn.correct .opt-letter {
-    background: var(--green);
-    color: #fff;
-  }
-  .opt-btn.incorrect {
-    background: var(--incorrect);
-    border-color: var(--incorrect-border);
-  }
-  .opt-btn.incorrect .opt-letter {
-    background: var(--red);
-    color: #fff;
-  }
-  .opt-btn.reveal-correct {
-    background: var(--correct);
-    border-color: var(--correct-border);
-    opacity: 0.6;
-  }
-  .opt-btn:disabled { cursor: default; }
-
-  /* Explanation */
-  .explanation {
-    margin: 0 16px 16px;
-    padding: 10px 14px;
-    background: var(--exp-bg);
-    border-left: 3px solid var(--green);
-    border-radius: 0 8px 8px 0;
-    font-size: 13px;
-    color: var(--exp-text);
-    display: none;
-    font-family: 'Cairo', sans-serif;
-    line-height: 1.6;
-    transition: background 0.3s, color 0.3s;
-  }
-  .explanation.show { display: block; }
-
-  /* Result banner */
-  .result-banner {
-    display: none;
-    max-width: 860px;
-    margin: 20px auto;
-    background: var(--green);
-    color: #fff;
-    border-radius: 12px;
-    padding: 32px 24px;
-    text-align: center;
-  }
-  .result-banner.show { display: block; }
-  .result-banner .big-score {
-    font-family: 'Playfair Display', serif;
-    font-size: 64px;
-    font-weight: 900;
-    color: var(--gold);
-  }
-  .result-banner .grade {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 18px;
-    margin-top: 8px;
-  }
-  .result-banner p {
-    font-family: 'Cairo', sans-serif;
-    font-size: 16px;
-    opacity: 0.85;
-    margin-top: 12px;
-  }
-  .retry-btn {
-    margin-top: 20px;
-    padding: 12px 32px;
-    background: var(--gold);
-    color: #1a1a1a;
-    border: none;
-    border-radius: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    letter-spacing: 1px;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.quiz-wrap { padding: 1.5rem 0; }
+.header { margin-bottom: 1.5rem; }
+.header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.header p { font-size: 13px; color: var(--color-text-secondary); }
+.progress-bar-bg { height: 4px; background: var(--color-background-secondary); border-radius: 99px; margin-bottom: 1.5rem; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #1D9E75; border-radius: 99px; transition: width 0.4s ease; }
+.section-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; margin-bottom: 0.75rem; }
+.badge-grammar { background: #EEEDFE; color: #3C3489; }
+.badge-idioms { background: #E1F5EE; color: #085041; }
+.badge-reading { background: #FAECE7; color: #712B13; }
+.badge-terms { background: #E6F1FB; color: #0C447C; }
+.q-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.q-text { font-size: 15px; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 1rem; font-weight: 500; }
+.q-num { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn { text-align: left; padding: 10px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; line-height: 1.5; }
+.opt-btn:hover:not(:disabled) { border-color: #1D9E75; background: #E1F5EE; color: #085041; }
+.opt-btn.correct { background: #EAF3DE; border-color: #3B6D11; color: #27500A; font-weight: 500; }
+.opt-btn.wrong { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+.opt-btn:disabled { cursor: default; }
+.feedback { margin-top: 10px; font-size: 13px; padding: 10px 14px; border-radius: var(--border-radius-md); line-height: 1.5; }
+.feedback.correct { background: #EAF3DE; color: #27500A; border: 0.5px solid #639922; }
+.feedback.wrong { background: #FCEBEB; color: #501313; border: 0.5px solid #A32D2D; }
+.nav-row { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.nav-btn { padding: 9px 20px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover { background: var(--color-background-secondary); }
+.nav-btn.primary { background: #1D9E75; color: #fff; border-color: #1D9E75; font-weight: 500; }
+.nav-btn.primary:hover { background: #0F6E56; border-color: #0F6E56; }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+.score-card { text-align: center; padding: 2rem 1rem; }
+.score-num { font-size: 56px; font-weight: 500; color: #1D9E75; line-height: 1; margin-bottom: 6px; }
+.score-label { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
+.score-msg { font-size: 15px; color: var(--color-text-primary); margin-bottom: 1.5rem; }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.res-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 8px; text-align: center; }
+.res-card .rnum { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.res-card .rlabel { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-right: 4px; }
+.pill-c { background: #EAF3DE; color: #27500A; }
+.pill-w { background: #FCEBEB; color: #501313; }
 </style>
-</head>
-<body>
 
-<div class="header">
-  <div class="header-controls">
-    <button class="dark-toggle" onclick="toggleDark()" id="dark-btn">
-      <span id="dark-icon">☀️</span> <span id="dark-label">LIGHT</span>
-    </button>
-    <div class="mode-switcher">
-      <button class="mode-btn active" onclick="setMode('sections')" id="btn-sections">
-        🗂️ SECTIONS
-      </button>
-      <button class="mode-btn" onclick="setMode('shuffle')" id="btn-shuffle">
-        🔀 SHUFFLE
-      </button>
-    </div>
+<div class="quiz-wrap" role="main">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Unit 5 Quiz — FMI</h2>
+  <div class="header">
+    <h2>Unit 5 — Comprehensive Quiz</h2>
+    <p>Parallel Structure · Financial Idioms · Reading Comprehension · Marketing Terms</p>
   </div>
-  <div class="header-label">صل على النبي ﷺ</div>
-  <h1>Nutrition — <span>180 Questions</span></h1>
-  <div class="header-sub">متنساش تدعيلي و صل على النبي ﷺ — Made by Omar Mahmoud</div>
-</div>
-
-<div class="score-bar">
-  <div class="score-stat correct"><span class="num" id="s-correct">0</span><span class="lbl">Correct</span></div>
-  <div class="score-stat wrong"><span class="num" id="s-wrong">0</span><span class="lbl">Wrong</span></div>
-  <div class="score-stat remain"><span class="num" id="s-remain">67</span><span class="lbl">Left</span></div>
-  <div class="progress-wrap">
-    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
-    <div class="progress-label" id="prog-label">0 / 67</div>
-  </div>
-</div>
-
-<div class="questions" id="q-container"></div>
-<div class="result-banner" id="result-banner">
-  <div class="big-score" id="final-score"></div>
-  <div class="grade" id="final-grade"></div>
-  <p id="final-msg"></p>
-  <button class="retry-btn" onclick="location.reload()">↻ RETRY</button>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog" style="width:0%"></div></div>
+  <div id="quiz-body"></div>
 </div>
 
 <script>
+const questions = [
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which sentence is CORRECT in terms of parallel structure?",
+   opts:["She likes to swim and dancing.","She likes to swim and to dance.","She likes swimming and to dance.","She likes to swim and danced."],ans:1,
+   exp:"Correct! 'to swim and to dance' are both infinitives — perfectly parallel. You can also say 'swimming and dancing' (both gerunds)."},
 
-const originalQuestions = [
-  {
-    section: "L1 — Nutrients",
-    q: "How many kcal does 1 gram of fat provide?",
-    opts: ["4 kcal","7 kcal","9 kcal","11 kcal"],
-    ans: 2,
-    exp: "Fat = 9 kcal/g · Carbs & Protein = 4 kcal/g · Water/Vitamins/Minerals = 0 kcal/g"
-  },
-  {
-    section: "L1 — Nutrients",
-    q: "What is the approximate daily calorie budget used in the 'Body Budget' analogy?",
-    opts: ["1500 kcal","2000 kcal","2500 kcal","3000 kcal"],
-    ans: 1,
-    exp: "~2,000 kcal/day — fill with nutrients first, leftover = 'fun calories'"
-  },
-  {
-    section: "L1 — Nutrients",
-    q: "How many classes of nutrients exist?",
-    opts: ["4","5","6","7"],
-    ans: 2,
-    exp: "6 classes: Carbohydrates, Proteins, Fats (macros) + Vitamins, Minerals, Water (micros)"
-  },
-  {
-    section: "L2 — Macronutrients",
-    q: "What percentage of daily calories should come from Carbohydrates?",
-    opts: ["20–35%","45–65%","10–35%","55–75%"],
-    ans: 1,
-    exp: "Carbohydrates = 45–65% of daily calories (primary energy source)"
-  },
-  {
-    section: "L2 — Macronutrients",
-    q: "What percentage of daily calories should come from Protein?",
-    opts: ["5–15%","10–35%","20–40%","35–50%"],
-    ans: 1,
-    exp: "Protein = 10–35% of daily calories — builds, repairs and maintains body tissues"
-  },
-  {
-    section: "L2 — Macronutrients",
-    q: "What percentage of daily calories should come from Fats?",
-    opts: ["10–20%","15–25%","20–35%","30–45%"],
-    ans: 2,
-    exp: "Fats = 20–35% of daily calories — energy, cell membranes, hormone synthesis"
-  },
-  {
-    section: "L2 — Macronutrients",
-    q: "Out of 20 total amino acids, how many are ESSENTIAL (must come from food)?",
-    opts: ["5","7","9","11"],
-    ans: 2,
-    exp: "9 essential amino acids must come from food; the body makes the other 11 (non-essential)"
-  },
-  {
-    section: "L2 — Macronutrients",
-    q: "How many amino acids does the body manufacture itself (non-essential)?",
-    opts: ["7","9","11","13"],
-    ans: 2,
-    exp: "Body makes 11 non-essential amino acids; 9 are essential and must come from food"
-  },
-  {
-    section: "L2 — Macronutrients",
-    q: "How many kcal does 1 gram of carbohydrate provide?",
-    opts: ["2 kcal","4 kcal","7 kcal","9 kcal"],
-    ans: 1,
-    exp: "Carbohydrates & Protein = 4 kcal/g; Fat = 9 kcal/g"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "How many mandatory items must UK food labels include by law?",
-    opts: ["7","8","10","12"],
-    ans: 2,
-    exp: "10 mandatory items: name, mass, dates, storage, preparation, producer, origin, ingredients, allergens, nutritional info"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "How many common allergens must be highlighted in bold on UK food labels?",
-    opts: ["10","12","14","16"],
-    ans: 2,
-    exp: "14 allergens must be clearly highlighted — e.g. cereals, milk, eggs, peanuts, fish, soya, sesame, sulphites"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "In the Traffic Light System, how many nutrients are measured?",
-    opts: ["2","3","4","5"],
-    ans: 2,
-    exp: "4 nutrients: Fat, Saturated Fat, Sugars, Salt"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "Sugar ≥ ___ per 100g = RED on the traffic light system?",
-    opts: ["5g","15g","22.5g","30g"],
-    ans: 2,
-    exp: "Sugar >22.5g per 100g = RED (HIGH). Sugar ≤5g = GREEN"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "Sugar ≤ ___ per 100g = GREEN on the traffic light system?",
-    opts: ["3g","5g","7g","10g"],
-    ans: 1,
-    exp: "Sugar ≤5g per 100g = GREEN (LOW). >22.5g = RED"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "Fat > ___ per 100g = RED on the traffic light system?",
-    opts: ["10g","15g","17.5g","20g"],
-    ans: 2,
-    exp: "Fat >17.5g per 100g = RED. Fat ≤3g = GREEN"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "Salt > ___ per 100g = RED on the traffic light system?",
-    opts: ["0.3g","1.0g","1.5g","2.0g"],
-    ans: 2,
-    exp: "Salt >1.5g per 100g = RED. Salt ≤0.3g = GREEN"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "What is the daily Reference Intake (RI) for energy for an average adult woman?",
-    opts: ["1500 kcal","1800 kcal","2000 kcal","2500 kcal"],
-    ans: 2,
-    exp: "2000 kcal daily RI for an average adult woman (8400 kJ)"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "What is the maximum daily Reference Intake for salt for an adult?",
-    opts: ["2g","4g","6g","8g"],
-    ans: 2,
-    exp: "6g salt per day = maximum RI. High salt → hypertension → heart disease & stroke"
-  },
-  {
-    section: "L3 — Food Labelling",
-    q: "The daily RI for saturated fat for an adult woman is:",
-    opts: ["10g","15g","20g","25g"],
-    ans: 2,
-    exp: "20g = max daily saturated fat for an adult woman. Saturated fat raises LDL cholesterol"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "According to WHO, how many adults globally are overweight (aged 18+)?",
-    opts: ["650 million","1.2 billion","1.9 billion","2.5 billion"],
-    ans: 2,
-    exp: "1.9 billion overweight adults globally; 650 million are clinically obese — 39% of global adults"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "What waist circumference in MEN signals high metabolic risk?",
-    opts: [">30 inches",">35 inches",">40 inches",">45 inches"],
-    ans: 2,
-    exp: ">40 inches in men, >35 inches in women = high abdominal fat / cardiovascular risk"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "What is the BMI threshold for OBESITY?",
-    opts: ["≥25","≥27.5","≥30","≥35"],
-    ans: 2,
-    exp: "BMI ≥30 = Obesity; 25–29.9 = Overweight; 18.5–24.9 = Normal; <18.5 = Underweight"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "Addressing mental health improves weight management success rates by:",
-    opts: ["10–20%","20–30%","40–60%","70–80%"],
-    ans: 2,
-    exp: "40–60% improvement in success when mental health is addressed alongside physical interventions"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "What percentage of people regain their lost weight within 5 years without ongoing support?",
-    opts: ["50%","60%","70%","80%"],
-    ans: 3,
-    exp: "80% regain weight within 5 years — maintenance requires permanent lifestyle change, not temporary dieting"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "The optimal goal for body weight loss is ___ over 6–12 months?",
-    opts: ["1–2%","5–10%","15–20%","25–30%"],
-    ans: 1,
-    exp: "5–10% of body weight over 6–12 months = optimal, sustainable goal with lasting metabolic benefits"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "Daily caloric deficit for safe fat loss of 1–2 lbs/week is:",
-    opts: ["100–200 kcal","300–500 kcal","500–750 kcal","800–1000 kcal"],
-    ans: 2,
-    exp: "500–750 kcal deficit/day → 1–2 lbs/week safe fat loss. Also cited as 300–500 kcal in some sources"
-  },
-  {
-    section: "L4 — Weight Management",
-    q: "Behavioral interventions can ___ weight loss outcomes vs dietary advice alone:",
-    opts: ["Increase by 20%","Double (2×)","Triple (3×)","Increase by 50%"],
-    ans: 1,
-    exp: "Behavioral support doubles weight loss results compared to diet advice alone"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "In the Mifflin-St Jeor equation for MEN, what constant is added at the end?",
-    opts: ["+5","+161","-5","-161"],
-    ans: 0,
-    exp: "Men: BMR = (10×kg) + (6.25×cm) − (5×age) + 5. Women subtract 161 instead"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "The Mifflin-St Jeor equation was developed in which year?",
-    opts: ["1975","1985","1990","2000"],
-    ans: 2,
-    exp: "1990 — still the most accurate BMR formula for most people; accounts for weight, height, age, and sex"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "For a 28yo male, 75kg, 178cm, what is the calculated BMR?",
-    opts: ["1,427 kcal","1,527 kcal","1,727 kcal","1,927 kcal"],
-    ans: 2,
-    exp: "(10×75)+(6.25×178)−(5×28)+5 = 750+1112.5−140+5 = 1,727 kcal/day"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "The activity multiplier for 'Moderately Active' (3–5 days/week) is:",
-    opts: ["×1.2","×1.375","×1.55","×1.725"],
-    ans: 2,
-    exp: "×1.55 for Moderately Active. Sedentary=1.2, Lightly=1.375, Very Active=1.725, Extra=1.9"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "What is the minimum safe daily caloric intake for WOMEN without medical supervision?",
-    opts: ["800 kcal","1,000 kcal","1,200 kcal","1,500 kcal"],
-    ans: 2,
-    exp: "1,200 kcal/day minimum for women; 1,500 kcal/day for men — never go below without doctor supervision"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "The brain uses approximately what share of daily energy at rest?",
-    opts: ["10%","15%","20%","30%"],
-    ans: 2,
-    exp: "The brain uses ~20% of daily energy just to process thoughts and signals at rest"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "BMR accounts for what percentage of Total Daily Energy Expenditure (TDEE)?",
-    opts: ["40–50%","50–60%","60–70%","75–85%"],
-    ans: 2,
-    exp: "BMR = 60–70% of TDEE; Physical Activity is most variable; TEF (digestion) ≈10%"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "The Thermic Effect of Food (TEF) accounts for approximately what % of caloric intake?",
-    opts: ["5%","10%","15%","20%"],
-    ans: 1,
-    exp: "TEF ≈10% — energy used for digestion and absorption of nutrients"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "For building muscle, how many kcal should be added above TDEE daily?",
-    opts: ["100–150 kcal","200–300 kcal","400–500 kcal","500–600 kcal"],
-    ans: 1,
-    exp: "+200–300 kcal above TDEE for muscle gain + resistance training. Protein: 0.8–1g per lb bodyweight"
-  },
-  {
-    section: "L5 — DCI / BMR / TDEE",
-    q: "How many weeks should you track calories consistently before making adjustments?",
-    opts: ["1 week","2 weeks","3–4 weeks","6–8 weeks"],
-    ans: 2,
-    exp: "3–4 weeks of consistent tracking before adjusting — body needs time to respond to changes"
-  },
-  {
-    section: "L6 — Body Composition",
-    q: "What is the minimum essential body fat % for MEN?",
-    opts: ["1–2%","2–5%","5–8%","8–10%"],
-    ans: 1,
-    exp: "Essential min. fat for men = 2–5%. Below this is dangerous. Athletes: 6–13%, Normal: 10–20%"
-  },
-  {
-    section: "L6 — Body Composition",
-    q: "What is the minimum essential body fat % for WOMEN?",
-    opts: ["5–8%","10–13%","15–18%","20–22%"],
-    ans: 1,
-    exp: "Essential min. fat for women = 10–13%. Higher than men due to reproductive physiology. Athletes: 14–20%"
-  },
-  {
-    section: "L6 — Body Composition",
-    q: "BIA accuracy requires fasting for how many hours before testing?",
-    opts: ["4 hours","8 hours","12 hours","24 hours"],
-    ans: 2,
-    exp: "12-hour fast + adequate hydration + no exercise 4 hours prior = proper BIA preparation"
-  },
-  {
-    section: "L6 — Body Composition",
-    q: "Normal body fat % for an average MALE (non-athlete) is:",
-    opts: ["2–5%","6–13%","10–20%","14–24%"],
-    ans: 2,
-    exp: "Normal male body fat = 10–20%. Athletes 6–13%, Acceptable 14–24%, Essential min 2–5%"
-  },
-  {
-    section: "L6 — Body Composition",
-    q: "Muscle mass declines progressively after what age?",
-    opts: ["Age 20","Age 25","Age 30","Age 40"],
-    ans: 2,
-    exp: "Muscle mass declines progressively after age 30 — age-specific reference values are essential for interpretation"
-  },
-  {
-    section: "L6 — Body Composition",
-    q: "For sarcopenic elderly patients, protein supplementation target is:",
-    opts: ["0.8–1.0 g/kg/day","1.0–1.2 g/kg/day","1.2–1.5 g/kg/day","1.8–2.2 g/kg/day"],
-    ans: 2,
-    exp: "1.2–1.5 g/kg/day protein + 3× weekly resistance training + quarterly BIA/DEXA monitoring"
-  },
-  {
-    section: "L7 — Types of Diets",
-    q: "In a Low-Carbohydrate diet, carbs are restricted to less than what % of total calories?",
-    opts: ["10%","25%","35%","45%"],
-    ans: 1,
-    exp: "Low-carb: Carbs <25%, Protein ~35%, Fat ~40%. Used for T2DM, obesity, metabolic syndrome"
-  },
-  {
-    section: "L7 — Types of Diets",
-    q: "In a Low-Fat Cardiac diet, total fat is limited to below:",
-    opts: ["10%","15%","20%","30%"],
-    ans: 2,
-    exp: "Low-fat: Total Fat <20% of calories → reduces LDL, prevents atherosclerosis"
-  },
-  {
-    section: "L7 — Types of Diets",
-    q: "Sodium restriction for cardiac patients should be below:",
-    opts: ["1,000 mg/day","1,500 mg/day","2,300 mg/day","3,000 mg/day"],
-    ans: 2,
-    exp: "<2,300 mg/day sodium for cardiac patients; renal patients may need <1,500 mg/day"
-  },
-  {
-    section: "L7 — Types of Diets",
-    q: "The Low-Carbohydrate diet typically provides ___ grams of carbs per day:",
-    opts: ["<10g","20–130g","150–200g","200–250g"],
-    ans: 1,
-    exp: "20–130g carbs/day in low-carb approaches — good for insulin resistance and glycemic control"
-  },
-  {
-    section: "L7 — Types of Diets",
-    q: "Adequate daily hydration for most diets is:",
-    opts: ["1–1.5 L/day","2–3 L/day","3–4 L/day","4–5 L/day"],
-    ans: 1,
-    exp: "2–3 L/day standard water intake — adjust for renal/cardiac conditions and activity level"
-  },
-  {
-    section: "L7 — Types of Diets",
-    q: "Daily dietary fiber recommendation is:",
-    opts: ["10–15 g/day","15–20 g/day","25–38 g/day","40–50 g/day"],
-    ans: 2,
-    exp: "25–38 g/day dietary fiber supports digestion and health — fiber GI = 0, not digested by humans"
-  },
-  {
-    section: "L7 — Types of Diets",
-    q: "Saturated fat in a Low-Fat Cardiac diet should be less than what % of total calories?",
-    opts: ["3%","5%","7%","10%"],
-    ans: 2,
-    exp: "Saturated fat <7% of total calories; avoid trans fats entirely; increase omega-3 for heart protection"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Endurance athletes may require how many kcal/day during heavy training?",
-    opts: ["2,000–2,500","2,500–3,000","3,000–5,000","5,000–7,000"],
-    ans: 2,
-    exp: "Endurance athletes: 3,000–5,000 kcal/day or more in heavy training phases"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Carbohydrate intake for HEAVY endurance training is:",
-    opts: ["3 g/kg/day","5 g/kg/day","7 g/kg/day","10 g/kg/day"],
-    ans: 3,
-    exp: "Light=5, Moderate=7, Heavy endurance=10 g/kg/day. Scale to daily training load"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Protein intake for STRENGTH/POWER athletes is:",
-    opts: ["0.8–1.0 g/kg/day","1.0–1.2 g/kg/day","1.2–1.4 g/kg/day","1.6–2.0 g/kg/day"],
-    ans: 3,
-    exp: "Strength/power: 1.6–2.0 g/kg/day; Endurance: 1.2–1.4 g/kg/day"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Post-exercise, the optimal Carbohydrate:Protein ratio for recovery is:",
-    opts: ["1:1","2:1","3:1","4:1"],
-    ans: 2,
-    exp: "3:1 carb:protein ratio within 30–60 min post-exercise to maximize glycogen resynthesis + muscle repair"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Dehydration of just ___ body weight measurably impairs athletic performance:",
-    opts: ["1%","2%","5%","10%"],
-    ans: 1,
-    exp: "2% body weight dehydration significantly impairs performance — hydrate continuously"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Carbohydrate loading can increase muscle glycogen by up to:",
-    opts: ["20%","30%","40%","50%"],
-    ans: 3,
-    exp: "Loading protocol (6–10 g/kg/day for 36–48hrs pre-race) boosts glycogen by up to 50%"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Carbohydrate loading is indicated only for events lasting more than:",
-    opts: ["45 minutes","60 minutes","90 minutes","120 minutes"],
-    ans: 2,
-    exp: "Carb loading only for endurance events >90 minutes — below that, normal glycogen stores suffice"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "Skeletal muscle stores approximately how much glycogen?",
-    opts: ["~100g","~200g","~400g","~600g"],
-    ans: 2,
-    exp: "Skeletal muscle ~400g glycogen; Liver ~100g. Glycogen depletion = primary fatigue cause"
-  },
-  {
-    section: "L8 — Sports Nutrition",
-    q: "The Calcium RDA for athletes is:",
-    opts: ["500 mg","750 mg","1000 mg","1500 mg"],
-    ans: 2,
-    exp: "Calcium RDA = 1000 mg; Vitamin D RDA = 600 IU — essential for bone health and muscle contraction"
-  },
-  {
-    section: "L9 — Glycemic Index",
-    q: "What is the GI value of pure glucose (the reference standard)?",
-    opts: ["50","75","100","120"],
-    ans: 2,
-    exp: "Glucose GI = 100 — it is the reference standard against which all foods are measured"
-  },
-  {
-    section: "L9 — Glycemic Index",
-    q: "A LOW GI food has a GI score of:",
-    opts: ["≤40","≤55","≤65","≤70"],
-    ans: 1,
-    exp: "Low GI ≤55 (preferred); Medium GI 56–69; High GI ≥70 — avoid for metabolic health"
-  },
-  {
-    section: "L9 — Glycemic Index",
-    q: "In GI testing, postprandial blood glucose is measured over how many minutes?",
-    opts: ["60 minutes","90 minutes","120 minutes","180 minutes"],
-    ans: 2,
-    exp: "Blood glucose measured over 120 minutes (2 hours) after eating 50g of the test food"
-  },
-  {
-    section: "L9 — Glycemic Index",
-    q: "What is the GI of dietary fiber (nonstarch polysaccharides)?",
-    opts: ["0","5","10","15"],
-    ans: 0,
-    exp: "Dietary fiber GI = 0 — not digested by human enzymes, raises no blood glucose. Also slows absorption of other carbs"
-  },
-  {
-    section: "L9 — Glycemic Index",
-    q: "The approximate GI of potatoes is:",
-    opts: ["40–50","55–65","70–80","80–90"],
-    ans: 3,
-    exp: "Potatoes GI = 80–90 (HIGH) — rapidly hydrolyzed starch. Contrast: sweet potato = 50–60 (MID)"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "The GI of soy beans is approximately:",
-    opts: ["15–20","35–40","55–60","70–75"],
-    ans: 0,
-    exp: "Soy beans GI = 15–20 (LOW) — high fiber & protein content slow digestion dramatically"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "Vitamin D RDA for athletes is:",
-    opts: ["200 IU","400 IU","600 IU","1000 IU"],
-    ans: 2,
-    exp: "Vitamin D RDA = 600 IU — required for calcium absorption, immunity, and muscle performance"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "During exercise >60 min, how many grams of carbohydrate per hour should be consumed?",
-    opts: ["10–20g","30–60g","60–90g","90–120g"],
-    ans: 1,
-    exp: "30–60g carbs/hour during exercise >60 min — combined with fluids and electrolytes"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "Before exercise, fluid intake recommended 2 hours prior is:",
-    opts: ["100–200 ml","200–300 ml","400–600 ml","700–900 ml"],
-    ans: 2,
-    exp: "400–600 ml water 2 hours pre-exercise; then 150–250 ml every 15–20 min during; 1.5× lost after"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "The GI of apple and orange is approximately:",
-    opts: ["20–25","40–45","55–60","65–70"],
-    ans: 1,
-    exp: "Apple/Orange GI = 40–45 (LOW) — contain fructose which has a lower GI than glucose"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "What percentage of the human body is water?",
-    opts: ["45%","55%","65%","75%"],
-    ans: 2,
-    exp: "65% of the human body is water — primary component of blood and tissues"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "Sports drinks are recommended only when exercising for more than how long?",
-    opts: ["1 hour","2 hours","3 hours","5 hours"],
-    ans: 3,
-    exp: "Sports drinks only if exercising 5+ hours — plain water is sufficient for shorter sessions"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "The Thermic Effect of Food (TEF) uses energy equal to approximately what of total intake?",
-    opts: ["5%","10%","15%","20%"],
-    ans: 1,
-    exp: "TEF ≈10% of caloric intake — energy cost of digesting, absorbing and metabolising nutrients"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "After post-exercise, fluid replacement should equal approximately:",
-    opts: ["Same as lost","1.2× fluid lost","1.5× fluid lost","2× fluid lost"],
-    ans: 2,
-    exp: "After exercise: replace 1.5× the fluid lost (measured by body weight change)"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "The GI of milk and ice cream is approximately:",
-    opts: ["15–20","35–40","50–55","60–65"],
-    ans: 1,
-    exp: "Milk/Ice cream GI = 35–40 (LOW) — fat and protein content slow glucose absorption"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "Glycogen stores in the LIVER are approximately:",
-    opts: ["~50g","~100g","~200g","~400g"],
-    ans: 1,
-    exp: "Liver stores ~100g glycogen; skeletal muscle ~400g. Total ~500g — depletion causes fatigue"
-  },
-  {
-    section: "Extra — Mixed Numbers",
-    q: "Carbohydrate loading protocol runs for how many hours before a race?",
-    opts: ["12–24 hours","24–36 hours","36–48 hours","48–72 hours"],
-    ans: 2,
-    exp: "6–10 g/kg/day for 36–48 hours pre-race — can increase muscle glycogen by up to 50%"
-  }
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Identify the error: 'He eats, sleeps, and is exercising every day.'",
+   opts:["No error","'is exercising' should be 'exercises' for parallel form","'eats' should be 'eating'","'sleeps' should be 'sleeping'"],ans:1,
+   exp:"Right! All verbs should be in simple present: 'He eats, sleeps, and exercises every day.'"},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which paired conjunction requires 'and' as its second part?",
+   opts:["either","neither","both","not only"],ans:2,
+   exp:"Exactly! 'Both ... and' is the correct paired conjunction. Never write 'both ... or'."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Fix this sentence: 'He wants either to go by train or by plane.'",
+   opts:["He wants either to go by train or by plane. (already correct)","He wants to go either by train or by plane.","He wants either go by train or to go by plane.","He wants either train or planing to go."],ans:1,
+   exp:"Correct! Move 'either' so the parallel parts match: 'by train' and 'by plane' are now both prepositional phrases."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which sentence correctly uses a COMPARISON with parallel structure?",
+   opts:["To be rich is better than being poor.","Dining in a restaurant is more fun than to eat at home.","What is written is more easily understood than what is spoken.","His plan is better than to use the old method."],ans:2,
+   exp:"Correct! 'What is written' and 'what is spoken' are both noun clauses — perfectly parallel. The others mix infinitives and gerunds."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"'She held jobs as a typist, a housekeeper, and in a restaurant.' What is wrong?",
+   opts:["Nothing is wrong","'in a restaurant' is not parallel to 'a typist' or 'a housekeeper'","'a typist' should be 'typing'","'housekeeper' should be 'housekeeping'"],ans:1,
+   exp:"Exactly! The list needs nouns: 'a typist, a housekeeper, and a waitress' (or 'a restaurant worker'). 'In a restaurant' is a phrase, not a noun like the others."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"'She would like neither to see a movie or to go bowling.' What is the error?",
+   opts:["No error — the sentence is fine","'or' should be 'nor' — neither ... nor is the correct pairing","'to see' should be 'seeing'","'bowling' should be 'to bowl'"],ans:1,
+   exp:"Right! 'Neither ... nor' always go together. Using 'or' with 'neither' is incorrect."},
+
+  {section:"Lesson 5.1 — Parallel Structure",badge:"badge-grammar",
+   q:"Which type of words can coordinate conjunctions (and, but, or) join?",
+   opts:["Only nouns and verbs","Only phrases and clauses","Nouns, verbs, adjectives, phrases, or clauses — as long as both sides match","Only adjectives and adverbs"],ans:2,
+   exp:"Correct! And, but, or can join any equal grammatical elements — the key rule is that both sides must be the same type."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'He made a killing on the stock market.' What does 'made a killing' mean?",
+   opts:["He lost a lot of money","He had great financial success","He committed a crime","He spent money foolishly"],ans:1,
+   exp:"Correct! 'Make a killing' means to achieve great financial success or profit."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"What does 'money burns a hole in your pocket' mean?",
+   opts:["You lost your money","You save money carefully","You are eager to spend money quickly","Your salary is too small"],ans:2,
+   exp:"Right! This idiom describes someone who cannot resist spending money as soon as they get it."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'Watch how you spend your money — it doesn't grow on trees!' What does this mean?",
+   opts:["Money is easy to find","Money is not plentiful or easily obtained","You should invest in agriculture","Money grows naturally over time"],ans:1,
+   exp:"Correct! 'Money doesn't grow on trees' means money is not freely available — you must work and be careful with it."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"What is 'money laundering'?",
+   opts:["Washing coins to make them clean","Spending money in a foolish way","Concealing the source of illegally-obtained money to make it appear legitimate","Donating money to charity"],ans:2,
+   exp:"Exactly! Money laundering is when people hide the illegal origin of money so it appears to come from a legal source."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'He's got more money than sense!' What does this idiom describe?",
+   opts:["A very wise investor","Someone who has a lot of money but spends it foolishly","Someone who is very poor","A person who saves every penny"],ans:1,
+   exp:"Right! 'More money than sense' describes someone rich who wastes their money on foolish purchases."},
+
+  {section:"Lesson 5.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'The owner is a millionaire and he's influential — money talks!' What does 'money talks' mean?",
+   opts:["Rich people speak loudly","People with a lot of money have power and influence","Money gives you good communication skills","Rich people are always right"],ans:1,
+   exp:"Correct! 'Money talks' means that having wealth gives you power and the ability to influence people and decisions."},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"According to the text, what should you do EVERY TIME someone contacts your company?",
+   opts:["Send them a discount coupon","Ask them where they found out about you","Offer them a free trial","Add them to your email newsletter"],ans:1,
+   exp:"Correct! The text says: 'Every time someone contacts your company, ask them where they found out about you.' This helps you advertise in the right places."},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"What does 'think like a customer' help you achieve in your advertising?",
+   opts:["Spend less on advertising","Say the right things in your advertising","Reach more social media platforms","Hire better employees"],ans:1,
+   exp:"Right! The text says 'Find out what makes your customers tick, and you're halfway to saying the right things in your advertising.'"},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"According to the reading, how much more likely are consumers to be influenced by word-of-mouth than by TV or radio ads?",
+   opts:["10% more likely","25% more likely","50% more likely","Twice as likely"],ans:2,
+   exp:"Correct! The text states: 'consumers are 50% more likely to be influenced by word-of-mouth recommendations than by TV or radio ads.'"},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"What is the ONE WORD from the text that completes this: 'A _____ of forms of advertising will make it more likely that potential customers will find out about you.'",
+   opts:["combination","variety","selection","mix"],ans:3,
+   exp:"Exactly! The text says 'using a mix of these increases your chances of being seen.' The answer is 'mix'."},
+
+  {section:"Lesson 5.3 — Advice on Getting Customers",badge:"badge-reading",
+   q:"According to the article, what is your 'greatest asset' when finding new customers?",
+   opts:["Your advertising budget","Your website","Your reputation","Your product quality"],ans:2,
+   exp:"Correct! The text states: 'your reputation is your greatest asset.' Happy customers recommend you; unhappy ones warn others."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is 'Net Worth'?",
+   opts:["Total income per year","The value of assets minus liabilities","The profit after taxes","Total sales revenue"],ans:1,
+   exp:"Right! Net Worth = Assets − Liabilities. It's what you truly 'own' after subtracting what you owe."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"An 'Option' contract gives the holder...",
+   opts:["The obligation to buy an asset at market price","The right, but not the obligation, to buy or sell at a specific price","A guarantee of profit from an investment","Ownership of the asset immediately"],ans:1,
+   exp:"Correct! An option gives you the right (not the obligation) to buy or sell at a pre-agreed price. You choose whether to use it."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What does PII stand for?",
+   opts:["Personal Investment Information","Programmatic Internet Interface","Personally Identifiable Information","Public Investment Index"],ans:2,
+   exp:"Exactly! PII = Personally Identifiable Information — data like your name, address, email, or credit card that could identify you specifically."},
+
+  {section:"Lesson 5.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is 'Programmatic Advertising'?",
+   opts:["Advertising that uses TV programs","Software that automates the buying and selling of ads","A manual method of placing ads in newspapers","Advertising only on social media platforms"],ans:1,
+   exp:"Correct! Programmatic advertising uses software to automate the ad-buying process, making it faster and more efficient than manual methods."},
 ];
 
-const newQuestions = [
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which of the following is classified as a macronutrient?",
-    "opts": ["Iron", "Vitamin C", "Carbohydrates", "Calcium"],
-    "ans": 2,
-    "exp": "Carbohydrates"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which of the following is classified as a micronutrient?",
-    "opts": ["Fat", "Protein", "Vitamin D", "Carbohydrates"],
-    "ans": 2,
-    "exp": "Vitamin D"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Why does fat provide more energy per gram than carbohydrates or protein?",
-    "opts": ["Fat is absorbed faster in the intestine", "Fat contains a more concentrated chemical structure that yields more energy when broken down", "Fat bypasses digestion entirely", "Fat is stored closer to muscles"],
-    "ans": 1,
-    "exp": "Fat contains a more concentrated chemical structure that yields more energy when broken down"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "What makes simple carbohydrates raise blood glucose faster than complex carbohydrates?",
-    "opts": ["They contain more calories", "They require minimal digestion before absorption", "They are found in larger food portions", "They stimulate more insulin production first"],
-    "ans": 1,
-    "exp": "They require minimal digestion before absorption"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Why are trans fats considered worse than saturated fats?",
-    "opts": ["They contain more calories per gram", "They raise harmful LDL while also lowering protective HDL", "They are found in more foods", "They cause faster weight gain"],
-    "ans": 1,
-    "exp": "They raise harmful LDL while also lowering protective HDL"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which type of fat is described as the \"good\" fat that reduces LDL cholesterol?",
-    "opts": ["Saturated fat", "Trans fat", "Unsaturated fat", "Cholesterol"],
-    "ans": 2,
-    "exp": "Unsaturated fat"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Why are certain amino acids called essential?",
-    "opts": ["They are more important for muscle growth", "The body cannot produce them and they must come from food", "They are only found in animal products", "They provide more energy than non-essential ones"],
-    "ans": 1,
-    "exp": "The body cannot produce them and they must come from food"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which of the following is an example of a complete protein source?",
-    "opts": ["Rice", "Beans", "Eggs", "Bread"],
-    "ans": 2,
-    "exp": "Eggs"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Why does combining rice and beans provide complete protein?",
-    "opts": ["Together they contain all nine essential amino acids", "They increase calorie content significantly", "They improve digestion speed", "They reduce fat absorption"],
-    "ans": 0,
-    "exp": "Together they contain all nine essential amino acids"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Why is fiber considered a carbohydrate even though the body cannot digest it?",
-    "opts": ["It provides energy like other carbohydrates", "It is chemically a polysaccharide but resists human digestive enzymes", "It raises blood glucose slowly", "It is converted to glucose in the liver"],
-    "ans": 1,
-    "exp": "It is chemically a polysaccharide but resists human digestive enzymes"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which of the following vitamins is fat-soluble?",
-    "opts": ["Vitamin C", "Vitamin B12", "Vitamin D", "Folic acid"],
-    "ans": 2,
-    "exp": "Vitamin D"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Why are fat-soluble vitamins potentially dangerous in excess?",
-    "opts": ["They interact with medications", "They are stored in the body and can accumulate to toxic levels", "They damage the liver immediately", "They block mineral absorption"],
-    "ans": 1,
-    "exp": "They are stored in the body and can accumulate to toxic levels"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which vitamins act as antioxidants protecting cells from aging damage?",
-    "opts": ["Vitamins B, D, and K", "Vitamins A, C, and E", "Vitamins B1, B6, and B12", "Vitamins D, E, and K"],
-    "ans": 1,
-    "exp": "Vitamins A, C, and E"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which of the following is a trace mineral?",
-    "opts": ["Sodium", "Calcium", "Iron", "Magnesium"],
-    "ans": 2,
-    "exp": "Iron"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Why is water essential despite providing zero calories?",
-    "opts": ["It slows digestion to improve nutrient absorption", "It is required for all life processes including waste removal and temperature regulation", "It replaces the need for minerals", "It provides structural support to muscles"],
-    "ans": 1,
-    "exp": "It is required for all life processes including waste removal and temperature regulation"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "What is the main problem with thinking of food only as fuel?",
-    "opts": ["It causes overeating", "It ignores the social, cultural, and emotional roles of food", "It makes people avoid carbohydrates", "It leads to vitamin deficiencies"],
-    "ans": 1,
-    "exp": "It ignores the social, cultural, and emotional roles of food"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "Which macronutrient is primarily responsible for building and repairing body tissues?",
-    "opts": ["Carbohydrates", "Fat", "Protein", "Fiber"],
-    "ans": 2,
-    "exp": "Protein"
-  },
-  {
-    "section": "L1\u20132: Nutrients & Macronutrients",
-    "q": "What does the body budget analogy teach us about daily food choices?",
-    "opts": ["Spend all calories on fun foods first", "Fill the calorie budget with nutrient-dense foods first leaving leftover for fun calories", "Avoid spending calories on fats entirely", "Only track calories when trying to lose weight"],
-    "ans": 1,
-    "exp": "Fill the calorie budget with nutrient-dense foods first leaving leftover for fun calories"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Which of the following must legally appear on every UK food label?",
-    "opts": ["Country of manufacture only", "Name, mass, dates, allergens, and nutritional information", "Price and discount information", "Manufacturer's health claims"],
-    "ans": 1,
-    "exp": "Name, mass, dates, allergens, and nutritional information"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why must allergens be written in bold within the ingredient list?",
-    "opts": ["To make the label look more organized", "So people with allergies can quickly identify dangerous ingredients", "Because they are the heaviest ingredients", "To comply with international trade laws only"],
-    "ans": 1,
-    "exp": "So people with allergies can quickly identify dangerous ingredients"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why is the \"Use By\" date more critical than the \"Best Before\" date?",
-    "opts": ["Use By applies to expensive products only", "Food past the Use By date may be dangerous even if it looks and smells fine", "Best Before dates are never accurate", "Use By only applies to frozen foods"],
-    "ans": 1,
-    "exp": "Food past the Use By date may be dangerous even if it looks and smells fine"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why are ingredients listed heaviest first on a food label?",
-    "opts": ["To highlight the most expensive ingredients", "So consumers know what makes up the majority of the product", "To make comparison between products easier", "Because allergens are always the heaviest"],
-    "ans": 1,
-    "exp": "So consumers know what makes up the majority of the product"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "The traffic light system uses green, amber, and red to:",
-    "opts": ["Indicate whether the food is organic", "Allow people to make quick health decisions at a glance", "Replace the need for an ingredient list", "Show the country of origin"],
-    "ans": 1,
-    "exp": "Allow people to make quick health decisions at a glance"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Which nutrient is NOT measured by the traffic light system?",
-    "opts": ["Fat", "Saturated fat", "Fiber", "Salt"],
-    "ans": 2,
-    "exp": "Fiber"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why is the per 100g column more useful than the per serving column when comparing products?",
-    "opts": ["It shows total calories in the package", "It allows fair comparison between products regardless of different serving sizes", "It is more accurate for large portions", "It shows the manufacturer's recommended intake"],
-    "ans": 1,
-    "exp": "It allows fair comparison between products regardless of different serving sizes"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why does high salt intake pose a specific cardiovascular risk?",
-    "opts": ["It causes rapid weight gain", "It raises blood pressure increasing risk of heart disease and stroke", "It damages kidneys immediately", "It blocks vitamin absorption"],
-    "ans": 1,
-    "exp": "It raises blood pressure increasing risk of heart disease and stroke"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why is saturated fat particularly highlighted as harmful on nutrition labels?",
-    "opts": ["It contains the most calories", "In high quantities it raises cholesterol and damages the heart", "It is found in the most foods", "It causes immediate digestive problems"],
-    "ans": 1,
-    "exp": "In high quantities it raises cholesterol and damages the heart"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why does fiber have no percentage reference intake shown on nutrition labels?",
-    "opts": ["Fiber intake is not important to track", "We are encouraged to eat as much fiber as possible so no upper limit is set", "Fiber content varies too much between products", "Fiber is not regulated by food labelling law"],
-    "ans": 1,
-    "exp": "We are encouraged to eat as much fiber as possible so no upper limit is set"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Which of the following is one of the fourteen common food allergens?",
-    "opts": ["Rice", "Corn", "Peanuts", "Potatoes"],
-    "ans": 2,
-    "exp": "Peanuts"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why should a product with multiple red traffic lights be eaten only sometimes rather than never?",
-    "opts": ["Red lights indicate the food is unsafe", "Even high-nutrient foods can fit into a balanced diet in moderation", "Red lights only apply to one nutrient", "The traffic light system is not legally binding"],
-    "ans": 1,
-    "exp": "Even high-nutrient foods can fit into a balanced diet in moderation"
-  },
-  {
-    "section": "L3: Food Labelling",
-    "q": "Why does the \"Best Before\" date apply to tinned and dried foods rather than fresh meat and dairy?",
-    "opts": ["Tinned foods are more regulated", "These foods remain safe longer but quality gradually declines rather than becoming dangerous", "Meat and dairy have no expiry concern", "Tinned foods contain more preservatives requiring date labelling"],
-    "ans": 1,
-    "exp": "These foods remain safe longer but quality gradually declines rather than becoming dangerous"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why is weight management described as a long-term approach rather than a short-term fix?",
-    "opts": ["Short-term diets are illegal", "Temporary restrictions do not create the permanent lifestyle habits needed to maintain results", "Long-term approaches cost less", "Short-term approaches always cause muscle loss"],
-    "ans": 1,
-    "exp": "Temporary restrictions do not create the permanent lifestyle habits needed to maintain results"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why is BMI considered a screening tool rather than a diagnostic one?",
-    "opts": ["It requires expensive equipment", "It cannot distinguish between fat mass and muscle mass", "It is only accurate for women", "It changes too frequently to be reliable"],
-    "ans": 1,
-    "exp": "It cannot distinguish between fat mass and muscle mass"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why can two people with identical BMI values have completely different health profiles?",
-    "opts": ["BMI does not account for age", "One may have high muscle mass while the other has high fat mass", "BMI is calculated differently for men and women", "Height measurement errors affect BMI"],
-    "ans": 1,
-    "exp": "One may have high muscle mass while the other has high fat mass"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Which of the following is a component of total daily energy expenditure?",
-    "opts": ["Blood pressure and heart rate", "BMR, physical activity, and thermic effect of food", "Vitamin intake and mineral absorption", "Sleep duration and water consumption"],
-    "ans": 1,
-    "exp": "BMR, physical activity, and thermic effect of food"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why does addressing mental health improve weight management success rates?",
-    "opts": ["Mental health medication suppresses appetite", "Psychological factors like emotional eating and stress directly drive eating behavior", "Mental health treatment burns more calories", "Psychological support replaces dietary advice"],
-    "ans": 1,
-    "exp": "Psychological factors like emotional eating and stress directly drive eating behavior"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why does sleep deprivation contribute to weight gain?",
-    "opts": ["People eat more when tired because they have more time", "It disrupts hunger hormones causing increased appetite and calorie consumption", "Sleep deprivation slows digestion permanently", "Lack of sleep increases cortisol only in women"],
-    "ans": 1,
-    "exp": "It disrupts hunger hormones causing increased appetite and calorie consumption"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why does skipping meals lead to overeating rather than weight loss?",
-    "opts": ["Skipping meals slows the metabolism permanently", "It disrupts blood sugar and increases hunger leading to overeating later", "The body stores all calories from the next meal as fat", "Meal skipping only works with exercise"],
-    "ans": 1,
-    "exp": "It disrupts blood sugar and increases hunger leading to overeating later"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why is rapid weight loss considered unhealthy?",
-    "opts": ["It causes nutrient toxicity", "Losing weight too quickly typically results in muscle loss rather than just fat", "It permanently damages the metabolism", "Rapid loss always leads to regain within one week"],
-    "ans": 1,
-    "exp": "Losing weight too quickly typically results in muscle loss rather than just fat"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why does chronic stress contribute to abdominal fat accumulation?",
-    "opts": ["Stressed people exercise less exclusively", "Elevated cortisol promotes abdominal fat deposition and increases food cravings", "Stress directly converts muscle to fat", "Cortisol only affects fat storage in elderly people"],
-    "ans": 1,
-    "exp": "Elevated cortisol promotes abdominal fat deposition and increases food cravings"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Which of the following is a behavioral strategy used in weight management?",
-    "opts": ["Avoiding all social meals", "Self-monitoring through food diaries and regular tracking", "Eliminating entire food groups", "Exercising only in the morning"],
-    "ans": 1,
-    "exp": "Self-monitoring through food diaries and regular tracking"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why is the Mediterranean diet considered effective for long-term health?",
-    "opts": ["It eliminates all processed foods completely", "It has the best cardiovascular outcomes and highest long-term adherence rates", "It contains no carbohydrates", "It is the cheapest dietary approach globally"],
-    "ans": 1,
-    "exp": "It has the best cardiovascular outcomes and highest long-term adherence rates"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Why do most people who lose weight regain it within a few years?",
-    "opts": ["Their metabolism permanently slows", "They return to old habits without developing permanent lifestyle changes", "Weight loss medications stop working", "The body actively resists any change in weight permanently"],
-    "ans": 1,
-    "exp": "They return to old habits without developing permanent lifestyle changes"
-  },
-  {
-    "section": "L4: Weight Management",
-    "q": "Which of the following is NOT a cause of weight gain?",
-    "opts": ["Excess caloric intake", "Physical inactivity", "Drinking adequate water", "Hormonal imbalance"],
-    "ans": 2,
-    "exp": "Drinking adequate water"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "What does BMR represent?",
-    "opts": ["The calories burned during exercise", "The calories the body burns at complete rest to maintain basic life functions", "The total calories consumed in a day", "The calories stored as fat daily"],
-    "ans": 1,
-    "exp": "The calories the body burns at complete rest to maintain basic life functions"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Which of the following is NOT a factor that BMR depends on?",
-    "opts": ["Weight", "Height", "Blood type", "Age"],
-    "ans": 2,
-    "exp": "Blood type"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why does the Mifflin-St Jeor equation differ for men and women?",
-    "opts": ["Men and women have different digestive systems", "Sex is a biological factor that affects basal metabolic rate", "The equation was developed separately for each sex", "Women require fewer nutrients overall"],
-    "ans": 1,
-    "exp": "Sex is a biological factor that affects basal metabolic rate"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "What does TDEE represent?",
-    "opts": ["Total calories consumed in one meal", "All calories burned in a full day including activity", "Calories burned only during exercise", "The minimum calories needed for survival"],
-    "ans": 1,
-    "exp": "All calories burned in a full day including activity"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why is overestimating activity level a common mistake in calorie calculation?",
-    "opts": ["It causes people to undereat", "It inflates TDEE leading people to eat more than they actually burn", "It makes exercise seem unnecessary", "Activity level has no impact on calorie needs"],
-    "ans": 1,
-    "exp": "It inflates TDEE leading people to eat more than they actually burn"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why must someone track calories consistently for several weeks before adjusting their plan?",
-    "opts": ["Calorie apps need time to learn your habits", "The body needs time to respond to changes and show reliable results", "Weekly tracking is too infrequent", "Metabolism changes daily making early adjustments inaccurate"],
-    "ans": 1,
-    "exp": "The body needs time to respond to changes and show reliable results"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why are hidden calories from oils, sauces, and drinks a common reason people fail to lose weight?",
-    "opts": ["These foods digest faster than solid foods", "They add significant untracked calories creating a hidden surplus", "Liquid calories do not satisfy hunger", "They are absorbed differently than food calories"],
-    "ans": 1,
-    "exp": "They add significant untracked calories creating a hidden surplus"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why should calorie intake never drop below a safe minimum even when trying to lose weight aggressively?",
-    "opts": ["The body needs a minimum to function and dropping below risks serious health consequences", "It makes exercise impossible", "The body starts burning muscle only below this level", "It reduces vitamin absorption by half"],
-    "ans": 0,
-    "exp": "The body needs a minimum to function and dropping below risks serious health consequences"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "What is the key difference between BMR and TDEE?",
-    "opts": ["BMR includes exercise while TDEE does not", "TDEE accounts for all daily activity on top of BMR", "They measure different organs", "BMR is for women and TDEE is for men"],
-    "ans": 1,
-    "exp": "TDEE accounts for all daily activity on top of BMR"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why does calorie quality matter as much as calorie quantity?",
-    "opts": ["Higher quality food is always lower in calories", "Two diets with the same calories can have very different effects on health, satiety, and sustainability", "Quality food is digested faster", "Calorie quantity is only relevant for athletes"],
-    "ans": 1,
-    "exp": "Two diets with the same calories can have very different effects on health, satiety, and sustainability"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Which of the following is a sign of progress that does not show on the scale?",
-    "opts": ["Blood pressure reduction only", "Energy levels, sleep quality, and how clothes fit", "Height increase", "Skin color improvement"],
-    "ans": 1,
-    "exp": "Energy levels, sleep quality, and how clothes fit"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why should someone recalculate their BMR and TDEE after significant weight change?",
-    "opts": ["The formula changes with age", "As body weight changes energy requirements shift accordingly", "Calorie apps require manual updates", "Exercise habits always change with weight"],
-    "ans": 1,
-    "exp": "As body weight changes energy requirements shift accordingly"
-  },
-  {
-    "section": "L5: Daily Caloric Intake",
-    "q": "Why is nutrient-dense food more beneficial than calorie-dense junk food at the same calorie amount?",
-    "opts": ["Nutrient-dense food always has fewer calories", "It provides vitamins, minerals, and satiety while supporting long-term health and sustainability", "Junk food is always high in sodium", "Nutrient-dense food is always cheaper"],
-    "ans": 1,
-    "exp": "It provides vitamins, minerals, and satiety while supporting long-term health and sustainability"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why is body composition assessment more clinically valuable than body weight alone?",
-    "opts": ["It requires more expensive equipment", "It distinguishes between fat mass and fat-free mass giving a fuller health picture", "It measures organ function", "It replaces the need for blood tests"],
-    "ans": 1,
-    "exp": "It distinguishes between fat mass and fat-free mass giving a fuller health picture"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "What is sarcopenia?",
-    "opts": ["Excess visceral fat around the abdomen", "Age-related progressive loss of muscle mass", "Obesity despite a normal BMI", "Malnutrition in children"],
-    "ans": 1,
-    "exp": "Age-related progressive loss of muscle mass"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why can a muscular athlete be incorrectly classified as overweight by BMI?",
-    "opts": ["Athletes are always taller than average", "BMI cannot distinguish muscle mass from fat mass", "Athletes have denser bones", "BMI uses different reference ranges for athletes"],
-    "ans": 1,
-    "exp": "BMI cannot distinguish muscle mass from fat mass"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "How does BIA estimate body composition?",
-    "opts": ["By measuring skinfold thickness at standardized sites", "By sending a safe low-level electrical current and measuring resistance", "By using two X-ray beams to differentiate tissues", "By calculating waist-to-hip ratio"],
-    "ans": 1,
-    "exp": "By sending a safe low-level electrical current and measuring resistance"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why does dehydration falsely elevate fat percentage in BIA testing?",
-    "opts": ["Dehydration reduces body weight temporarily", "Fat-free mass conducts electricity through water so dehydration lowers conductance mimicking higher fat", "Dehydration increases electrical resistance in fat cells", "The BIA device miscalibrates in dry conditions"],
-    "ans": 1,
-    "exp": "Fat-free mass conducts electricity through water so dehydration lowers conductance mimicking higher fat"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why is DEXA preferred for research over BIA?",
-    "opts": ["It is cheaper and more accessible", "It provides the highest precision for differentiating bone, fat, and lean tissue", "It uses no radiation whatsoever", "It can be performed without patient preparation"],
-    "ans": 1,
-    "exp": "It provides the highest precision for differentiating bone, fat, and lean tissue"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Which body composition method is the gold standard for visceral fat measurement?",
-    "opts": ["BMI", "BIA", "DEXA", "CT scan"],
-    "ans": 3,
-    "exp": "CT scan"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why does the waist-to-hip ratio predict cardiovascular risk?",
-    "opts": ["It measures total body fat", "A higher ratio indicates central obesity which is strongly linked to metabolic disease", "It reflects bone density", "It measures subcutaneous fat only"],
-    "ans": 1,
-    "exp": "A higher ratio indicates central obesity which is strongly linked to metabolic disease"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why do women have a higher essential body fat percentage than men?",
-    "opts": ["Women store more energy for exercise", "Female physiology requires higher essential fat for hormonal and reproductive functions", "Women are generally less active", "Male muscles contain embedded fat"],
-    "ans": 1,
-    "exp": "Female physiology requires higher essential fat for hormonal and reproductive functions"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why is the clinical case of sarcopenic obesity particularly dangerous?",
-    "opts": ["It only occurs in athletes", "BMI appears normal masking both high fat and dangerously low muscle simultaneously", "It causes immediate cardiac arrest", "It only affects people over eighty"],
-    "ans": 1,
-    "exp": "BMI appears normal masking both high fat and dangerously low muscle simultaneously"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Which of the following factors can affect BIA accuracy?",
-    "opts": ["The color of clothing worn during testing", "Hydration status, recent exercise, and time of day", "The patient's emotional state", "Room temperature only"],
-    "ans": 1,
-    "exp": "Hydration status, recent exercise, and time of day"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why is MRI the most accurate body composition method but rarely used clinically?",
-    "opts": ["It uses high radiation doses", "It is extremely expensive, time-consuming, and reserved for research", "It cannot measure fat tissue", "It requires surgical preparation"],
-    "ans": 1,
-    "exp": "It is extremely expensive, time-consuming, and reserved for research"
-  },
-  {
-    "section": "L6: Body Composition Assessment",
-    "q": "Why is weight alone insufficient for clinical assessment of nutritional status?",
-    "opts": ["Scales are often inaccurate", "Two individuals with identical weights can have vastly different body composition and health profiles", "Weight fluctuates too much daily", "Weight does not correlate with any health outcome"],
-    "ans": 1,
-    "exp": "Two individuals with identical weights can have vastly different body composition and health profiles"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "What distinguishes a therapeutic diet from a regular healthy diet?",
-    "opts": ["Therapeutic diets are always more restrictive", "Therapeutic diets are medically prescribed to manage or treat specific conditions", "Therapeutic diets eliminate all fats", "Therapeutic diets are only used in hospitals"],
-    "ans": 1,
-    "exp": "Therapeutic diets are medically prescribed to manage or treat specific conditions"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Which of the following best describes the balanced plate model?",
-    "opts": ["All food groups in equal portions", "Half the plate vegetables and fruits, a quarter protein, a quarter whole grains", "Half protein and half carbohydrates", "Equal portions of all five food groups"],
-    "ans": 1,
-    "exp": "Half the plate vegetables and fruits, a quarter protein, a quarter whole grains"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Why is the low-carbohydrate diet effective for managing type 2 diabetes?",
-    "opts": ["It eliminates all sugars including fruit", "Reducing carbohydrate intake lowers blood glucose and decreases insulin secretion", "It increases protein to replace carbohydrates directly", "It forces the body to use vitamins as energy"],
-    "ans": 1,
-    "exp": "Reducing carbohydrate intake lowers blood glucose and decreases insulin secretion"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Why does the renal diet restrict potassium specifically?",
-    "opts": ["Potassium damages kidney filtration units directly", "Excess potassium in kidney disease can cause dangerous cardiac arrhythmias", "Potassium raises blood pressure in all patients", "The kidneys produce potassium naturally"],
-    "ans": 1,
-    "exp": "Excess potassium in kidney disease can cause dangerous cardiac arrhythmias"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Why is enteral nutrition preferred over parenteral whenever possible?",
-    "opts": ["It delivers more nutrients", "It uses the functioning GI tract reducing infection risk and cost", "It requires less medical supervision", "It can be self-administered"],
-    "ans": 1,
-    "exp": "It uses the functioning GI tract reducing infection risk and cost"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Which condition calls for a high-protein diet as primary intervention?",
-    "opts": ["Cardiovascular disease", "Kidney disease", "Burns, trauma, and post-surgical recovery", "Type 2 diabetes"],
-    "ans": 2,
-    "exp": "Burns, trauma, and post-surgical recovery"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Why does the cardiac diet restrict sodium specifically?",
-    "opts": ["Sodium raises LDL cholesterol directly", "High sodium intake raises blood pressure increasing cardiovascular risk", "Sodium causes arterial inflammation", "Sodium competes with heart medications"],
-    "ans": 1,
-    "exp": "High sodium intake raises blood pressure increasing cardiovascular risk"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "What is the primary goal of Medical Nutrition Therapy?",
-    "opts": ["To prescribe vitamin supplements to all patients", "To provide evidence-based individualized dietary interventions to manage medical conditions", "To eliminate all processed foods from the patient's diet", "To calculate calorie needs for weight loss only"],
-    "ans": 1,
-    "exp": "To provide evidence-based individualized dietary interventions to manage medical conditions"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Which of the following is NOT a core principle of effective meal planning?",
-    "opts": ["Nutritional adequacy", "Balance", "Speed of preparation", "Moderation"],
-    "ans": 2,
-    "exp": "Speed of preparation"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Why must meal plans be individualized rather than generic?",
-    "opts": ["Every person has unique cultural, medical, metabolic, and lifestyle needs", "Generic plans are too expensive", "Individualized plans are easier to follow", "Standard plans only work for athletes"],
-    "ans": 0,
-    "exp": "Every person has unique cultural, medical, metabolic, and lifestyle needs"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "What distinguishes a low-fat diet from a low-carbohydrate diet in terms of clinical indication?",
-    "opts": ["Low-fat targets kidney disease while low-carb targets liver disease", "Low-fat primarily targets cardiovascular disease while low-carb targets diabetes and obesity", "They are interchangeable and used for the same conditions", "Low-carb is only for athletes and low-fat is for sedentary people"],
-    "ans": 1,
-    "exp": "Low-fat primarily targets cardiovascular disease while low-carb targets diabetes and obesity"
-  },
-  {
-    "section": "L7: Types of Diets & Meal Planning",
-    "q": "Why is variety one of the core principles of effective meal planning?",
-    "opts": ["Eating the same foods is boring", "Diverse food choices ensure full micronutrient intake that no single food can provide alone", "Variety automatically reduces calorie intake", "Different foods digest at different rates improving gut health only"],
-    "ans": 1,
-    "exp": "Diverse food choices ensure full micronutrient intake that no single food can provide alone"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "What is the primary fuel source for high-intensity exercise?",
-    "opts": ["Fat", "Protein", "Carbohydrates", "Water"],
-    "ans": 2,
-    "exp": "Carbohydrates"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why is carbohydrate loading used before endurance events?",
-    "opts": ["It reduces body weight before competition", "It increases muscle glycogen stores significantly delaying fatigue onset", "It hydrates the muscles", "It increases protein synthesis"],
-    "ans": 1,
-    "exp": "It increases muscle glycogen stores significantly delaying fatigue onset"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why is glycogen depletion considered a primary cause of fatigue during prolonged exercise?",
-    "opts": ["Glycogen controls body temperature during exercise", "Glycogen is the stored form of the body's primary fuel and its loss means the main energy source is gone", "Glycogen regulates heart rate", "Glycogen protects joints during impact"],
-    "ans": 1,
-    "exp": "Glycogen is the stored form of the body's primary fuel and its loss means the main energy source is gone"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why is the post-exercise window critical for muscle recovery?",
-    "opts": ["The body is most relaxed after exercise allowing better digestion", "Muscle protein synthesis rates are highest immediately after exercise making nutrient timing essential", "Calories consumed after exercise are never stored as fat", "Post-exercise hormones block fat storage for one hour"],
-    "ans": 1,
-    "exp": "Muscle protein synthesis rates are highest immediately after exercise making nutrient timing essential"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why do endurance athletes require more carbohydrates than strength athletes?",
-    "opts": ["They have larger bodies requiring more fuel", "Prolonged aerobic exercise continuously depletes glycogen requiring higher carbohydrate replenishment", "Strength athletes use fat exclusively", "Endurance sports burn carbohydrates faster due to higher heart rates only"],
-    "ans": 1,
-    "exp": "Prolonged aerobic exercise continuously depletes glycogen requiring higher carbohydrate replenishment"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why does even minor dehydration significantly impair athletic performance?",
-    "opts": ["Dehydrated athletes lose motivation", "Even small fluid losses reduce blood volume and oxygen delivery to muscles impairing output", "Dehydration causes immediate muscle cramps only", "Fluid loss affects only reaction time not strength"],
-    "ans": 1,
-    "exp": "Even small fluid losses reduce blood volume and oxygen delivery to muscles impairing output"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why is iron particularly important for female athletes?",
-    "opts": ["Women exercise more intensely than men", "Female athletes are at higher risk of iron deficiency which reduces oxygen transport and aerobic capacity", "Iron builds stronger bones in women", "Female hormones deplete iron faster during exercise only"],
-    "ans": 1,
-    "exp": "Female athletes are at higher risk of iron deficiency which reduces oxygen transport and aerobic capacity"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why should the pre-exercise meal be low in fat and fiber?",
-    "opts": ["Fat and fiber provide no energy for exercise", "High fat and fiber slow digestion causing gastric discomfort during exercise", "Fat and fiber raise blood glucose too quickly", "The body cannot absorb fat before exercise"],
-    "ans": 1,
-    "exp": "High fat and fiber slow digestion causing gastric discomfort during exercise"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why are sports drinks only recommended for very prolonged exercise sessions?",
-    "opts": ["Sports drinks taste better during long sessions", "Short exercise sessions do not deplete electrolytes enough to require replacement", "Sports drinks are too expensive for regular use", "Short sessions do not cause any sweating"],
-    "ans": 1,
-    "exp": "Short exercise sessions do not deplete electrolytes enough to require replacement"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why is RED-S particularly dangerous for female athletes?",
-    "opts": ["It only affects performance not health", "Low energy availability can cause menstrual dysfunction and low bone density in addition to performance decline", "Female athletes train harder causing more damage", "RED-S causes immediate injury during competition"],
-    "ans": 1,
-    "exp": "Low energy availability can cause menstrual dysfunction and low bone density in addition to performance decline"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "Why must every athlete's nutrition plan be individualized?",
-    "opts": ["Generic plans are too difficult to follow", "Energy needs, macronutrient ratios, and timing must reflect sport type, training phase, and personal goals", "Individualized plans are cheaper", "Standard plans work only for professionals"],
-    "ans": 1,
-    "exp": "Energy needs, macronutrient ratios, and timing must reflect sport type, training phase, and personal goals"
-  },
-  {
-    "section": "L8: Sports Nutrition & Meal Planning",
-    "q": "What is the main role of dietary fat in sports nutrition?",
-    "opts": ["Primary fuel for high-intensity sprints", "Dominant fuel for low-to-moderate intensity endurance exercise plus hormone synthesis and vitamin absorption", "Fat serves no purpose in athletic performance", "Fat only supports recovery not performance"],
-    "ans": 1,
-    "exp": "Dominant fuel for low-to-moderate intensity endurance exercise plus hormone synthesis and vitamin absorption"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "What does the Glycemic Index measure?",
-    "opts": ["The calorie content of carbohydrate foods", "How much and how quickly a carbohydrate food raises blood glucose after eating", "The fiber content of a food", "How much insulin the pancreas produces"],
-    "ans": 1,
-    "exp": "How much and how quickly a carbohydrate food raises blood glucose after eating"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Which of the following is classified as a high GI food?",
-    "opts": ["Soy beans", "Apple", "White bread", "Milk"],
-    "ans": 2,
-    "exp": "White bread"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Why does fructose have a lower glycemic index than glucose despite both being monosaccharides?",
-    "opts": ["Fructose contains fewer calories", "Fructose must first be converted to glucose in the liver before entering circulation", "Fructose is not absorbed in the small intestine", "Fructose triggers a greater insulin response"],
-    "ans": 1,
-    "exp": "Fructose must first be converted to glucose in the liver before entering circulation"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Why does dietary fiber have a glycemic index of zero?",
-    "opts": ["It contains no energy", "It is not digested by human enzymes so it does not raise blood glucose at all", "It is absorbed directly into fat tissue", "It converts to fat rather than glucose"],
-    "ans": 1,
-    "exp": "It is not digested by human enzymes so it does not raise blood glucose at all"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Why do low GI foods help with weight control?",
-    "opts": ["They contain fewer calories automatically", "They create longer-lasting feelings of fullness reducing overall calorie intake", "They speed up metabolism", "They prevent fat absorption"],
-    "ans": 1,
-    "exp": "They create longer-lasting feelings of fullness reducing overall calorie intake"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "How is the GI of a food measured in practice?",
-    "opts": ["By chemically analyzing the sugar content in a laboratory", "By measuring the blood glucose response over two hours after eating and comparing it to pure glucose", "By calculating the ratio of simple to complex carbohydrates", "By measuring insulin secretion after consumption"],
-    "ans": 1,
-    "exp": "By measuring the blood glucose response over two hours after eating and comparing it to pure glucose"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Why do whole grain cereals have a lower GI than refined carbohydrates?",
-    "opts": ["Whole grains contain less starch overall", "Whole grains contain fiber and resistant starch that slow digestion and absorption", "Refined carbohydrates contain more fat", "Whole grains are absorbed in the large intestine"],
-    "ans": 1,
-    "exp": "Whole grains contain fiber and resistant starch that slow digestion and absorption"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Why is a low GI diet beneficial for people with type 2 diabetes?",
-    "opts": ["It eliminates all carbohydrates preventing any glucose rise", "Low GI foods cause smaller and slower blood glucose fluctuations reducing insulin demand", "Low GI foods contain no sugar whatsoever", "It automatically reduces calorie intake"],
-    "ans": 1,
-    "exp": "Low GI foods cause smaller and slower blood glucose fluctuations reducing insulin demand"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Which of the following factors affects the GI of a food?",
-    "opts": ["The color and texture of the food", "The type of carbohydrate, fat content, protein content, and rate of digestion", "The country of origin of the food", "The temperature at which the food is served only"],
-    "ans": 1,
-    "exp": "The type of carbohydrate, fat content, protein content, and rate of digestion"
-  },
-  {
-    "section": "Glycemic Index",
-    "q": "Why do high GI foods increase the risk of obesity and type 2 diabetes over time?",
-    "opts": ["They cause repeated sharp spikes in blood glucose and insulin leading to insulin resistance and excess fat storage", "They damage the pancreas directly after one meal", "They reduce physical activity levels"],
-    "ans": 0,
-    "exp": "They cause repeated sharp spikes in blood glucose and insulin leading to insulin resistance and excess fat storage"
-  }
-];
+let current = 0;
+let answered = new Array(questions.length).fill(null);
+let score = 0;
 
-let questions = [...originalQuestions, ...newQuestions];
-let currentQuestions = [...questions];
-let correct = 0, wrong = 0, answered = 0;
-let isShuffled = false;
+function render() {
+  const body = document.getElementById('quiz-body');
+  const prog = document.getElementById('prog');
+  const answered_count = answered.filter(a => a !== null).length;
+  prog.style.width = (answered_count / questions.length * 100) + '%';
 
-function toggleDark() {
-  const html = document.documentElement;
-  const isDark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.getElementById('dark-icon').textContent = isDark ? '🌙' : '☀️';
-  document.getElementById('dark-label').textContent = isDark ? 'DARK' : 'LIGHT';
-}
-
-function setMode(mode) {
-  isShuffled = (mode === 'shuffle');
-  
-  // Update button classes
-  document.getElementById('btn-sections').classList.toggle('active', !isShuffled);
-  document.getElementById('btn-shuffle').classList.toggle('active', isShuffled);
-  
-  // Reset quiz progress
-  correct = 0; wrong = 0; answered = 0;
-  
-  if (isShuffled) {
-    // Generate a fresh random order every time shuffle is pressed
-    currentQuestions = [...questions].sort(() => Math.random() - 0.5);
-  } else {
-    currentQuestions = [...questions];
-  }
-  
-  buildQuiz();
-  updateStats();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function updateStats() {
-  const total = currentQuestions.length;
-  document.getElementById('s-correct').textContent = correct;
-  document.getElementById('s-wrong').textContent = wrong;
-  document.getElementById('s-remain').textContent = total - answered;
-  const pct = Math.round((answered / total) * 100);
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('prog-label').textContent = answered + ' / ' + total;
-  
-  // Update left label
-  document.querySelector('.score-stat.remain .lbl').textContent = isShuffled ? 'Left (Shuffled)' : 'Left';
-  
-  if (answered === total && total > 0) {
-    setTimeout(showResult, 500);
-  }
-}
-
-function showResult() {
-  const total = currentQuestions.length;
-  const pct = Math.round((correct / total) * 100);
-  const banner = document.getElementById('result-banner');
-  document.getElementById('final-score').textContent = pct + '%';
-  let grade, msg;
-  if (pct >= 90) { grade = 'A+ — ممتاز 🏆'; msg = 'أتقنت كل أرقام المنهج! مستوى احترافي.'; }
-  else if (pct >= 80) { grade = 'A — جيد جدًا'; msg = 'أداء رائع! راجع الأسئلة الغلط مرة تانية.'; }
-  else if (pct >= 70) { grade = 'B — جيد'; msg = 'كويس! في أرقام محتاج تراجعها أكتر.'; }
-  else if (pct >= 60) { grade = 'C — مقبول'; msg = 'خد وقتك وراجع كل section بالتفصيل.'; }
-  else { grade = 'يلا تاني 💪'; msg = 'مفيش مشكلة — الأرقام محتاجة تكرار. Retry!'; }
-  document.getElementById('final-grade').textContent = grade;
-  document.getElementById('final-msg').textContent = msg;
-  banner.classList.add('show');
-  banner.scrollIntoView({ behavior: 'smooth' });
-}
-
-function buildQuiz() {
-  const container = document.getElementById('q-container');
-  container.innerHTML = '';
-  const letters = ['A','B','C','D'];
-  let lastSection = '';
-
-  currentQuestions.forEach((q, qi) => {
-    if (!isShuffled && q.section !== lastSection) {
-      lastSection = q.section;
-      const sh = document.createElement('div');
-      sh.className = 'section-header';
-      sh.innerHTML = q.section + '<span class="count">Q' + (qi+1) + '</span>';
-      container.appendChild(sh);
-    }
-
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = 'q' + qi;
-
-    const head = document.createElement('div');
-    head.className = 'q-head';
-    head.innerHTML = `<span class="q-num">Q${qi+1}</span><span class="q-text">${q.q}</span>`;
-    card.appendChild(head);
-
-    const optsDiv = document.createElement('div');
-    optsDiv.className = 'q-options';
-
-    q.opts.forEach((opt, oi) => {
-      const btn = document.createElement('button');
-      btn.className = 'opt-btn';
-      btn.innerHTML = `<span class="opt-letter">${letters[oi]}</span>${opt}`;
-      btn.onclick = () => handleAnswer(qi, oi, q.ans, optsDiv, expDiv);
-      optsDiv.appendChild(btn);
-    });
-
-    card.appendChild(optsDiv);
-
-    const expDiv = document.createElement('div');
-    expDiv.className = 'explanation';
-    expDiv.textContent = '💡 ' + q.exp;
-    card.appendChild(expDiv);
-
-    container.appendChild(card);
-  });
-}
-
-function handleAnswer(qi, chosen, correct_idx, optsDiv, expDiv) {
-  const btns = optsDiv.querySelectorAll('.opt-btn');
-  btns.forEach(b => b.disabled = true);
-
-  if (chosen === correct_idx) {
-    btns[chosen].classList.add('correct');
-    correct++;
-  } else {
-    btns[chosen].classList.add('incorrect');
-    btns[correct_idx].classList.add('reveal-correct');
-    wrong++;
+  if (current >= questions.length) {
+    renderScore();
+    return;
   }
 
-  expDiv.classList.add('show');
-  answered++;
-  updateStats();
+  const q = questions[current];
+  const userAns = answered[current];
+  const isAnswered = userAns !== null;
+
+  body.innerHTML = `
+    <div class="q-card">
+      <div class="q-num">Question ${current+1} of ${questions.length}</div>
+      <span class="section-badge ${q.badge}">${q.section}</span>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((opt, i) => {
+          let cls = 'opt-btn';
+          if (isAnswered) {
+            if (i === q.ans) cls += ' correct';
+            else if (i === userAns && userAns !== q.ans) cls += ' wrong';
+          }
+          return `<button class="${cls}" ${isAnswered ? 'disabled' : ''} onclick="choose(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`;
+        }).join('')}
+      </div>
+      ${isAnswered ? `<div class="feedback ${userAns === q.ans ? 'correct' : 'wrong'}">
+        ${userAns === q.ans ? '✓ ' : '✗ '} ${q.exp}
+      </div>` : ''}
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="go(-1)" ${current === 0 ? 'disabled' : ''}>← Back</button>
+      <span style="font-size:13px;color:var(--color-text-secondary);">${answered_count} answered</span>
+      ${current < questions.length - 1
+        ? `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered ? 'disabled' : ''}>Next →</button>`
+        : `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered ? 'disabled' : ''}>See Results →</button>`}
+    </div>
+  `;
 }
 
-buildQuiz();
-updateStats();
+function choose(i) {
+  if (answered[current] !== null) return;
+  answered[current] = i;
+  if (i === questions[current].ans) score++;
+  render();
+}
 
+function go(dir) {
+  current += dir;
+  if (current < 0) current = 0;
+  render();
+}
+
+function renderScore() {
+  const pct = Math.round(score / questions.length * 100);
+  const msg = pct >= 90 ? "Excellent work! You've mastered Unit 5." :
+              pct >= 75 ? "Great job! Just a few things to review." :
+              pct >= 60 ? "Good effort! Review the sections you missed." :
+              "Keep practicing — revisit the lessons and try again!";
+
+  const sectionScores = [
+    {label:"Parallel Structure", range:[0,7]},
+    {label:"Financial Idioms", range:[8,13]},
+    {label:"Reading", range:[14,18]},
+    {label:"Terms", range:[19,22]},
+  ];
+
+  const secHTML = sectionScores.map(s => {
+    const qs = questions.slice(s.range[0], s.range[1]+1);
+    const correct = qs.filter((q,i) => answered[s.range[0]+i] === q.ans).length;
+    return `<div class="res-card">
+      <div class="rnum">${correct}/${qs.length}</div>
+      <div class="rlabel">${s.label}</div>
+    </div>`;
+  }).join('');
+
+  const wrongQs = questions.map((q,i) => ({q, i})).filter(({q,i}) => answered[i] !== q.ans);
+  const wrongHTML = wrongQs.length === 0 ? '<p style="font-size:13px;color:var(--color-text-secondary);">All correct! Perfect score.</p>' :
+    wrongQs.map(({q,i}) => `
+      <div style="padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;font-size:13px;">
+        <div style="font-weight:500;color:var(--color-text-primary);margin-bottom:4px;">Q${i+1}: ${q.q}</div>
+        <div><span class="pill pill-w">Your answer</span> ${q.opts[answered[i]]}</div>
+        <div><span class="pill pill-c">Correct</span> ${q.opts[q.ans]}</div>
+      </div>`).join('');
+
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="score-card">
+      <div class="score-num">${pct}%</div>
+      <div class="score-label">${score} out of ${questions.length} correct</div>
+      <div class="score-msg">${msg}</div>
+      <div class="results-grid">${secHTML}</div>
+    </div>
+    ${wrongQs.length > 0 ? `<div style="margin-bottom:1.5rem;">
+      <p style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px;">Review missed questions:</p>
+      ${wrongHTML}
+    </div>` : ''}
+    <div style="text-align:center;">
+      <button class="nav-btn primary" onclick="restart()">Restart Quiz ↺</button>
+    </div>
+  `;
+  document.getElementById('prog').style.width = '100%';
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  answered = new Array(questions.length).fill(null);
+  render();
+}
+
+render();
 </script>
-</body>
-</html>
