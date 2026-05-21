@@ -1,0 +1,345 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.quiz-wrap { padding: 1.5rem 0; }
+.header { margin-bottom: 1.5rem; }
+.header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.header p { font-size: 13px; color: var(--color-text-secondary); }
+.progress-bar-bg { height: 4px; background: var(--color-background-secondary); border-radius: 99px; margin-bottom: 1.5rem; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #8B3F9E; border-radius: 99px; transition: width 0.4s ease; }
+.section-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; margin-bottom: 0.75rem; }
+.badge-grammar  { background: #EEEDFE; color: #3C3489; }
+.badge-idioms   { background: #E1F5EE; color: #085041; }
+.badge-reading  { background: #FAECE7; color: #712B13; }
+.badge-terms    { background: #F3E8FB; color: #5A1A72; }
+.q-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.q-text { font-size: 15px; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 1rem; font-weight: 500; }
+.q-num { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn { text-align: left; padding: 10px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; line-height: 1.5; }
+.opt-btn:hover:not(:disabled) { border-color: #8B3F9E; background: #F3E8FB; color: #3B0A52; }
+.opt-btn.correct { background: #EAF3DE; border-color: #3B6D11; color: #27500A; font-weight: 500; }
+.opt-btn.wrong   { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+.opt-btn:disabled { cursor: default; }
+.feedback { margin-top: 10px; font-size: 13px; padding: 10px 14px; border-radius: var(--border-radius-md); line-height: 1.5; }
+.feedback.correct { background: #EAF3DE; color: #27500A; border: 0.5px solid #639922; }
+.feedback.wrong   { background: #FCEBEB; color: #501313; border: 0.5px solid #A32D2D; }
+.nav-row { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.nav-btn { padding: 9px 20px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover { background: var(--color-background-secondary); }
+.nav-btn.primary { background: #8B3F9E; color: #fff; border-color: #8B3F9E; font-weight: 500; }
+.nav-btn.primary:hover { background: #5A1A72; border-color: #5A1A72; }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+.score-card { text-align: center; padding: 2rem 1rem; }
+.score-num { font-size: 56px; font-weight: 500; color: #8B3F9E; line-height: 1; margin-bottom: 6px; }
+.score-label { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
+.score-msg { font-size: 15px; color: var(--color-text-primary); margin-bottom: 1.5rem; }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.res-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 8px; text-align: center; }
+.res-card .rnum { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.res-card .rlabel { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-right: 4px; }
+.pill-c { background: #EAF3DE; color: #27500A; }
+.pill-w { background: #FCEBEB; color: #501313; }
+</style>
+
+<div class="quiz-wrap">
+  <div class="header">
+    <h2>Unit 3 — Comprehensive Quiz</h2>
+    <p>Inverted Subjects & Verbs · Financial Idioms · Reading Comprehension · Marketing Terms</p>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog" style="width:0%"></div></div>
+  <div id="quiz-body"></div>
+</div>
+
+<script>
+const questions = [
+
+  // ── Lesson 3.1 — Inverted Subjects & Verbs ─────────────────────────────────
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"When a question word (what, when, where, why, how) CONNECTS two clauses in one sentence, should the subject and verb that follow be inverted?",
+   opts:["Yes, always invert after question words","No — when it connects two clauses, the subject and verb are NOT inverted","Only invert if the second clause is negative","Only invert in formal writing"],
+   ans:1, exp:"Key rule: question words have two jobs. (1) Introduce a question → invert. (2) Join two clauses → do NOT invert. Example: 'I do not know what the homework IS' — not 'what IS the homework'."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'The lawyer asked the client why ___ it.' Which option correctly completes this sentence?",
+   opts:["did he do","did he","he did","did"],
+   ans:2, exp:"Correct! 'Why' here connects two clauses (not a direct question), so no inversion. We need a subject + verb in normal order: 'he did'. Answer (C)."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'___ the book that you lent me.' Which place expression + inverted verb correctly fills the blank?",
+   opts:["There is","Here is","Here are","In here is"],
+   ans:1, exp:"Correct! Place word 'here' causes inversion. The subject is 'book' (singular) → verb is 'is'. Full sentence: 'Here is the book that you lent me.'"},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'In the forest ___ many exotic birds.' Why is the subject and verb inverted here?",
+   opts:["Because 'forest' is a special noun","Because the place expression IS necessary to complete the sentence meaning","Because all prepositional phrases cause inversion","Because 'birds' is plural"],
+   ans:1, exp:"Important rule! Inversion after place expressions only happens when the place expression is NEEDED to complete the sentence. 'Many exotic birds are... in the forest' — the sentence is incomplete without the place. So inversion occurs."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'On the second level of the parking lot ___.' Which option correctly completes this sentence?",
+   opts:["is empty","are empty","some empty stalls are","are some empty stalls"],
+   ans:3, exp:"Answer D! The place expression needs a subject + verb to complete the sentence. 'Stalls' is the subject (plural → 'are'), and it must be inverted after the place expression. 'Are some empty stalls' is the correct inverted order."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'Not once ___ a question.' Which option completes the sentence correctly?",
+   opts:["I missed","missed I","did I miss","I did miss"],
+   ans:2, exp:"Correct! Negative expression 'not once' at the beginning requires inversion: helping verb + subject + main verb. → 'did I miss'. The helping verb 'did' comes before the subject 'I'."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"Which words act as 'almost negatives' and ALSO cause subject-verb inversion when they begin a sentence?",
+   opts:["although, because, since","hardly, barely, scarcely, only","even though, whereas, while","both, either, neither"],
+   ans:1, exp:"Correct! 'Hardly', 'barely', 'scarcely', and 'only' function like negatives and trigger inversion when at the start of a sentence. Example: 'Hardly ever does he take time off.'"},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'I do not want to go, and neither ___ Tom.' Which option is correct?",
+   opts:["Tom does","does Tom","do Tom","Tom do"],
+   ans:1, exp:"Right! 'Neither' in the middle of a sentence also causes inversion: 'neither does Tom'. The helping verb 'does' comes before the subject 'Tom'."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'If he had taken more time, the results would have been better.' Which inverted conditional version is correct?",
+   opts:["If had he taken more time...","He had taken more time...","Had he taken more time...","Has he taken more time..."],
+   ans:2, exp:"Correct! When 'if' is OMITTED in a conditional, the subject and verb invert. The helping verbs that allow this are: had, should, were. → 'Had he taken more time...' (if removed, subject 'he' and verb 'had' invert)."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'The report would have been accepted ___ in checking its accuracy.' Which option correctly fills the blank?",
+   opts:["if more care","more care had been taken","had taken more care","had more care been taken"],
+   ans:3, exp:"Answer D! 'If' is omitted, so we need inverted subject + verb. The subject is 'more care' and the helping verb 'had' must come first: 'had more care been taken'. This is the correct inverted conditional structure."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"After a comparison (more...than / -er...than), is inverting the subject and verb required or optional?",
+   opts:["Required — you must always invert","Optional — both inverted and non-inverted forms are correct","Only required in formal academic writing","Never allowed in comparisons"],
+   ans:1, exp:"Correct! Inversion after comparisons is OPTIONAL and a formal structure. All three are valid: 'than John', 'than John does', and 'than does John'. The text notes this pattern appears on English tests."},
+
+  {section:"Lesson 3.1 — Inverted Subjects & Verbs",badge:"badge-grammar",
+   q:"'The results of the current experiment appear to be more consistent than ___ the results of any previous tests.' Which answer is best?",
+   opts:["them","were","they were","were they"],
+   ans:1, exp:"Answer B: 'were'. Since 'the results of any previous tests' is already the subject, only a verb is needed. The subject comes AFTER the verb in this inverted comparison: '...than were the results of any previous tests.'"},
+
+  // ── Lesson 3.2 — Financial Idioms ──────────────────────────────────────────
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'Young people today tend to go Dutch when they go out together.' What does 'go Dutch' mean?",
+   opts:["To travel to the Netherlands","To share the cost of something equally","To pay for everything yourself as a generous gesture","To argue about who pays the bill"],
+   ans:1, exp:"Correct! 'Go Dutch' = to split the cost of something (a meal, ticket, etc.) equally between the people involved. Very common in modern social situations."},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'Marie wanted to leave the bank, but she was promised golden handcuffs.' What are 'golden handcuffs'?",
+   opts:["A legal punishment for financial fraud","A large sum of money given as an incentive to STAY in a job","A bonus given when an employee leaves","A type of bank loan with high interest"],
+   ans:1, exp:"Right! 'Golden handcuffs' = generous financial incentives (bonuses, stock options, benefits) designed to retain an executive in their position. The 'handcuffs' metaphor = you're financially tied to the job."},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"What is the key difference between 'golden handcuffs' and a 'golden handshake'?",
+   opts:["They are exactly the same thing","Golden handcuffs keep you IN the job; golden handshake is given when you LEAVE","Golden handshake is illegal; golden handcuffs are legal","Golden handshake is for executives; golden handcuffs are for all employees"],
+   ans:1, exp:"Correct! Golden handcuffs = incentive to STAY. Golden handshake = generous payment when you LEAVE (or retire, often to encourage early retirement). Opposite directions!"},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'We were so hard up that we had to sleep in the car.' What does 'hard up' mean?",
+   opts:["Physically exhausted","Very stubborn and difficult","Having very little money","Working very long hours"],
+   ans:2, exp:"Right! 'Hard up' = having very little money, being in financial difficulty. It's an informal expression for being broke or nearly broke."},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'Charlie finally hit pay dirt with his latest invention.' What does 'hit pay dirt' mean?",
+   opts:["To fail after much effort","To suddenly find yourself in a successful money-making situation","To discover a scandal","To work very hard without reward"],
+   ans:1, exp:"Correct! 'Hit pay dirt' (or 'strike pay dirt') = to suddenly be lucky and find yourself in a profitable, successful situation. Origin: mining — finding gold or valuable ore in the dirt."},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'The politician paid hush money to keep the affair secret.' What is 'hush money'?",
+   opts:["A quiet investment strategy","Money paid to keep information secret or avoid a scandal","Money donated to charity anonymously","A legal fee paid to a lawyer"],
+   ans:1, exp:"Right! 'Hush money' = payment made to someone to ensure they stay silent about damaging or scandalous information. It's generally considered unethical or illegal."},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'He won by cheating and deposited his ill-gotten gains in foreign banks.' What are 'ill-gotten gains'?",
+   opts:["Losses from bad investments","Money or profits made through dishonest, fraudulent, or illegal means","Gains from foreign currency trading","Profits from a failing business"],
+   ans:1, exp:"Correct! 'Ill-gotten gains' = money, profits, or benefits obtained through dishonest, fraudulent, or illegal activities. 'Ill-gotten' means wrongly obtained."},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'The loss of major contracts has put the company in dire straits.' What does 'in dire straits' mean?",
+   opts:["In a very comfortable financial position","In a very difficult situation, especially financially","In a legal dispute","In negotiations with a competitor"],
+   ans:1, exp:"Right! 'In dire straits' = in a very serious, difficult, or desperate situation — especially a financial one. 'Dire' means extremely serious or urgent."},
+
+  {section:"Lesson 3.2 — Financial Idioms",badge:"badge-idioms",
+   q:"'He's said to have an itching palm — he does nothing without payment!' What does 'itching/itchy palm' describe?",
+   opts:["Someone who works very hard","Someone who is greedy for money, tips, or commission","Someone who is generous with money","Someone who is bad at managing money"],
+   ans:1, exp:"Correct! An 'itching palm' describes a greedy person who always wants money for everything — as if the itch in their palm can only be relieved by putting money in it."},
+
+  // ── Lesson 3.3 — Reading: Tobacco Marketing ────────────────────────────────
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"'Cigarette marketing has declined in the US since tobacco advertising was banned on TV.' Does the passage AGREE with this?",
+   opts:["YES — marketing spending decreased after the ban","NO — the text says marketing spending INCREASED hugely after the ban","NOT GIVEN — the passage doesn't address this"],
+   ans:1, exp:"The answer is NO. The text explicitly states that marketing spending went from ~$250 million in 1971 (when TV/radio ads were banned) to $5 billion in 1992 — a massive INCREASE, not a decline."},
+
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"What do tobacco companies claim their advertising is designed to do?",
+   opts:["Attract new teen smokers to start smoking","Target existing smokers to switch to particular brands","Promote smoking as a healthy lifestyle","Reduce overall cigarette consumption"],
+   ans:1, exp:"Correct! The text says: 'the tobacco business has maintained that its advertising is geared to draw established smokers to particular brands.' However, the passage argues the data shows it also attracts new adolescent smokers."},
+
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"'Women who took up smoking in the past lost weight.' Does the passage support this claim?",
+   opts:["YES","NO — the text contradicts this","NOT GIVEN — the passage doesn't say this"],
+   ans:2, exp:"NOT GIVEN. The text mentions that Virginia Slims ads 'emphasized a woman who was strong, independent and very thin' — but it never claims that women who smoked actually lost weight. The image in ads ≠ a stated health outcome."},
+
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"According to the text, tobacco companies are currently accused of aiming their ads mainly at whom? (Fill-in Question 6)",
+   opts:["Adult male smokers","Adolescents","Women only","Foreign markets"],
+   ans:1, exp:"Correct! The passage states that 'public health advocates insist that such advertising plays a role in generating new demand, with adolescents being the primary target.' The answer to fill-in Q6 is 'adolescents'."},
+
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"Statistics on smoking for men born between 1890 and 1899 were gathered in which year? (Fill-in Question 7)",
+   opts:["1912","1938","1955","1970"],
+   ans:2, exp:"Correct! The text says: 'According to the 1955 CPS, initiation by age 18 for males in this group jumped to 21.6 percent.' The answer to Q7 is 1955 — the year the Current Population Survey was conducted."},
+
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"Which brand of cigarettes (fill-in Q8) was designed for a particular sex?",
+   opts:["Camel","Chesterfield","Lucky Strike","Virginia Slims"],
+   ans:3, exp:"Correct! Virginia Slims was launched in 1967 exclusively targeting women — 'niche brands aimed exclusively at women.' The visual emphasized a strong, independent, thin woman. Answer to Q8 = 'Virginia Slims'."},
+
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"What was the approximate cost per new adolescent smoker that the tobacco industry spent on marketing in 1992?",
+   opts:["$75","$250","$4,500","$5,000"],
+   ans:2, exp:"Correct! The text states: 'the current expenditure translates to about $75 for every adult smoker, or to $4,500 for every adolescent who became a smoker that year.' So per new teen smoker = $4,500."},
+
+  {section:"Lesson 3.3 — Reading: Marketing Among Adolescents",badge:"badge-reading",
+   q:"What happened to female adolescent smoking initiation rates after the Virginia Slims campaign launched in 1967?",
+   opts:["Rates remained stable","Rates nearly doubled (from 3.7% to 6.2%)","Rates tripled","Rates actually declined"],
+   ans:1, exp:"Correct! The text says initiation in female adolescents 'nearly doubled, from 3.7 percent between 1964–1967 to 6.2 percent between 1972–1975.' Meanwhile, rates for adolescent males remained stable."},
+
+  // ── Lesson 3.4 — Financial & Marketing Terms ───────────────────────────────
+  {section:"Lesson 3.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is a 'Hedge Fund'?",
+   opts:["A government savings program","An investment fund that uses advanced strategies and techniques to generate returns","A fund that only invests in agricultural land (hedges)","A low-risk savings account for retirees"],
+   ans:1, exp:"Correct! A hedge fund is an investment fund that uses advanced, sophisticated investment strategies (leverage, short-selling, derivatives, etc.) to generate high returns, often for wealthy investors."},
+
+  {section:"Lesson 3.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What does the acronym 'HENRYs' stand for?",
+   opts:["High Efficiency Net Revenue Yield Systems","High Earners Not Rich Yet","Highly Engaged New Retail Young Shoppers","Hedge fund Equity Net Return Yields"],
+   ans:1, exp:"Correct! HENRYs = High Earners, Not Rich Yet. This describes people with high incomes (typically $100k–$250k/year) who haven't yet accumulated significant wealth — an important marketing demographic."},
+
+  {section:"Lesson 3.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is an ICP (Ideal Customer Profile)?",
+   opts:["An international copyright protection document","A description of the ideal characteristics and attributes of a company's target customer","An interest calculation percentage formula","An investment capital planning strategy"],
+   ans:1, exp:"Correct! ICP = Ideal Customer Profile. It describes the type of customer that would benefit most from your product/service and is most likely to buy — used in B2B marketing and sales to focus targeting efforts."},
+
+  {section:"Lesson 3.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"In finance, 'Interest' is defined as...",
+   opts:["The total amount of an investment","The profit from selling stocks","The cost of borrowing money, expressed as a percentage of the borrowed amount","A fee charged by financial advisors"],
+   ans:2, exp:"Correct! Interest = the cost you pay to borrow money (or the return you earn by lending it), usually expressed as an annual percentage rate (APR). Example: borrow $1,000 at 5% interest → pay $50/year in interest."},
+
+  {section:"Lesson 3.4 — Financial & Marketing Terms",badge:"badge-terms",
+   q:"What is the definition of 'Investment' according to the lesson?",
+   opts:["Spending money on everyday goods and services","The purchase of an asset with the expectation of generating a return or profit","Saving money in a bank account","A government subsidy for businesses"],
+   ans:1, exp:"Correct! Investment = buying an asset (stocks, property, business, equipment, etc.) with the goal of generating a future return or profit. The key idea is the expectation of gain, not just spending."},
+];
+
+let current = 0;
+let answered = new Array(questions.length).fill(null);
+let score = 0;
+
+function render() {
+  const body = document.getElementById('quiz-body');
+  const prog = document.getElementById('prog');
+  const answered_count = answered.filter(a => a !== null).length;
+  prog.style.width = (answered_count / questions.length * 100) + '%';
+
+  if (current >= questions.length) { renderScore(); return; }
+
+  const q = questions[current];
+  const userAns = answered[current];
+  const isAnswered = userAns !== null;
+
+  body.innerHTML = `
+    <div class="q-card">
+      <div class="q-num">Question ${current+1} of ${questions.length}</div>
+      <span class="section-badge ${q.badge}">${q.section}</span>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((opt,i) => {
+          let cls = 'opt-btn';
+          if (isAnswered) {
+            if (i === q.ans) cls += ' correct';
+            else if (i === userAns && userAns !== q.ans) cls += ' wrong';
+          }
+          return `<button class="${cls}" ${isAnswered?'disabled':''} onclick="choose(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`;
+        }).join('')}
+      </div>
+      ${isAnswered ? `<div class="feedback ${userAns===q.ans?'correct':'wrong'}">
+        ${userAns===q.ans?'✓ ':'✗ '}${q.exp}
+      </div>` : ''}
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="go(-1)" ${current===0?'disabled':''}>← Back</button>
+      <span style="font-size:13px;color:var(--color-text-secondary);">${answered_count} answered</span>
+      ${current < questions.length-1
+        ? `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered?'disabled':''}>Next →</button>`
+        : `<button class="nav-btn primary" onclick="go(1)" ${!isAnswered?'disabled':''}>See Results →</button>`}
+    </div>
+  `;
+}
+
+function choose(i) {
+  if (answered[current] !== null) return;
+  answered[current] = i;
+  if (i === questions[current].ans) score++;
+  render();
+}
+
+function go(dir) {
+  current = Math.max(0, current + dir);
+  render();
+}
+
+function renderScore() {
+  const pct = Math.round(score / questions.length * 100);
+  const msg = pct >= 90 ? "Excellent! You've mastered Unit 3." :
+              pct >= 75 ? "Great job! A few things to review." :
+              pct >= 60 ? "Good effort! Go back to sections you missed." :
+              "Keep practicing — revisit the lessons and try again!";
+
+  const sections = [
+    {label:"Inverted S/V", range:[0,11]},
+    {label:"Fin. Idioms",  range:[12,20]},
+    {label:"Reading",      range:[21,28]},
+    {label:"Terms",        range:[29,33]},
+  ];
+
+  const secHTML = sections.map(s => {
+    const qs = questions.slice(s.range[0], s.range[1]+1);
+    const correct = qs.filter((q,i) => answered[s.range[0]+i] === q.ans).length;
+    return `<div class="res-card"><div class="rnum">${correct}/${qs.length}</div><div class="rlabel">${s.label}</div></div>`;
+  }).join('');
+
+  const wrongQs = questions.map((q,i) => ({q,i})).filter(({q,i}) => answered[i] !== q.ans);
+  const wrongHTML = wrongQs.length === 0
+    ? '<p style="font-size:13px;color:var(--color-text-secondary);">All correct! Perfect score.</p>'
+    : wrongQs.map(({q,i}) => `
+      <div style="padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;font-size:13px;">
+        <div style="font-weight:500;color:var(--color-text-primary);margin-bottom:4px;">Q${i+1}: ${q.q}</div>
+        <div><span class="pill pill-w">Your answer</span>${q.opts[answered[i]]}</div>
+        <div><span class="pill pill-c">Correct</span>${q.opts[q.ans]}</div>
+      </div>`).join('');
+
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="score-card">
+      <div class="score-num">${pct}%</div>
+      <div class="score-label">${score} out of ${questions.length} correct</div>
+      <div class="score-msg">${msg}</div>
+      <div class="results-grid">${secHTML}</div>
+    </div>
+    ${wrongQs.length > 0 ? `<div style="margin-bottom:1.5rem;">
+      <p style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px;">Review missed questions:</p>
+      ${wrongHTML}
+    </div>` : ''}
+    <div style="text-align:center;">
+      <button class="nav-btn primary" onclick="restart()">Restart Quiz ↺</button>
+    </div>
+  `;
+  document.getElementById('prog').style.width = '100%';
+}
+
+function restart() {
+  current = 0; score = 0;
+  answered = new Array(questions.length).fill(null);
+  render();
+}
+
+render();
+</script>
