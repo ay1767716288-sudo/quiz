@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning – Study Guide & Final Exam</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy2: #1a2d42;
+    --navy3: #243750;
+    --gold: #d4a84b;
+    --gold2: #f0c97a;
+    --cream: #f5f0e8;
+    --text: #e8e0d0;
+    --text2: #b8b0a0;
+    --green: #4caf7d;
+    --red: #e05555;
+    --blue: #5b9bd5;
+    --purple: #9b7dd4;
+    --border: rgba(212,168,75,0.25);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--navy);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  /* ── TOP NAV ── */
+  nav {
+    background: var(--navy2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  nav a {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    color: var(--text2);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+  /* ── HEADER ── */
+  .page-header {
+    background: linear-gradient(135deg, var(--navy2) 0%, var(--navy3) 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 3rem 4rem;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    color: var(--gold2);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .page-header p { color: var(--text2); font-size: 0.95rem; letter-spacing: 0.1em; }
+  /* ── LAYOUT ── */
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+  /* ── LECTURE SECTION ── */
+  .lecture {
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 2.5rem 0;
+    overflow: hidden;
+  }
+  .lecture-header {
+    background: var(--navy3);
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .lec-num {
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .lecture-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--gold2);
+  }
+  .lecture-body { padding: 1.5rem 2rem 2rem; }
+  /* ── CONTENT ELEMENTS ── */
+  h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin: 1.6rem 0 0.6rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid rgba(212,168,75,0.2);
+  }
+  h4 {
+    color: var(--gold2);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1.2rem 0 0.4rem;
+  }
+  p { margin: 0.5rem 0; color: var(--text); }
+  ul, ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+  li { margin: 0.3rem 0; color: var(--text); }
+  strong { color: var(--gold2); }
+  /* ── FORMULA BOX ── */
+  .formula {
+    background: var(--navy);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 0.8rem 1.2rem;
+    margin: 0.8rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--gold2);
+    overflow-x: auto;
+  }
+  /* ── INFO/WARN BOXES ── */
+  .info-box {
+    background: rgba(91,155,213,0.1);
+    border: 1px solid rgba(91,155,213,0.3);
+    border-radius: 6px;
+    padding: 0.8rem 1.2rem;
+    margin: 0.8rem 0;
+    font-size: 0.92rem;
+  }
+  .warn-box {
+    background: rgba(212,168,75,0.1);
+    border: 1px solid rgba(212,168,75,0.3);
+    border-radius: 6px;
+    padding: 0.8rem 1.2rem;
+    margin: 0.8rem 0;
+    font-size: 0.92rem;
+  }
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--navy3);
+    color: var(--gold2);
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+  }
+  td {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(212,168,75,0.15);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 2px solid var(--gold);
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+  /* ── EXAM ── */
+  .exam-header {
+    background: linear-gradient(135deg, #1a0a0a 0%, #2a1010 100%);
+    border: 2px solid var(--red);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin: 3rem 0 2rem;
+  }
+  .exam-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #ff8888;
+    margin-bottom: 0.5rem;
+  }
+  .exam-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .exam-meta span {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,100,100,0.3);
+    padding: 0.3rem 1rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #ffaaaa;
+  }
+  .section-title {
+    background: var(--navy3);
+    border-left: 4px solid var(--red);
+    padding: 0.8rem 1.5rem;
+    margin: 2rem 0 1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: #ff9999;
+  }
+  /* ── MCQ ── */
+  .q-block {
+    background: var(--navy2);
+    border: 1px solid rgba(255,100,100,0.2);
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+  }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--red);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .q-text { font-size: 0.97rem; margin-bottom: 0.8rem; color: var(--text); }
+  .options { list-style: none; padding: 0; }
+  .options li {
+    padding: 0.3rem 0.8rem;
+    margin: 0.2rem 0;
+    border-radius: 4px;
+    font-size: 0.92rem;
+    color: var(--text2);
+    border: 1px solid transparent;
+  }
+  .q-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gold);
+    float: right;
+  }
+  /* ── PROBLEM ── */
+  .prob-block {
+    background: var(--navy2);
+    border: 1px solid rgba(91,155,213,0.3);
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.2rem 0;
+  }
+  .prob-title {
+    color: var(--blue);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(91,155,213,0.2);
+  }
+  .sub-q {
+    margin: 0.6rem 0;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(91,155,213,0.3);
+    font-size: 0.93rem;
+  }
+  .answer-space {
+    background: var(--navy);
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 4px;
+    height: 60px;
+    margin: 0.4rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.2);
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  /* ── SOLUTIONS ── */
+  .sol-header {
+    background: linear-gradient(135deg, #0a1a0a 0%, #0f2a0f 100%);
+    border: 2px solid var(--green);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin: 4rem 0 2rem;
+  }
+  .sol-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #88ff88;
+  }
+  .sol-block {
+    background: var(--navy2);
+    border: 1px solid rgba(76,175,125,0.3);
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+  }
+  .sol-title {
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
+  .correct {
+    background: rgba(76,175,125,0.15);
+    border: 1px solid rgba(76,175,125,0.4);
+    border-radius: 4px;
+    padding: 0.3rem 0.8rem;
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    display: inline-block;
+    margin: 0.3rem 0;
+  }
+  .step {
+    background: var(--navy);
+    border-left: 3px solid var(--green);
+    padding: 0.6rem 1rem;
+    margin: 0.5rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.87rem;
+    color: #aaffaa;
+    border-radius: 0 4px 4px 0;
+  }
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 0.2rem 0.2rem 0.2rem 0;
+  }
+  .badge-gold { background: rgba(212,168,75,0.2); color: var(--gold2); border: 1px solid rgba(212,168,75,0.4); }
+  .badge-blue { background: rgba(91,155,213,0.2); color: #88bbff; border: 1px solid rgba(91,155,213,0.4); }
+  .badge-green { background: rgba(76,175,125,0.2); color: #88ffaa; border: 1px solid rgba(76,175,125,0.4); }
+  .badge-red { background: rgba(224,85,85,0.2); color: #ffaaaa; border: 1px solid rgba(224,85,85,0.4); }
+  .badge-purple { background: rgba(155,125,212,0.2); color: #ccaaff; border: 1px solid rgba(155,125,212,0.4); }
+
+  /* Two-col for comparisons */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.8rem 0; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#lec1">Ch.1 Intro</a>
+  <a href="#lec2">Linear Reg</a>
+  <a href="#lec3">Logistic Reg</a>
+  <a href="#lec4">Model Eval</a>
+  <a href="#lec5">Overfitting</a>
+  <a href="#lec6">KNN & NB</a>
+  <a href="#lec7">Ensemble</a>
+  <a href="#lec8">SVM</a>
+  <a href="#exam">📝 Final Exam</a>
+  <a href="#solutions">✅ Solutions</a>
+</nav>
+
+<div class="page-header">
+  <h1>Machine Learning</h1>
+  <p>COMPLETE STUDY GUIDE — DR. MAHMOUD GAMAL &nbsp;|&nbsp; FACULTY OF COMPUTERS & DATA SCIENCE</p>
+</div>
+
+<div class="container">
+
+<!-- ══════════════════════════════════════════════ LECTURE 1 ══ -->
+<div class="lecture" id="lec1">
+  <div class="lecture-header">
+    <div class="lec-num">1</div>
+    <h2>Introduction to Machine Learning & Data Preprocessing</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>What is Machine Learning?</h3>
+    <p><strong>Arthur Samuel (1959):</strong> "Field of study that gives computers the ability to learn without being explicitly programmed."</p>
+    <p>Traditional Programming: <em>Data + Program → Output</em><br>
+    Machine Learning: <em>Data + Output → Program (Model)</em></p>
+
+    <h3>Types of ML Algorithms</h3>
+    <div class="two-col">
+      <div class="info-box">
+        <strong>Supervised Learning</strong><br>
+        Input x <em>and</em> correct output y are given.<br>
+        Used for: <strong>Regression</strong> &amp; <strong>Classification</strong>
+        <ul>
+          <li><strong>Regression:</strong> Predict continuous value (e.g. house price)</li>
+          <li><strong>Classification:</strong> Predict discrete class (e.g. tumor: malignant/benign)</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <strong>Unsupervised Learning</strong><br>
+        Only input x, no output labels y.<br>
+        Algorithm finds structure in data.<br>
+        Used for: <strong>Clustering</strong>
+        <ul>
+          <li>Group news articles by topic</li>
+          <li>Discover market segments</li>
+        </ul>
+      </div>
+    </div>
+    <div class="warn-box">⚠️ <strong>Key Exam Trick:</strong> Predicting how many items sell = <strong>Regression</strong>. Detecting hacked accounts = <strong>Classification</strong>. Grouping customers automatically = <strong>Unsupervised (Clustering)</strong>.</div>
+
+    <h3>Attribute Types</h3>
+    <table>
+      <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+      <tr><td>Nominal</td><td>No order, categories only</td><td>Hair color, zip codes, ID</td></tr>
+      <tr><td>Binary</td><td>Special nominal, 2 states (0/1)</td><td>Gender (symmetric), HIV test (asymmetric)</td></tr>
+      <tr><td>Ordinal</td><td>Ordered, but unknown magnitude between values</td><td>Size: small/medium/large, grades</td></tr>
+      <tr><td>Interval</td><td>Ordered, equal units, NO true zero</td><td>Temperature in °C, calendar dates</td></tr>
+      <tr><td>Ratio</td><td>Ordered, equal units, HAS true zero</td><td>Temperature in Kelvin, length, weight, counts</td></tr>
+    </table>
+    <div class="warn-box">⚠️ <strong>Interval vs Ratio:</strong> Temperature in °C is Interval (0°C is not "no temperature"). Temperature in Kelvin is Ratio (0K = absolute zero = true zero).</div>
+    <p><strong>Discrete:</strong> Finite/countably infinite values (zip codes, words). <br>
+    <strong>Continuous:</strong> Real-valued (temperature, height, weight).</p>
+
+    <h3>Distance Measures</h3>
+    <div class="formula">Euclidean (L2): d(i,j) = √(Σ(xik - xjk)²)</div>
+    <div class="formula">Manhattan (L1): d(i,j) = Σ|xik - xjk|</div>
+    <div class="formula">Dissimilarity (Binary): d(i,j) = (r + s) / (q + r + s + t)</div>
+    <p>where q=both 1, r=i=1 j=0, s=i=0 j=1, t=both 0 — asymmetric attributes ignore t (both 0).</p>
+
+    <h3>Data Preprocessing</h3>
+    <h4>Handling Missing Values:</h4>
+    <ul>
+      <li>Ignore the tuple (if class label missing)</li>
+      <li>Fill manually</li>
+      <li>Fill with attribute mean, class mean, or most probable value</li>
+    </ul>
+
+    <h4>Binning (Noise Handling):</h4>
+    <p><strong>Equal-Width:</strong> W = (Max − Min) / N — each bin has equal range.<br>
+    <strong>Equal-Depth:</strong> Each bin has equal number of values = Total / N bins.</p>
+    <p>Smoothing methods: by <strong>bin mean</strong>, by <strong>bin median</strong>, by <strong>bin boundaries</strong>.</p>
+    <div class="info-box">
+      Example: values 4,8,9,15,21,21,24,25,26,28,29,34 — 3 bins<br>
+      Equal-Depth (4 per bin): [4,8,9,15] | [21,21,24,25] | [26,28,29,34]<br>
+      Smooth by bin mean: [9,9,9,9] | [23,23,23,23] | [29,29,29,29]<br>
+      Smooth by boundaries: [4,4,4,15] | [21,21,25,25] | [26,26,26,34]
+    </div>
+
+    <h3>Normalization</h3>
+    <h4>Min-Max Normalization:</h4>
+    <div class="formula">v' = (v − min_A) / (max_A − min_A) × (new_max − new_min) + new_min</div>
+    <p>Example: v=73,600; min=12,000; max=98,000 → mapped to [0,1]:</p>
+    <div class="formula">v' = (73600−12000)/(98000−12000) × 1.0 = 61600/86000 = 0.716</div>
+
+    <h4>Z-Score Normalization:</h4>
+    <div class="formula">v' = (v − μ_A) / σ_A</div>
+    <p>Example: μ=54,000; σ=16,000; v=73,600 → v' = (73600−54000)/16000 = 1.225</p>
+
+    <h4>Decimal Scaling:</h4>
+    <div class="formula">v' = v / 10^j   where j = smallest integer such that max(|v'|) &lt; 1</div>
+
+    <h3>Data Reduction Strategies</h3>
+    <ul>
+      <li><strong>Dimensionality reduction:</strong> PCA, Wavelet transforms, Feature subset selection</li>
+      <li><strong>Numerosity reduction:</strong> Regression, histograms, clustering, sampling</li>
+      <li><strong>Data compression</strong></li>
+    </ul>
+
+    <h3>Discretization Methods</h3>
+    <p>Converts continuous attributes to intervals/categories: Binning, Histogram analysis, Clustering analysis, Decision-tree analysis, Correlation analysis (χ²).</p>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ LECTURE 2 ══ -->
+<div class="lecture" id="lec2">
+  <div class="lecture-header">
+    <div class="lec-num">2</div>
+    <h2>Linear Regression (One & Multiple Variables)</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>Model Representation</h3>
+    <p>Notation: m = number of training examples, x = features (input), y = target output, (x⁽ⁱ⁾, y⁽ⁱ⁾) = i-th training example.</p>
+    <div class="formula">Hypothesis: h_θ(x) = θ₀ + θ₁x</div>
+    <p>θ₀ = y-intercept (bias), θ₁ = slope (weight)</p>
+
+    <h3>Cost Function (Mean Squared Error)</h3>
+    <div class="formula">J(θ₀, θ₁) = 1/(2m) × Σᵢ₌₁ᵐ (h_θ(x⁽ⁱ⁾) − y⁽ⁱ⁾)²</div>
+    <p>Goal: Find θ₀, θ₁ that minimize J(θ₀, θ₁)</p>
+
+    <h3>Gradient Descent Algorithm</h3>
+    <p>Iteratively update parameters until convergence. Must update simultaneously!</p>
+    <div class="formula">θⱼ := θⱼ − α × (∂J/∂θⱼ)   [simultaneously for all j]</div>
+    <p>For linear regression:</p>
+    <div class="formula">∂J/∂θ₀ = (1/m) × Σ(h_θ(x⁽ⁱ⁾) − y⁽ⁱ⁾)</div>
+    <div class="formula">∂J/∂θ₁ = (1/m) × Σ(h_θ(x⁽ⁱ⁾) − y⁽ⁱ⁾) × x⁽ⁱ⁾</div>
+    <div class="warn-box">⚠️ <strong>Learning Rate α:</strong><br>
+    Too small → converges very slowly.<br>
+    Too large → may diverge (J oscillates or increases).<br>
+    Try: 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1 (multiply by ~3 each step).</div>
+
+    <h3>Multiple Variables</h3>
+    <div class="formula">h_θ(x) = θ₀ + θ₁x₁ + θ₂x₂ + ... + θₙxₙ = θᵀx</div>
+    <p>(Define x₀ = 1, so θᵀx = Σⱼ₌₀ⁿ θⱼxⱼ)</p>
+    <div class="formula">∂J/∂θⱼ = (1/m) × Σ(h_θ(x⁽ⁱ⁾) − y⁽ⁱ⁾) × xⱼ⁽ⁱ⁾</div>
+
+    <h3>Feature Scaling</h3>
+    <p>Make features on similar scale so gradient descent converges faster.</p>
+    <div class="formula">x_scaled = x / max(x)    OR    x_scaled = (x − μ) / (max − min)</div>
+    <p>Target: approximately −1 ≤ xᵢ ≤ 1</p>
+
+    <h3>Feature Engineering & Polynomial Regression</h3>
+    <p>Create new features by combining existing ones. Example: Area = frontage × depth → use as new feature x₃.</p>
+    <div class="formula">h_θ(x) = θ₀ + θ₁x + θ₂x² + θ₃x³   (Polynomial Regression)</div>
+
+    <div class="info-box">
+      <strong>📌 Worked Example</strong> (from lecture): x=[2,3,4], y=[3,4,5], θ₀=2, θ₁=2, α=0.1<br><br>
+      h(2)=6, h(3)=8, h(4)=10 &nbsp;|&nbsp; errors: (6-3)=3, (8-4)=4, (10-5)=5<br>
+      ∂J/∂θ₀ = 1/3×(3+4+5) = 12/3 = 4<br>
+      ∂J/∂θ₁ = 1/3×(3×2+4×3+5×4) = 1/3×(6+12+20) = 38/3 ≈ 12.67<br>
+      θ₀_new = 2 − 0.1×4 = 1.6 &nbsp;|&nbsp; θ₁_new = 2 − 0.1×12.67 ≈ 0.733
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ LECTURE 3 ══ -->
+<div class="lecture" id="lec3">
+  <div class="lecture-header">
+    <div class="lec-num">3</div>
+    <h2>Logistic Regression (Classification)</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>Why Not Linear Regression for Classification?</h3>
+    <p>Linear regression can predict values &gt;1 or &lt;0, which makes no sense for probabilities. We need h(x) ∈ [0,1].</p>
+
+    <h3>Sigmoid (Logistic) Function</h3>
+    <div class="formula">g(z) = 1 / (1 + e^(−z))</div>
+    <div class="formula">h_θ(x) = g(θᵀx) = 1 / (1 + e^(−θᵀx))</div>
+    <p>Interpretation: h_θ(x) = P(y=1 | x; θ) — probability that y=1 given x.</p>
+    <div class="info-box">
+      Sigmoid properties:<br>
+      z → +∞: g(z) → 1 &nbsp;|&nbsp; z → −∞: g(z) → 0 &nbsp;|&nbsp; z = 0: g(z) = 0.5
+    </div>
+
+    <h3>Decision Boundary</h3>
+    <p>Predict y=1 if h_θ(x) ≥ 0.5, which means θᵀx ≥ 0.<br>
+    Predict y=0 if h_θ(x) &lt; 0.5, which means θᵀx &lt; 0.</p>
+    <div class="formula">Decision boundary: θᵀx = 0 (i.e., z = 0)</div>
+    <p>Example: θ = [−3, 1, 1] → decision boundary: −3 + x₁ + x₂ = 0 → x₁ + x₂ = 3</p>
+
+    <h3>Cost Function for Logistic Regression</h3>
+    <p>Cannot use MSE because it becomes non-convex with sigmoid. Instead:</p>
+    <div class="formula">Cost(h_θ(x), y) = −log(h_θ(x))     if y = 1</div>
+    <div class="formula">Cost(h_θ(x), y) = −log(1 − h_θ(x)) if y = 0</div>
+    <p>Combined (simplified):</p>
+    <div class="formula">J(θ) = −(1/m) × Σ[y⁽ⁱ⁾·log(h_θ(x⁽ⁱ⁾)) + (1−y⁽ⁱ⁾)·log(1−h_θ(x⁽ⁱ⁾))]</div>
+
+    <h3>Gradient Descent for Logistic Regression</h3>
+    <div class="formula">θⱼ := θⱼ − (α/m) × Σ(h_θ(x⁽ⁱ⁾) − y⁽ⁱ⁾) × xⱼ⁽ⁱ⁾</div>
+    <div class="warn-box">⚠️ The update rule LOOKS identical to linear regression, but h_θ(x) is now the sigmoid function, not θᵀx directly!</div>
+
+    <h3>Multiclass Classification</h3>
+    <p>y ∈ {0,1,2,...,K}: Use One-vs-All (OvA) — train K binary classifiers, predict class with highest probability.</p>
+
+    <div class="info-box">
+      <strong>📌 Worked Example</strong>: x=[3,5,10,12], y=[1,1,0,0], θ₀=2, θ₁=1<br>
+      z(x) = 2 + 1·x<br>
+      h(3) = 1/(1+e⁻⁵) ≈ 0.993, h(5) = 1/(1+e⁻⁷) ≈ 0.999<br>
+      h(10) = 1/(1+e⁻¹²) ≈ 1.0, h(12) = 1/(1+e⁻¹⁴) ≈ 1.0<br>
+      Decision boundary: 2 + x = 0 → x = −2 (all x&gt;0 classified as 1 → misclassifying x=10,12)
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ LECTURE 4 ══ -->
+<div class="lecture" id="lec4">
+  <div class="lecture-header">
+    <div class="lec-num">4</div>
+    <h2>Model Evaluation</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>Regression Evaluation Metrics</h3>
+    <table>
+      <tr><th>Metric</th><th>Formula</th><th>Notes</th></tr>
+      <tr><td>MAE</td><td>1/m × Σ|ŷ − y|</td><td>Mean Absolute Error</td></tr>
+      <tr><td>MSE</td><td>1/m × Σ(ŷ − y)²</td><td>Mean Squared Error</td></tr>
+      <tr><td>RMSE</td><td>√(1/m × Σ(ŷ − y)²)</td><td>Root Mean Squared Error</td></tr>
+    </table>
+
+    <h3>Confusion Matrix (Binary Classification)</h3>
+    <table>
+      <tr><th></th><th>Predicted Positive</th><th>Predicted Negative</th></tr>
+      <tr><td><strong>Actual Positive</strong></td><td>TP (True Positive)</td><td>FN (False Negative)</td></tr>
+      <tr><td><strong>Actual Negative</strong></td><td>FP (False Positive)</td><td>TN (True Negative)</td></tr>
+    </table>
+
+    <h3>Classification Metrics</h3>
+    <div class="formula">Accuracy  = (TP + TN) / (TP + FP + FN + TN)</div>
+    <div class="formula">Precision = TP / (TP + FP)    ← Of all predicted positive, how many are actually positive?</div>
+    <div class="formula">Recall    = TP / (TP + FN)    ← Of all actual positive, how many did we find?</div>
+    <div class="formula">F1-Score  = 2 × (Precision × Recall) / (Precision + Recall)   ← Harmonic mean</div>
+
+    <div class="info-box">
+      <strong>📌 Worked Example</strong>: 200 emails, Spam/Not Spam<br>
+      TP=120 (predicted spam, actually spam), FP=20 (predicted spam, actually not spam)<br>
+      FN=10 (predicted not spam, actually spam), TN=50 (predicted not spam, actually not spam)<br><br>
+      Accuracy  = (120+50)/200 = 170/200 = <strong>85%</strong><br>
+      Precision = 120/(120+20) = 120/140 = <strong>85.7%</strong><br>
+      Recall    = 120/(120+10) = 120/130 = <strong>92.3%</strong><br>
+      F1        = 2×(0.857×0.923)/(0.857+0.923) = <strong>88.9%</strong>
+    </div>
+
+    <div class="warn-box">⚠️ <strong>Precision vs Recall trade-off:</strong> In medical diagnosis, high Recall is critical (don't miss sick patients). In spam filtering, high Precision may be preferred (don't delete real emails). F1 balances both.</div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ LECTURE 5 ══ -->
+<div class="lecture" id="lec5">
+  <div class="lecture-header">
+    <div class="lec-num">5</div>
+    <h2>Overfitting, Underfitting & Regularization</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>Bias-Variance Tradeoff</h3>
+    <div class="two-col">
+      <div class="info-box">
+        <strong>Underfitting (High Bias)</strong><br>
+        Model too simple → high training error AND high test error.<br>
+        Cannot capture underlying pattern.
+      </div>
+      <div class="info-box">
+        <strong>Overfitting (High Variance)</strong><br>
+        Model too complex → low training error BUT high test error.<br>
+        Memorizes training data, fails to generalize.
+      </div>
+    </div>
+    <p><strong>Good fit:</strong> Low training error AND low test error (generalizes well).</p>
+
+    <h3>Addressing Overfitting</h3>
+    <ol>
+      <li><strong>Collect more training data</strong> — most effective solution</li>
+      <li><strong>Feature Selection</strong> — remove irrelevant features (risk: losing useful features)</li>
+      <li><strong>Regularization</strong> — penalize large parameter values</li>
+      <li><strong>Cross-Validation</strong></li>
+    </ol>
+
+    <h3>Regularization</h3>
+    <h4>Ridge Regularization (L2):</h4>
+    <div class="formula">J_ridge(θ) = (1/2m) × Σ(h(x⁽ⁱ⁾)−y⁽ⁱ⁾)² + λ × Σⱼ₌₁ⁿ θⱼ²</div>
+    <p>Shrinks all weights toward zero but never to exactly zero. Good for dense solutions.</p>
+
+    <h4>Lasso Regularization (L1):</h4>
+    <div class="formula">J_lasso(θ) = (1/2m) × Σ(h(x⁽ⁱ⁾)−y⁽ⁱ⁾)² + λ × Σⱼ₌₁ⁿ |θⱼ|</div>
+    <p>Can shrink weights to exactly zero → performs feature selection automatically.</p>
+
+    <div class="warn-box">⚠️ λ (lambda) is the regularization parameter:<br>
+    λ too large → underfitting (all θ → 0)<br>
+    λ = 0 → no regularization (may overfit)<br>
+    Choose λ using cross-validation.</div>
+
+    <h4>Regularized Gradient Descent:</h4>
+    <div class="formula">θⱼ := θⱼ(1 − α·λ/m) − (α/m)·Σ(h(x⁽ⁱ⁾)−y⁽ⁱ⁾)·xⱼ⁽ⁱ⁾   [j ≥ 1]</div>
+    <p>(θ₀ is not regularized)</p>
+
+    <h3>K-Fold Cross Validation</h3>
+    <p>Splits data into K equal folds. Each fold is used once as validation set, K−1 folds for training. Repeat K times, average the results.</p>
+    <div class="formula">Recommended range: 5 ≤ K ≤ 10</div>
+    <p>K=10 is most common. When K=m (number of samples) → Leave-One-Out Cross Validation (LOOCV).</p>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ LECTURE 6 ══ -->
+<div class="lecture" id="lec6">
+  <div class="lecture-header">
+    <div class="lec-num">6</div>
+    <h2>K-Nearest Neighbors (KNN) & Naïve Bayes</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>KNN Algorithm</h3>
+    <p>Non-parametric, instance-based learning. Can be used for both classification and regression.</p>
+    <h4>Steps:</h4>
+    <ol>
+      <li>Calculate Euclidean distance from test point to all training points</li>
+      <li>Rank all points by distance (ascending)</li>
+      <li>Select K nearest neighbors</li>
+      <li>For <strong>Classification</strong>: take majority class vote</li>
+      <li>For <strong>Regression</strong>: take average of K neighbors' values</li>
+    </ol>
+    <div class="formula">Euclidean Distance: d = √((x₂−x₁)² + (y₂−y₁)²)</div>
+
+    <div class="info-box">
+      <strong>📌 KNN Classification Example</strong> (K=3):<br>
+      Given points with distances: 2(class A), 3(class A), 4(class B), 5(class A), 6(class B)<br>
+      3 nearest: A, A, B → Majority = <strong>A</strong>
+    </div>
+    <div class="info-box">
+      <strong>📌 KNN Regression Example</strong> (K=3): neighbors with weight values 1, 2, 3<br>
+      Prediction = (1+2+3)/3 = <strong>2</strong>
+    </div>
+
+    <h3>Choosing K</h3>
+    <ul>
+      <li>Small K: sensitive to noise (overfitting)</li>
+      <li>Large K: smoother boundary (may underfit)</li>
+      <li>Common practice: use cross-validation to find optimal K</li>
+    </ul>
+    <div class="warn-box">⚠️ KNN is a <strong>stable</strong> classifier → Bagging does NOT improve it much.</div>
+
+    <h3>Naïve Bayes Classifier</h3>
+    <p><strong>Assumption:</strong> Features are conditionally independent given the class (the "naïve" assumption).</p>
+    <div class="formula">P(class | x) ∝ P(class) × Π P(xᵢ | class)</div>
+    <p>Steps:</p>
+    <ol>
+      <li>Calculate prior P(class) for each class</li>
+      <li>Calculate likelihood P(feature | class) for each feature value</li>
+      <li>Multiply: posterior ∝ prior × product of likelihoods</li>
+      <li>Predict class with highest posterior probability</li>
+    </ol>
+    <div class="info-box">
+      <strong>📌 Example</strong>: New instance to classify whether to "Play Tennis":<br>
+      P(Yes|new) = P(Yes) × P(Outlook=Sunny|Yes) × P(Wind=Strong|Yes) × ...<br>
+      P(No|new)  = P(No) × P(Outlook=Sunny|No) × P(Wind=Strong|No) × ...<br>
+      Predict the class with <strong>higher</strong> posterior.
+    </div>
+    <p><strong>Laplace Smoothing:</strong> Add 1 to each count to avoid zero probability for unseen features.</p>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ LECTURE 7 ══ -->
+<div class="lecture" id="lec7">
+  <div class="lecture-header">
+    <div class="lec-num">7</div>
+    <h2>Ensemble Methods</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>What is Ensemble Learning?</h3>
+    <p>Combine multiple diverse models to make better predictions than any single model. Like asking 50 people instead of 1 — diverse group makes better decisions.</p>
+    <p><strong>Weak learner</strong> + <strong>Weak learner</strong> + ... = <strong>Strong learner</strong></p>
+    <p>Benefits: <span class="badge badge-green">Better Accuracy</span> <span class="badge badge-blue">Avoids Overfitting</span> <span class="badge badge-gold">Higher Confidence</span></p>
+
+    <h3>Categorization</h3>
+    <div class="two-col">
+      <div class="info-box">
+        <strong>Homogenous Ensemble</strong><br>
+        Same learning algorithm, different training data.<br>
+        Methods: Bagging, Boosting
+      </div>
+      <div class="info-box">
+        <strong>Heterogeneous Ensemble</strong><br>
+        Different learning algorithms.<br>
+        Methods: Voting, Stacking
+      </div>
+    </div>
+
+    <h3>1. Voting</h3>
+    <ul>
+      <li><strong>Max Voting:</strong> Each model votes → take the majority class</li>
+      <li><strong>Averaging:</strong> Average all predictions (regression or probability)</li>
+      <li><strong>Weighted Averaging:</strong> Weight better models more</li>
+    </ul>
+    <p>Training: <strong>Parallel</strong>. Data: Complete training set. Different classifiers.</p>
+
+    <h3>2. Bagging (Bootstrap Aggregating)</h3>
+    <p>Sample training data <strong>with replacement</strong> (bootstrap sampling) → train same algorithm on each subset → combine by majority vote (classification) or average (regression).</p>
+    <div class="formula">Goal: Reduce VARIANCE (fight overfitting)</div>
+    <p>Training: <strong>Parallel</strong>. Example: <span class="badge badge-gold">Random Forest</span>, Bagged Decision Trees, Extra Trees</p>
+    <div class="warn-box">⚠️ Bagging works only for <strong>unstable</strong> classifiers (decision trees, neural nets, linear regression). KNN is stable → bagging won't help.</div>
+
+    <h3>3. Boosting</h3>
+    <p>Models trained <strong>sequentially</strong>. Each model focuses on misclassified examples from previous model.</p>
+    <div class="formula">Goal: Reduce BIAS (fight underfitting)</div>
+    <p>Process:</p>
+    <ol>
+      <li>Initialize equal weights for all samples</li>
+      <li>Train model → find misclassified examples</li>
+      <li>Increase weights of misclassified, decrease correctly classified</li>
+      <li>Train next model with new weights → repeat</li>
+      <li>Final prediction: weighted majority vote (α = importance based on accuracy)</li>
+    </ol>
+    <div class="formula">α = ln((1−error)/error)   [importance of model]</div>
+    <div class="formula">Update weight (correct): w × e^(−α)</div>
+    <div class="formula">Update weight (wrong):   w × e^(+α)</div>
+    <p>Examples: <span class="badge badge-purple">AdaBoost</span> <span class="badge badge-purple">Gradient Boosting</span> <span class="badge badge-purple">XGBoost</span> <span class="badge badge-purple">LightGBM</span></p>
+
+    <h3>4. Stacking</h3>
+    <p>Train multiple base models → their predictions become features for a second-level (meta) model.</p>
+    <p>Steps: (1) Split into K folds. (2) Train base models on K-1 folds. (3) Predict on Kth fold. (4) Use these predictions as features for meta-model. (5) Meta-model makes final prediction.</p>
+
+    <h3>Comparison Table</h3>
+    <table>
+      <tr><th>Method</th><th>Sampling</th><th>Training</th><th>Goal</th><th>Combination</th></tr>
+      <tr><td>Voting</td><td>Complete set</td><td>Parallel</td><td>Improve prediction</td><td>Majority/Average</td></tr>
+      <tr><td>Bagging</td><td>Random with replacement</td><td>Parallel</td><td>Reduce Variance</td><td>Average/Majority</td></tr>
+      <tr><td>Boosting</td><td>Weighted resampling</td><td>Sequential</td><td>Reduce Bias</td><td>Weighted majority vote</td></tr>
+      <tr><td>Stacking</td><td>K-fold</td><td>Sequential</td><td>Combine strengths</td><td>Meta-model</td></tr>
+    </table>
+
+    <div class="info-box">
+      <strong>📌 Boosting Worked Example</strong>: 4 samples, α=0.55 (error=0.25)<br>
+      Correct samples: multiply weight by e^(−0.55) = 0.577 → 0.25×0.577=0.145<br>
+      Wrong samples:   multiply weight by e^(+0.55) = 1.733 → 0.25×1.733=0.433<br>
+      Normalize so all weights sum to 1.
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ LECTURE 8 ══ -->
+<div class="lecture" id="lec8">
+  <div class="lecture-header">
+    <div class="lec-num">8</div>
+    <h2>Support Vector Machines (SVM)</h2>
+  </div>
+  <div class="lecture-body">
+
+    <h3>What is SVM?</h3>
+    <p>A supervised learning algorithm that finds the <strong>optimal hyperplane</strong> that maximizes the <strong>margin</strong> between classes. Used for both classification and regression.</p>
+
+    <h3>Key Concepts</h3>
+    <ul>
+      <li><strong>Hyperplane:</strong> Decision boundary that separates classes. In 2D = line, in 3D = plane, in nD = hyperplane.</li>
+      <li><strong>Support Vectors:</strong> The training examples <em>closest</em> to the decision boundary. These are the critical points — remove the rest and the boundary doesn't change.</li>
+      <li><strong>Margin:</strong> Distance between the hyperplane and the nearest support vector on each side. SVM maximizes this margin.</li>
+    </ul>
+    <div class="formula">Margin = 2 / ||w||   where w is the weight vector</div>
+    <div class="formula">Maximize margin ↔ Minimize (1/2)||w||²</div>
+
+    <h3>Linearly Separable Problems (Hard Margin SVM)</h3>
+    <p>When data can be perfectly separated by a straight line/hyperplane.</p>
+    <div class="formula">Constraint: yᵢ(w·xᵢ + b) ≥ 1   for all training examples i</div>
+    <p>The decision boundary satisfies: <code>w·x + b = 0</code><br>
+    Positive class boundary: <code>w·x + b = +1</code><br>
+    Negative class boundary: <code>w·x + b = −1</code></p>
+    <p>Functional margin: H1: wᵀx + b ≥ +1 for y=+1, H2: wᵀx + b ≤ −1 for y=−1</p>
+
+    <h3>Linearly Non-Separable Problems (Soft Margin & Kernels)</h3>
+    <p>When data cannot be perfectly separated, we use:</p>
+    <h4>Soft Margin (Slack Variables ξ):</h4>
+    <div class="formula">yᵢ(w·xᵢ + b) ≥ 1 − ξᵢ   (ξᵢ ≥ 0)</div>
+    <div class="formula">Minimize: (1/2)||w||² + C·Σξᵢ</div>
+    <p>C = regularization parameter: large C → small margin (may overfit), small C → large margin (may underfit)</p>
+
+    <h4>Kernel Trick:</h4>
+    <p>Map data to higher-dimensional space where it becomes linearly separable, without computing the transformation explicitly.</p>
+    <table>
+      <tr><th>Kernel</th><th>Formula</th><th>Use Case</th></tr>
+      <tr><td>Linear</td><td>K(x,z) = xᵀz</td><td>Linearly separable data</td></tr>
+      <tr><td>Polynomial</td><td>K(x,z) = (xᵀz + c)^d</td><td>Non-linear, polynomial boundary</td></tr>
+      <tr><td>RBF (Gaussian)</td><td>K(x,z) = exp(−||x−z||²/2σ²)</td><td>Most common, non-linear</td></tr>
+      <tr><td>Sigmoid</td><td>K(x,z) = tanh(αxᵀz + c)</td><td>Neural network-like boundary</td></tr>
+    </table>
+
+    <h3>SVM for Regression (SVR)</h3>
+    <p>Support Vector Regression — fits the data within an ε-tube (epsilon-insensitive zone). Points inside the tube contribute zero loss; only points outside are penalized.</p>
+
+    <h3>SVM vs Logistic Regression</h3>
+    <div class="two-col">
+      <div class="info-box">
+        <strong>SVM:</strong>
+        <ul>
+          <li>Maximizes geometric margin</li>
+          <li>Only support vectors matter</li>
+          <li>Works well for high-dimensional data</li>
+          <li>Kernel trick for non-linear data</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <strong>Logistic Regression:</strong>
+        <ul>
+          <li>Maximizes likelihood</li>
+          <li>All examples contribute</li>
+          <li>Outputs probabilities directly</li>
+          <li>Faster training, interpretable</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ EXAM ══════ -->
+<hr class="divider">
+
+<div id="exam">
+<div class="exam-header">
+  <h2>📝 Final Exam</h2>
+  <p style="color:#ffcccc; margin-top:0.5rem;">Machine Learning — Faculty of Computers &amp; Data Science</p>
+  <div class="exam-meta">
+    <span>Total Marks: 60</span>
+    <span>Section A (MCQ): 30 marks</span>
+    <span>Section B (Problems): 30 marks</span>
+    <span>Dr. Mahmoud Gamal</span>
+  </div>
+</div>
+
+<!-- ─── SECTION A: MCQ ─── -->
+<div class="section-title">Section A — Multiple Choice Questions &nbsp; (30 × 1 mark)</div>
+<p style="color:var(--text2); font-size:0.9rem; margin-bottom:1rem;">Choose the single best answer for each question.</p>
+
+<!-- Q1 -->
+<div class="q-block">
+  <div class="q-num">Q1 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">Which of the following is an example of a <strong>regression</strong> problem?</div>
+  <ul class="options">
+    <li>(a) Classifying email as spam or not spam</li>
+    <li>(b) Predicting the selling price of a house</li>
+    <li>(c) Detecting whether a tumor is malignant or benign</li>
+    <li>(d) Grouping customers into market segments</li>
+  </ul>
+</div>
+
+<!-- Q2 -->
+<div class="q-block">
+  <div class="q-num">Q2 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">In <strong>unsupervised learning</strong>, which of the following statements is TRUE?</div>
+  <ul class="options">
+    <li>(a) Both input x and correct output labels y are given</li>
+    <li>(b) Only input data x is available; there are no output labels</li>
+    <li>(c) A reward signal is used to guide learning</li>
+    <li>(d) The algorithm always performs clustering AND classification</li>
+  </ul>
+</div>
+
+<!-- Q3 -->
+<div class="q-block">
+  <div class="q-num">Q3 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">Temperature measured in <strong>Celsius</strong> is an example of which attribute type?</div>
+  <ul class="options">
+    <li>(a) Nominal</li>
+    <li>(b) Ordinal</li>
+    <li>(c) Interval</li>
+    <li>(d) Ratio</li>
+  </ul>
+</div>
+
+<!-- Q4 -->
+<div class="q-block">
+  <div class="q-num">Q4 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">Applying <strong>Min-Max normalization</strong> to value v=200, where min=100 and max=500, mapping to [0, 1] gives:</div>
+  <ul class="options">
+    <li>(a) 0.10</li>
+    <li>(b) 0.25</li>
+    <li>(c) 0.40</li>
+    <li>(d) 0.50</li>
+  </ul>
+</div>
+
+<!-- Q5 -->
+<div class="q-block">
+  <div class="q-num">Q5 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">In <strong>Equal-Depth (Equal-Frequency) binning</strong> of 12 values into 3 bins, each bin contains:</div>
+  <ul class="options">
+    <li>(a) 3 values</li>
+    <li>(b) 4 values</li>
+    <li>(c) 6 values</li>
+    <li>(d) Varies depending on the value range</li>
+  </ul>
+</div>
+
+<!-- Q6 -->
+<div class="q-block">
+  <div class="q-num">Q6 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">The hypothesis function for <strong>linear regression with one variable</strong> is:</div>
+  <ul class="options">
+    <li>(a) h_θ(x) = 1 / (1 + e^(−θ₀ − θ₁x))</li>
+    <li>(b) h_θ(x) = θ₀ + θ₁x</li>
+    <li>(c) h_θ(x) = θ₀ × θ₁x</li>
+    <li>(d) h_θ(x) = θ₀x² + θ₁x</li>
+  </ul>
+</div>
+
+<!-- Q7 -->
+<div class="q-block">
+  <div class="q-num">Q7 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">The cost function used in <strong>linear regression</strong> is:</div>
+  <ul class="options">
+    <li>(a) Cross-entropy loss</li>
+    <li>(b) Mean Absolute Error</li>
+    <li>(c) Mean Squared Error (MSE)</li>
+    <li>(d) Hinge loss</li>
+  </ul>
+</div>
+
+<!-- Q8 -->
+<div class="q-block">
+  <div class="q-num">Q8 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">If the <strong>learning rate α</strong> in gradient descent is set too large, what happens?</div>
+  <ul class="options">
+    <li>(a) The algorithm converges faster to the global minimum</li>
+    <li>(b) The cost function J(θ) may overshoot and diverge</li>
+    <li>(c) All parameters θ are set to zero</li>
+    <li>(d) The algorithm terminates immediately</li>
+  </ul>
+</div>
+
+<!-- Q9 -->
+<div class="q-block">
+  <div class="q-num">Q9 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">The output range of the <strong>sigmoid function</strong> g(z) = 1/(1+e^(−z)) is:</div>
+  <ul class="options">
+    <li>(a) (−∞, +∞)</li>
+    <li>(b) [−1, 1]</li>
+    <li>(c) (0, 1)</li>
+    <li>(d) [0, ∞)</li>
+  </ul>
+</div>
+
+<!-- Q10 -->
+<div class="q-block">
+  <div class="q-num">Q10 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">In <strong>logistic regression</strong>, the prediction is y=1 when:</div>
+  <ul class="options">
+    <li>(a) h_θ(x) &lt; 0.5</li>
+    <li>(b) h_θ(x) ≥ 0.5 (equivalently θᵀx ≥ 0)</li>
+    <li>(c) h_θ(x) = 0</li>
+    <li>(d) h_θ(x) &gt; 1</li>
+  </ul>
+</div>
+
+<!-- Q11 -->
+<div class="q-block">
+  <div class="q-num">Q11 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">Given θ = [−5, 1, 1], the <strong>decision boundary</strong> for logistic regression is:</div>
+  <ul class="options">
+    <li>(a) x₁ + x₂ = 0</li>
+    <li>(b) x₁ + x₂ = 5</li>
+    <li>(c) x₁ − x₂ = 5</li>
+    <li>(d) −5 + x₁ = 0</li>
+  </ul>
+</div>
+
+<!-- Q12 -->
+<div class="q-block">
+  <div class="q-num">Q12 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">Why is <strong>Mean Squared Error NOT used</strong> as the cost function in logistic regression?</div>
+  <ul class="options">
+    <li>(a) It is computationally too expensive</li>
+    <li>(b) It produces a non-convex function with local minima</li>
+    <li>(c) It cannot handle binary outputs</li>
+    <li>(d) It does not measure classification performance</li>
+  </ul>
+</div>
+
+<!-- Q13 -->
+<div class="q-block">
+  <div class="q-num">Q13 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">A classifier is tested on 200 emails. TP=120, FP=20, FN=10, TN=50. What is the <strong>Accuracy</strong>?</div>
+  <ul class="options">
+    <li>(a) 80%</li>
+    <li>(b) 85%</li>
+    <li>(c) 90%</li>
+    <li>(d) 92.3%</li>
+  </ul>
+</div>
+
+<!-- Q14 -->
+<div class="q-block">
+  <div class="q-num">Q14 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Precision</strong> is defined as:</div>
+  <ul class="options">
+    <li>(a) TP / (TP + FN)</li>
+    <li>(b) TP / (TP + FP)</li>
+    <li>(c) (TP + TN) / Total</li>
+    <li>(d) TN / (TN + FP)</li>
+  </ul>
+</div>
+
+<!-- Q15 -->
+<div class="q-block">
+  <div class="q-num">Q15 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Recall</strong> (Sensitivity) measures:</div>
+  <ul class="options">
+    <li>(a) What fraction of predicted positives are truly positive</li>
+    <li>(b) What fraction of actual positives were correctly identified</li>
+    <li>(c) The overall fraction of correct predictions</li>
+    <li>(d) The harmonic mean of precision and accuracy</li>
+  </ul>
+</div>
+
+<!-- Q16 -->
+<div class="q-block">
+  <div class="q-num">Q16 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>F1-Score</strong> is calculated as:</div>
+  <ul class="options">
+    <li>(a) (Precision + Recall) / 2</li>
+    <li>(b) 2 × Precision × Recall / (Precision + Recall)</li>
+    <li>(c) √(Precision × Recall)</li>
+    <li>(d) Precision × Recall</li>
+  </ul>
+</div>
+
+<!-- Q17 -->
+<div class="q-block">
+  <div class="q-num">Q17 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Overfitting</strong> is characterized by:</div>
+  <ul class="options">
+    <li>(a) High training error and high test error</li>
+    <li>(b) Low training error and high test error</li>
+    <li>(c) High training error and low test error</li>
+    <li>(d) Equal training and test error</li>
+  </ul>
+</div>
+
+<!-- Q18 -->
+<div class="q-block">
+  <div class="q-num">Q18 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Ridge Regularization (L2)</strong> adds which penalty term to the cost function?</div>
+  <ul class="options">
+    <li>(a) λ × Σ|θⱼ| (L1 norm of weights)</li>
+    <li>(b) λ × Σθⱼ² (L2 norm squared of weights)</li>
+    <li>(c) λ × max(θⱼ)</li>
+    <li>(d) λ × Σθⱼ³</li>
+  </ul>
+</div>
+
+<!-- Q19 -->
+<div class="q-block">
+  <div class="q-num">Q19 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">The main difference between <strong>Lasso (L1)</strong> and <strong>Ridge (L2)</strong> regularization is:</div>
+  <ul class="options">
+    <li>(a) Lasso uses squared penalty; Ridge uses absolute value</li>
+    <li>(b) Lasso can reduce coefficients to exactly zero; Ridge cannot</li>
+    <li>(c) Ridge is for classification; Lasso is for regression only</li>
+    <li>(d) Both are identical in effect</li>
+  </ul>
+</div>
+
+<!-- Q20 -->
+<div class="q-block">
+  <div class="q-num">Q20 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">In <strong>K-Fold Cross Validation</strong>, the recommended range of K is:</div>
+  <ul class="options">
+    <li>(a) 2 ≤ K ≤ 3</li>
+    <li>(b) 5 ≤ K ≤ 10</li>
+    <li>(c) 10 ≤ K ≤ 20</li>
+    <li>(d) K must equal the total number of samples</li>
+  </ul>
+</div>
+
+<!-- Q21 -->
+<div class="q-block">
+  <div class="q-num">Q21 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">In <strong>KNN classification</strong> with K=3, the three nearest neighbors have distances 1.5 (Class A), 2.0 (Class B), and 2.5 (Class A). The prediction is:</div>
+  <ul class="options">
+    <li>(a) Class B (closest neighbor)</li>
+    <li>(b) Class A (majority vote)</li>
+    <li>(c) Cannot determine without more data</li>
+    <li>(d) Average of Class A and B</li>
+  </ul>
+</div>
+
+<!-- Q22 -->
+<div class="q-block">
+  <div class="q-num">Q22 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">In <strong>KNN Regression</strong> with K=3, the 3 nearest neighbors have values 10, 14, and 18. The prediction is:</div>
+  <ul class="options">
+    <li>(a) 10</li>
+    <li>(b) 14</li>
+    <li>(c) 18</li>
+    <li>(d) 42</li>
+  </ul>
+</div>
+
+<!-- Q23 -->
+<div class="q-block">
+  <div class="q-num">Q23 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">The <strong>"Naïve" assumption</strong> in Naïve Bayes means:</div>
+  <ul class="options">
+    <li>(a) Features are always numerically equal</li>
+    <li>(b) Features are conditionally independent given the class label</li>
+    <li>(c) All features have equal contribution to the prediction</li>
+    <li>(d) The dataset must follow a Gaussian distribution</li>
+  </ul>
+</div>
+
+<!-- Q24 -->
+<div class="q-block">
+  <div class="q-num">Q24 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Bagging</strong> primarily reduces:</div>
+  <ul class="options">
+    <li>(a) Bias</li>
+    <li>(b) Variance</li>
+    <li>(c) Training time</li>
+    <li>(d) Number of features</li>
+  </ul>
+</div>
+
+<!-- Q25 -->
+<div class="q-block">
+  <div class="q-num">Q25 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">In <strong>Boosting</strong>, what happens to misclassified examples after each iteration?</div>
+  <ul class="options">
+    <li>(a) They are permanently removed from the dataset</li>
+    <li>(b) Their weights are increased for the next iteration</li>
+    <li>(c) Their weights are decreased for the next iteration</li>
+    <li>(d) They are duplicated with equal probability</li>
+  </ul>
+</div>
+
+<!-- Q26 -->
+<div class="q-block">
+  <div class="q-num">Q26 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">Which of the following best describes the difference between <strong>Bagging and Boosting</strong>?</div>
+  <ul class="options">
+    <li>(a) Bagging is sequential; Boosting is parallel</li>
+    <li>(b) Bagging is parallel; Boosting is sequential</li>
+    <li>(c) Both use sequential training</li>
+    <li>(d) Bagging uses different algorithms; Boosting uses the same</li>
+  </ul>
+</div>
+
+<!-- Q27 -->
+<div class="q-block">
+  <div class="q-num">Q27 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Random Forest</strong> is an example of which ensemble technique?</div>
+  <ul class="options">
+    <li>(a) Boosting</li>
+    <li>(b) Stacking</li>
+    <li>(c) Bagging</li>
+    <li>(d) Voting with heterogeneous classifiers</li>
+  </ul>
+</div>
+
+<!-- Q28 -->
+<div class="q-block">
+  <div class="q-num">Q28 <span class="q-mark">1 mark</span></div>
+  <div class="q-text">The primary goal of <strong>Support Vector Machines (SVM)</strong> is to:</div>
+  <ul class="options">
+    <li>(a) Find the hyperplane with minimum slope</li>
+    <li>(b) Find the hyperplane that maximizes the margin between classes</li>
+    <li>(c) Find the hyperplane that minimizes training error at all costs</li>
+    <li>(d) Find the hyperplane closest to the centroid of each class</li>
+  </ul>
+</div>
+
+<!-- Q29 -->
+<div class="q-block">
+  <div class="q-num">Q29 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Support Vectors</strong> are defined as:</div>
+  <ul class="options">
+    <li>(a) All training examples used for training</li>
+    <li>(b) Training examples farthest from the decision boundary</li>
+    <li>(c) Training examples closest to the decision boundary</li>
+    <li>(d) Randomly selected examples from each class</li>
+  </ul>
+</div>
+
+<!-- Q30 -->
+<div class="q-block">
+  <div class="q-num">Q30 <span class="q-mark">1 mark</span></div>
+  <div class="q-text"><strong>Kernel functions</strong> are used in SVM to:</div>
+  <ul class="options">
+    <li>(a) Reduce the number of features in the dataset</li>
+    <li>(b) Handle non-linearly separable data by mapping to higher dimensions</li>
+    <li>(c) Speed up the training process on large datasets</li>
+    <li>(d) Normalize feature values before training</li>
+  </ul>
+</div>
+
+<!-- ─── SECTION B: PROBLEMS ─── -->
+<div class="section-title">Section B — Problems &amp; Calculations &nbsp; (30 marks)</div>
+
+<!-- PROBLEM 1 -->
+<div class="prob-block">
+  <div class="prob-title">Problem 1 — Linear Regression: Gradient Descent &nbsp; (8 marks)</div>
+  <p>Consider the following training dataset for linear regression:</p>
+  <table style="width:auto; margin:0.8rem 0;">
+    <tr><th>x</th><th>y</th></tr>
+    <tr><td>1</td><td>2</td></tr>
+    <tr><td>2</td><td>4</td></tr>
+    <tr><td>3</td><td>6</td></tr>
+  </table>
+  <p>Initial parameters: θ₀ = 0, θ₁ = 0, learning rate α = 0.1</p>
+  <div class="sub-q">(a) Write down the hypothesis function h_θ(x). &nbsp;<em style="color:var(--gold)">[1 mark]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(b) Calculate h_θ(x) for each training example. &nbsp;<em style="color:var(--gold)">[2 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(c) Calculate the cost J(θ₀, θ₁) using the MSE cost function. &nbsp;<em style="color:var(--gold)">[2 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(d) Calculate ∂J/∂θ₀ and ∂J/∂θ₁. &nbsp;<em style="color:var(--gold)">[2 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(e) Compute the updated values of θ₀ and θ₁ after one iteration. &nbsp;<em style="color:var(--gold)">[1 mark]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+</div>
+
+<!-- PROBLEM 2 -->
+<div class="prob-block">
+  <div class="prob-title">Problem 2 — Logistic Regression &nbsp; (8 marks)</div>
+  <p>Consider the following training dataset for logistic regression:</p>
+  <table style="width:auto; margin:0.8rem 0;">
+    <tr><th>x</th><th>y</th></tr>
+    <tr><td>1</td><td>0</td></tr>
+    <tr><td>2</td><td>0</td></tr>
+    <tr><td>3</td><td>1</td></tr>
+    <tr><td>4</td><td>1</td></tr>
+  </table>
+  <p>Given: θ₀ = −3, θ₁ = 1, learning rate α = 0.1</p>
+  <div class="sub-q">(a) Calculate z = θ₀ + θ₁x for each training example. &nbsp;<em style="color:var(--gold)">[1 mark]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(b) Calculate h_θ(x) = sigmoid(z) for each training example. Round to 3 decimal places. &nbsp;<em style="color:var(--gold)">[3 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(c) Find the decision boundary (i.e., the value of x where z = 0). &nbsp;<em style="color:var(--gold)">[1 mark]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(d) Calculate ∂J/∂θ₀ and ∂J/∂θ₁, then update θ₀ and θ₁ after one iteration. &nbsp;<em style="color:var(--gold)">[3 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+</div>
+
+<!-- PROBLEM 3 -->
+<div class="prob-block">
+  <div class="prob-title">Problem 3 — Model Evaluation: Confusion Matrix &nbsp; (6 marks)</div>
+  <p>A binary classifier is evaluated on 300 samples with the following results:</p>
+  <table style="width:auto; margin:0.8rem 0;">
+    <tr><th></th><th>Predicted Positive</th><th>Predicted Negative</th></tr>
+    <tr><td><strong>Actual Positive</strong></td><td>120</td><td>30</td></tr>
+    <tr><td><strong>Actual Negative</strong></td><td>30</td><td>120</td></tr>
+  </table>
+  <div class="sub-q">(a) Calculate Accuracy. &nbsp;<em style="color:var(--gold)">[1.5 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(b) Calculate Precision. &nbsp;<em style="color:var(--gold)">[1.5 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(c) Calculate Recall. &nbsp;<em style="color:var(--gold)">[1.5 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(d) Calculate F1-Score. &nbsp;<em style="color:var(--gold)">[1.5 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+</div>
+
+<!-- PROBLEM 4 -->
+<div class="prob-block">
+  <div class="prob-title">Problem 4 — Normalization &nbsp; (4 marks)</div>
+  <p>Given the following attribute values: <strong>50, 100, 200, 400, 500</strong></p>
+  <div class="sub-q">(a) Apply <strong>Min-Max normalization</strong> to map all values to the range [0, 1]. Show all calculations. &nbsp;<em style="color:var(--gold)">[2 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(b) Apply <strong>Z-Score normalization</strong>. First calculate the mean (μ) and standard deviation (σ), then compute z-scores for each value. &nbsp;<em style="color:var(--gold)">[2 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+</div>
+
+<!-- PROBLEM 5 -->
+<div class="prob-block">
+  <div class="prob-title">Problem 5 — KNN Classification &nbsp; (4 marks)</div>
+  <p>Given the following labeled dataset:</p>
+  <table style="width:auto; margin:0.8rem 0;">
+    <tr><th>Point</th><th>x₁</th><th>x₂</th><th>Class</th></tr>
+    <tr><td>P1</td><td>1</td><td>1</td><td>A</td></tr>
+    <tr><td>P2</td><td>2</td><td>2</td><td>A</td></tr>
+    <tr><td>P3</td><td>5</td><td>4</td><td>B</td></tr>
+    <tr><td>P4</td><td>6</td><td>5</td><td>B</td></tr>
+  </table>
+  <p>Test point: Q = (3, 3), K = 3</p>
+  <div class="sub-q">(a) Calculate the Euclidean distance from Q to each labeled point. &nbsp;<em style="color:var(--gold)">[2 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+  <div class="sub-q">(b) Identify the K=3 nearest neighbors and determine the predicted class of Q. &nbsp;<em style="color:var(--gold)">[2 marks]</em></div>
+  <div class="answer-space">[ Answer space ]</div>
+</div>
+
+</div><!-- end #exam -->
+
+<!-- ══════════════════════════════════════════════ SOLUTIONS ══ -->
+<div id="solutions">
+<div class="sol-header">
+  <h2>✅ Model Answers &amp; Full Solutions</h2>
+  <p style="color:#aaffaa; margin-top:0.5rem;">Section A — MCQ Answers + Section B — Full Worked Solutions</p>
+</div>
+
+<!-- ─── MCQ ANSWERS ─── -->
+<div class="section-title" style="border-left-color: var(--green);">Section A — MCQ Answer Key</div>
+
+<table>
+  <tr><th>Q</th><th>Answer</th><th>Explanation</th></tr>
+  <tr><td>Q1</td><td><span class="correct">B</span></td><td>Predicting a continuous value (price) = Regression. Spam/cancer = Classification. Grouping = Clustering.</td></tr>
+  <tr><td>Q2</td><td><span class="correct">B</span></td><td>Unsupervised: only input x, no output labels. Must find structure on its own.</td></tr>
+  <tr><td>Q3</td><td><span class="correct">C</span></td><td>Celsius has NO true zero. 0°C ≠ "no temperature". Uses equal units → Interval. Kelvin would be Ratio.</td></tr>
+  <tr><td>Q4</td><td><span class="correct">B</span></td><td>v'=(200−100)/(500−100)=100/400=<strong>0.25</strong></td></tr>
+  <tr><td>Q5</td><td><span class="correct">B</span></td><td>Equal-depth: 12 values ÷ 3 bins = 4 values per bin.</td></tr>
+  <tr><td>Q6</td><td><span class="correct">B</span></td><td>Linear regression hypothesis: θ₀ + θ₁x. Option (a) is logistic regression.</td></tr>
+  <tr><td>Q7</td><td><span class="correct">C</span></td><td>Linear regression uses MSE: J = 1/2m × Σ(h−y)²</td></tr>
+  <tr><td>Q8</td><td><span class="correct">B</span></td><td>Large α → gradient descent overshoots the minimum → J may oscillate or diverge.</td></tr>
+  <tr><td>Q9</td><td><span class="correct">C</span></td><td>Sigmoid output: as z→−∞, g→0; as z→+∞, g→1. Strictly (0,1), approaches but never reaches 0 or 1.</td></tr>
+  <tr><td>Q10</td><td><span class="correct">B</span></td><td>Threshold at 0.5: h≥0.5 means z≥0 means θᵀx≥0 → predict y=1.</td></tr>
+  <tr><td>Q11</td><td><span class="correct">B</span></td><td>Decision boundary: θᵀx=0 → −5+x₁+x₂=0 → x₁+x₂=5.</td></tr>
+  <tr><td>Q12</td><td><span class="correct">B</span></td><td>MSE + sigmoid = non-convex J(θ) → gradient descent gets stuck in local minima. Log-loss is convex.</td></tr>
+  <tr><td>Q13</td><td><span class="correct">B</span></td><td>Accuracy=(120+50)/200=170/200=<strong>85%</strong></td></tr>
+  <tr><td>Q14</td><td><span class="correct">B</span></td><td>Precision = TP/(TP+FP) = "Of all I predicted positive, how many really were?"</td></tr>
+  <tr><td>Q15</td><td><span class="correct">B</span></td><td>Recall = TP/(TP+FN) = "Of all actual positives, how many did I catch?"</td></tr>
+  <tr><td>Q16</td><td><span class="correct">B</span></td><td>F1 = 2PR/(P+R) = harmonic mean (not arithmetic, not geometric).</td></tr>
+  <tr><td>Q17</td><td><span class="correct">B</span></td><td>Overfitting = low training error (memorized data) + high test error (poor generalization).</td></tr>
+  <tr><td>Q18</td><td><span class="correct">B</span></td><td>Ridge/L2 penalty = λ × Σθⱼ². L1/Lasso penalty = λ × Σ|θⱼ|.</td></tr>
+  <tr><td>Q19</td><td><span class="correct">B</span></td><td>L1 (Lasso) can shrink coefficients to exactly 0 → implicit feature selection. L2 only approaches 0.</td></tr>
+  <tr><td>Q20</td><td><span class="correct">B</span></td><td>From lecture: 5 ≤ K ≤ 10. K=10 is most commonly used.</td></tr>
+  <tr><td>Q21</td><td><span class="correct">B</span></td><td>3 nearest: A, B, A → majority = <strong>Class A</strong> (2 votes vs 1).</td></tr>
+  <tr><td>Q22</td><td><span class="correct">B</span></td><td>KNN regression = average of K neighbors = (10+14+18)/3 = 42/3 = <strong>14</strong>.</td></tr>
+  <tr><td>Q23</td><td><span class="correct">B</span></td><td>"Naïve" = assumes features are conditionally independent given class. Rarely true in practice but works well.</td></tr>
+  <tr><td>Q24</td><td><span class="correct">B</span></td><td>Bagging reduces Variance (fights overfitting). Boosting reduces Bias (fights underfitting).</td></tr>
+  <tr><td>Q25</td><td><span class="correct">B</span></td><td>Misclassified examples get higher weight → next model focuses on them more. Correctly classified → lower weight.</td></tr>
+  <tr><td>Q26</td><td><span class="correct">B</span></td><td>Bagging = parallel (independent models). Boosting = sequential (each depends on previous).</td></tr>
+  <tr><td>Q27</td><td><span class="correct">C</span></td><td>Random Forest = multiple decision trees with bootstrap sampling = Bagging of Decision Trees.</td></tr>
+  <tr><td>Q28</td><td><span class="correct">B</span></td><td>SVM goal: maximize the margin (distance) between the decision hyperplane and nearest points (support vectors).</td></tr>
+  <tr><td>Q29</td><td><span class="correct">C</span></td><td>Support vectors are the closest training points to the boundary. They define and support the margin.</td></tr>
+  <tr><td>Q30</td><td><span class="correct">B</span></td><td>Kernel trick maps non-linearly separable data into higher-dimensional space where a linear boundary works.</td></tr>
+</table>
+
+<!-- ─── PROBLEM SOLUTIONS ─── -->
+<div class="section-title" style="border-left-color: var(--green); margin-top:2rem;">Section B — Full Worked Solutions</div>
+
+<!-- SOL 1 -->
+<div class="sol-block">
+  <div class="sol-title">SOLUTION — Problem 1: Linear Regression Gradient Descent (8 marks)</div>
+
+  <h4 style="color:var(--green); margin-bottom:0.5rem;">(a) Hypothesis function:</h4>
+  <div class="step">h_θ(x) = θ₀ + θ₁x = 0 + 0·x = 0 (initially, before any iterations)</div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(b) Calculate h_θ(x) for each example:</h4>
+  <div class="step">m = 3 training examples, θ₀=0, θ₁=0</div>
+  <div class="step">h(1) = 0 + 0(1) = 0 &nbsp;&nbsp;|&nbsp;&nbsp; error = (0 − 2) = −2</div>
+  <div class="step">h(2) = 0 + 0(2) = 0 &nbsp;&nbsp;|&nbsp;&nbsp; error = (0 − 4) = −4</div>
+  <div class="step">h(3) = 0 + 0(3) = 0 &nbsp;&nbsp;|&nbsp;&nbsp; error = (0 − 6) = −6</div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(c) Cost Function J(θ):</h4>
+  <div class="step">J(θ) = 1/(2m) × Σ(h(xᵢ) − yᵢ)²</div>
+  <div class="step">J = 1/(2×3) × [(−2)² + (−4)² + (−6)²]</div>
+  <div class="step">J = 1/6 × [4 + 16 + 36]</div>
+  <div class="step">J = 56/6 ≈ <strong>9.333</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(d) Gradients:</h4>
+  <div class="step">∂J/∂θ₀ = (1/m) × Σ(h(xᵢ) − yᵢ)</div>
+  <div class="step">       = (1/3) × [(−2) + (−4) + (−6)]</div>
+  <div class="step">       = (1/3) × (−12) = <strong>−4</strong></div>
+  <div class="step">∂J/∂θ₁ = (1/m) × Σ(h(xᵢ) − yᵢ)·xᵢ</div>
+  <div class="step">       = (1/3) × [(−2)(1) + (−4)(2) + (−6)(3)]</div>
+  <div class="step">       = (1/3) × [−2 − 8 − 18]</div>
+  <div class="step">       = (1/3) × (−28) = <strong>−28/3 ≈ −9.333</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(e) Updated Parameters:</h4>
+  <div class="step">θ₀_new = θ₀ − α × (∂J/∂θ₀) = 0 − 0.1 × (−4) = 0 + 0.4 = <strong>0.4</strong></div>
+  <div class="step">θ₁_new = θ₁ − α × (∂J/∂θ₁) = 0 − 0.1 × (−9.333) = 0 + 0.933 = <strong>0.933</strong></div>
+  <p style="margin-top:0.5rem; color:var(--text2); font-size:0.88rem;">The new hypothesis after iteration 1: h(x) = 0.4 + 0.933x</p>
+</div>
+
+<!-- SOL 2 -->
+<div class="sol-block">
+  <div class="sol-title">SOLUTION — Problem 2: Logistic Regression (8 marks)</div>
+
+  <h4 style="color:var(--green); margin-bottom:0.5rem;">(a) Calculate z = −3 + 1·x:</h4>
+  <div class="step">x=1: z = −3 + 1 = −2 &nbsp;&nbsp;|&nbsp;&nbsp; x=2: z = −3 + 2 = −1</div>
+  <div class="step">x=3: z = −3 + 3 =  0 &nbsp;&nbsp;|&nbsp;&nbsp; x=4: z = −3 + 4 = +1</div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(b) Sigmoid h(x) = 1/(1+e^(−z)):</h4>
+  <div class="step">x=1 (y=0): h = 1/(1+e²) = 1/(1+7.389) = 1/8.389 ≈ <strong>0.119</strong></div>
+  <div class="step">x=2 (y=0): h = 1/(1+e¹) = 1/(1+2.718) = 1/3.718 ≈ <strong>0.269</strong></div>
+  <div class="step">x=3 (y=1): h = 1/(1+e⁰) = 1/(1+1)  = 1/2      = <strong>0.500</strong></div>
+  <div class="step">x=4 (y=1): h = 1/(1+e⁻¹)= 1/(1+0.368)= 1/1.368 ≈ <strong>0.731</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(c) Decision Boundary:</h4>
+  <div class="step">z = 0 → −3 + 1·x = 0 → x = 3</div>
+  <p style="color:var(--text2); font-size:0.9rem;">Decision boundary is at x = 3: predict y=1 if x ≥ 3, predict y=0 if x &lt; 3.</p>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(d) Gradients and Parameter Update:</h4>
+  <div class="step">Errors (h−y): (0.119−0)=0.119, (0.269−0)=0.269, (0.500−1)=−0.500, (0.731−1)=−0.269</div>
+  <div class="step">∂J/∂θ₀ = (1/4)×(0.119+0.269−0.500−0.269) = (1/4)×(−0.381) = <strong>−0.095</strong></div>
+  <div class="step">∂J/∂θ₁ = (1/4)×[0.119×1 + 0.269×2 + (−0.500)×3 + (−0.269)×4]</div>
+  <div class="step">        = (1/4)×[0.119 + 0.538 − 1.500 − 1.076]</div>
+  <div class="step">        = (1/4)×(−1.919) = <strong>−0.480</strong></div>
+  <div class="step">θ₀_new = −3 − 0.1×(−0.095) = −3 + 0.0095 = <strong>−2.9905 ≈ −2.990</strong></div>
+  <div class="step">θ₁_new =  1 − 0.1×(−0.480) =  1 + 0.048  = <strong>1.048</strong></div>
+</div>
+
+<!-- SOL 3 -->
+<div class="sol-block">
+  <div class="sol-title">SOLUTION — Problem 3: Confusion Matrix Evaluation (6 marks)</div>
+  <div class="step">From confusion matrix: TP=120, FP=30, FN=30, TN=120, Total=300</div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(a) Accuracy:</h4>
+  <div class="step">Accuracy = (TP+TN) / Total = (120+120) / 300 = 240/300 = <strong>0.80 = 80%</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(b) Precision:</h4>
+  <div class="step">Precision = TP / (TP+FP) = 120 / (120+30) = 120/150 = <strong>0.80 = 80%</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(c) Recall:</h4>
+  <div class="step">Recall = TP / (TP+FN) = 120 / (120+30) = 120/150 = <strong>0.80 = 80%</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(d) F1-Score:</h4>
+  <div class="step">F1 = 2 × P × R / (P+R) = 2 × 0.80 × 0.80 / (0.80+0.80)</div>
+  <div class="step">F1 = 2 × 0.64 / 1.60 = 1.28 / 1.60 = <strong>0.80 = 80%</strong></div>
+  <p style="color:var(--text2); font-size:0.87rem; margin-top:0.5rem;">Note: When Precision = Recall, F1 = Precision = Recall (this is a symmetric dataset).</p>
+</div>
+
+<!-- SOL 4 -->
+<div class="sol-block">
+  <div class="sol-title">SOLUTION — Problem 4: Normalization (4 marks)</div>
+  <div class="step">Values: 50, 100, 200, 400, 500 &nbsp;|&nbsp; Min=50, Max=500, Range=450</div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(a) Min-Max Normalization to [0, 1]:</h4>
+  <div class="step">Formula: v' = (v − 50) / 450</div>
+  <div class="step">50:  (50−50)/450  = 0/450  = <strong>0.000</strong></div>
+  <div class="step">100: (100−50)/450 = 50/450 = <strong>0.111</strong></div>
+  <div class="step">200: (200−50)/450 = 150/450= <strong>0.333</strong></div>
+  <div class="step">400: (400−50)/450 = 350/450= <strong>0.778</strong></div>
+  <div class="step">500: (500−50)/450 = 450/450= <strong>1.000</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(b) Z-Score Normalization:</h4>
+  <div class="step">Mean μ = (50+100+200+400+500)/5 = 1250/5 = <strong>250</strong></div>
+  <div class="step">Variance = [(50−250)²+(100−250)²+(200−250)²+(400−250)²+(500−250)²] / 5</div>
+  <div class="step">         = [40000 + 22500 + 2500 + 22500 + 62500] / 5 = 150000/5 = 30000</div>
+  <div class="step">σ = √30000 = <strong>173.21</strong></div>
+  <div class="step">Formula: z = (v − 250) / 173.21</div>
+  <div class="step">50:  (50−250)/173.21  = −200/173.21 = <strong>−1.155</strong></div>
+  <div class="step">100: (100−250)/173.21 = −150/173.21 = <strong>−0.866</strong></div>
+  <div class="step">200: (200−250)/173.21 =  −50/173.21 = <strong>−0.289</strong></div>
+  <div class="step">400: (400−250)/173.21 =  150/173.21 = <strong>+0.866</strong></div>
+  <div class="step">500: (500−250)/173.21 =  250/173.21 = <strong>+1.443</strong></div>
+  <p style="color:var(--text2); font-size:0.87rem; margin-top:0.5rem;">Verify: z-scores sum ≈ 0 (−1.155−0.866−0.289+0.866+1.443 ≈ −0.001 ✓ rounding error)</p>
+</div>
+
+<!-- SOL 5 -->
+<div class="sol-block">
+  <div class="sol-title">SOLUTION — Problem 5: KNN Classification (4 marks)</div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(a) Euclidean Distances from Q=(3,3):</h4>
+  <div class="step">d(Q, P1) = √[(3−1)²+(3−1)²] = √[4+4]   = √8   = <strong>2.83</strong></div>
+  <div class="step">d(Q, P2) = √[(3−2)²+(3−2)²] = √[1+1]   = √2   = <strong>1.41</strong></div>
+  <div class="step">d(Q, P3) = √[(3−5)²+(3−4)²] = √[4+1]   = √5   = <strong>2.24</strong></div>
+  <div class="step">d(Q, P4) = √[(3−6)²+(3−5)²] = √[9+4]   = √13  = <strong>3.61</strong></div>
+
+  <h4 style="color:var(--green); margin:0.8rem 0 0.5rem;">(b) K=3 Nearest Neighbors and Prediction:</h4>
+  <div class="step">Sorted by distance: P2 (1.41, A), P3 (2.24, B), P1 (2.83, A), P4 (3.61, B)</div>
+  <div class="step">K=3 nearest: P2 (Class A), P3 (Class B), P1 (Class A)</div>
+  <div class="step">Class A votes: 2 &nbsp;|&nbsp; Class B votes: 1</div>
+  <div class="step">Majority vote → Predicted class = <strong>Class A</strong></div>
+</div>
+
+</div><!-- end #solutions -->
+
+<p style="text-align:center; color:var(--text2); font-size:0.85rem; margin-top:3rem; padding-bottom:2rem;">
+  Machine Learning Study Guide — Dr. Mahmoud Gamal — Faculty of Computers &amp; Data Science, Alexandria University
+</p>
+
+</div><!-- end .container -->
+</body>
+</html>

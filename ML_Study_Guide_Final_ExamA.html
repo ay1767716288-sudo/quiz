@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Study Guide & Final Exam A</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f3ee;
+    --surface: #ffffff;
+    --surface2: #faf8f5;
+    --border: #e8e0d4;
+    --text: #2c2416;
+    --text-muted: #7a6e60;
+    --primary: #5b7fa6;
+    --primary-light: #dce8f5;
+    --primary-dark: #3d5f82;
+    --accent: #c47c3a;
+    --accent-light: #faecd9;
+    --green: #4a8c5c;
+    --green-light: #d9f0e2;
+    --red: #c0443a;
+    --red-light: #fde8e7;
+    --yellow: #b8860b;
+    --yellow-light: #fdf5d9;
+    --shadow: 0 2px 12px rgba(44,36,22,0.07);
+    --shadow-md: 0 4px 24px rgba(44,36,22,0.10);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #3d5f82 0%, #5b7fa6 50%, #7ba3cc 100%);
+    color: white;
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  header p {
+    opacity: 0.88;
+    font-size: 0.95rem;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .score-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 30px;
+    padding: 8px 22px;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .score-pill span { font-size: 1.3rem; font-weight: 700; }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    padding: 10px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .nav-btn:hover { background: var(--primary-light); color: var(--primary-dark); }
+  .nav-btn.active { background: var(--primary); color: white; }
+
+  /* ── MAIN ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── SUMMARY CARDS ── */
+  .lecture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .lecture-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .lecture-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
+  .card-subtitle { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+  .card-body { padding: 0 20px 18px; }
+  .card-body ul { list-style: none; }
+  .card-body ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .card-body ul li:last-child { border-bottom: none; }
+  .card-body ul li::before { content: '▸'; color: var(--primary); flex-shrink: 0; margin-top: 1px; }
+
+  .formula-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-right: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--primary-dark);
+    direction: ltr;
+    text-align: left;
+  }
+
+  .key-point {
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    margin: 6px 0;
+    font-size: 0.84rem;
+    color: var(--primary-dark);
+    font-weight: 500;
+  }
+
+  /* ── EXAM SECTION ── */
+  .exam-header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .exam-info h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+  .exam-info p { font-size: 0.88rem; color: var(--text-muted); }
+  .exam-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    text-align: center;
+    min-width: 80px;
+  }
+  .stat-chip .num { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+  .stat-chip .lbl { font-size: 0.72rem; color: var(--text-muted); }
+
+  .progress-bar-wrap {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin: 16px 0 4px;
+    overflow: hidden;
+  }
+  .progress-bar { height: 100%; background: var(--primary); border-radius: 3px; transition: width .4s ease; width: 0%; }
+  .progress-label { font-size: 0.78rem; color: var(--text-muted); text-align: left; direction: ltr; }
+
+  /* ── QUESTION ── */
+  .question-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: border-color .2s;
+  }
+  .question-block.answered-correct { border-color: var(--green); }
+  .question-block.answered-wrong { border-color: var(--red); }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 22px 14px;
+  }
+  .q-num {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .q-type-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .type-theory { background: var(--yellow-light); color: var(--yellow); }
+  .type-compute { background: var(--primary-light); color: var(--primary-dark); }
+
+  .q-text { font-size: 0.93rem; font-weight: 500; line-height: 1.6; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    direction: ltr;
+  }
+  .data-table th {
+    background: var(--primary);
+    color: white;
+    padding: 7px 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .data-table td {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .data-table tr:nth-child(even) td { background: var(--surface2); }
+
+  .q-data-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin: 12px 22px;
+    font-size: 0.85rem;
+    direction: ltr;
+    text-align: left;
+  }
+  .q-data-box .data-label {
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* ── OPTIONS ── */
+  .options-list { padding: 4px 22px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    text-align: right;
+    transition: all .2s;
+    width: 100%;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+  .option-letter {
+    width: 28px; height: 28px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    transition: all .2s;
+  }
+  .option-btn:hover:not(:disabled) .option-letter {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+  }
+  .option-text { flex: 1; line-height: 1.5; }
+
+  .option-btn.correct {
+    border-color: var(--green) !important;
+    background: var(--green-light) !important;
+    color: var(--green);
+  }
+  .option-btn.correct .option-letter {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+  }
+  .option-btn.wrong {
+    border-color: var(--red) !important;
+    background: var(--red-light) !important;
+    color: var(--red);
+  }
+  .option-btn.wrong .option-letter {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+  .option-btn:disabled { cursor: default; }
+
+  .feedback-msg {
+    display: none;
+    margin: 4px 22px 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    align-items: center;
+    gap: 8px;
+  }
+  .feedback-msg.show { display: flex; }
+  .feedback-msg.correct-fb { background: var(--green-light); color: var(--green); border: 1px solid #a8d8b8; }
+  .feedback-msg.wrong-fb { background: var(--red-light); color: var(--red); border: 1px solid #f0b8b5; }
+
+  /* ── SUBMIT BTN ── */
+  .submit-area {
+    text-align: center;
+    margin: 32px 0;
+  }
+  .btn-submit {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(91,127,166,0.35);
+    transition: all .2s;
+  }
+  .btn-submit:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(91,127,166,0.4); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* ── RESULTS ── */
+  #results-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+  }
+  #results-panel h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+  .score-circle {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border: 6px solid;
+  }
+  .score-circle .big { font-size: 2.2rem; }
+  .score-circle .small { font-size: 0.85rem; opacity: 0.8; }
+  .score-pass { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .score-ok { border-color: var(--yellow); background: var(--yellow-light); color: var(--yellow); }
+  .score-fail { border-color: var(--red); background: var(--red-light); color: var(--red); }
+  .grade-msg { font-size: 1.15rem; font-weight: 600; margin: 8px 0; }
+  .grade-sub { color: var(--text-muted); font-size: 0.9rem; }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  .results-stat { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .results-stat .val { font-size: 1.5rem; font-weight: 700; }
+  .results-stat .key { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* ── SOLUTIONS ── */
+  .solutions-section {
+    margin-top: 40px;
+  }
+  .solutions-section h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .solution-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-right: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .solution-card .sol-q { font-size: 0.82rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .solution-card .sol-q-text { font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; }
+  .solution-card .sol-answer {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--green-light);
+    border: 1px solid #a8d8b8;
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .solution-card .sol-explain {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-top: 6px;
+  }
+  .sol-formula {
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 6px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    direction: ltr;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+
+  /* ── PAGE TITLE ── */
+  .page-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .page-title .icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    background: var(--primary-light);
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--border); }
+  ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .lecture-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: repeat(3,1fr); }
+    .exam-header { flex-direction: column; align-items: flex-start; }
+    .q-data-box { direction: rtl; text-align: right; }
+  }
+
+  .highlight { color: var(--accent); font-weight: 700; }
+  .mark { background: var(--yellow-light); padding: 1px 4px; border-radius: 3px; color: var(--yellow); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Machine Learning · Final Exam A</div>
+  <h1>📘 ML Study Guide & Final Exam</h1>
+  <p>ملخص شامل لكل المحاضرات + امتحان نهائي تفاعلي (60 درجة)</p>
+  <div class="score-pill">
+    📊 الدرجة الكلية: <span>60</span> درجة &nbsp;|&nbsp; 30 سؤال MCQ
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('summaries')">📚 ملخص المحاضرات</button>
+    <button class="nav-btn" onclick="showSection('exam')">📝 الامتحان النهائي</button>
+    <button class="nav-btn" onclick="showSection('solutions')">✅ الإجابات والحلول</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 1: SUMMARIES
+══════════════════════════════════════════════ -->
+<div id="summaries" class="section active">
+  <div class="page-title"><span class="icon">📚</span> ملخص شامل لكل المحاضرات</div>
+
+  <div class="lecture-grid">
+
+    <!-- CH1: Intro -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#dce8f5,#f0f7ff)">
+        <div class="card-icon" style="background:#5b7fa6;color:white">🤖</div>
+        <div>
+          <div class="card-title">المحاضرة 1: مقدمة في ML</div>
+          <div class="card-subtitle">Introduction to Machine Learning</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>ML: مجال يجعل الحاسوب يتعلم بدون برمجة صريحة (Arthur Samuel 1959)</li>
+          <li><strong>Supervised:</strong> بيانات مدخلة مع إجابات صحيحة — Regression & Classification</li>
+          <li><strong>Unsupervised:</strong> بيانات بدون تسميات — Clustering</li>
+          <li><strong>Regression:</strong> تنبؤ بقيم مستمرة (مثل: أسعار المنازل)</li>
+          <li><strong>Classification:</strong> تنبؤ بفئات (0 أو 1)</li>
+        </ul>
+        <div class="key-point">أنواع البيانات: Nominal, Binary, Ordinal, Interval, Ratio</div>
+        <div class="key-point">أنواع المسافات: Manhattan (L1), Euclidean (L2), Supremum (L∞)</div>
+        <div class="formula-box">Euclidean: d = √(Σ(xi - yi)²)
+Manhattan: d = Σ|xi - yi|</div>
+        <ul>
+          <li><strong>Normalization:</strong> Min-Max, Z-score, Decimal Scaling</li>
+          <li><strong>Binning:</strong> Equal-Width و Equal-Depth لتنعيم البيانات</li>
+          <li><strong>Data Preprocessing:</strong> Cleaning, Integration, Reduction, Transformation</li>
+        </ul>
+        <div class="formula-box">Min-Max: v' = (v-min)/(max-min) × (new_max-new_min) + new_min
+Z-score: v' = (v - μ) / σ</div>
+      </div>
+    </div>
+
+    <!-- CH2: Linear Regression -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#faecd9,#fff5eb)">
+        <div class="card-icon" style="background:#c47c3a;color:white">📈</div>
+        <div>
+          <div class="card-title">المحاضرة 2: Linear Regression</div>
+          <div class="card-subtitle">الانحدار الخطي بمتغير واحد ومتعدد</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>Hypothesis: h(x) = θ₀ + θ₁x (one variable)</li>
+          <li>θ₀ = Y-intercept (نقطة التقاطع), θ₁ = Slope (الميل)</li>
+          <li>Cost Function J(θ) = (1/2m) × Σ(h(xᵢ) - yᵢ)²</li>
+        </ul>
+        <div class="formula-box">Gradient Descent (θ₀):
+θ₀ = θ₀ - α × (1/m) × Σ(h(xᵢ) - yᵢ)
+
+Gradient Descent (θ₁):
+θ₁ = θ₁ - α × (1/m) × Σ(h(xᵢ) - yᵢ) × xᵢ</div>
+        <ul>
+          <li>α = Learning Rate (معدل التعلم) — يجب اختياره بعناية</li>
+          <li>Multiple Variables: h(x) = θ₀ + θ₁x₁ + θ₂x₂ + ... + θₙxₙ</li>
+          <li>Feature Scaling: تقسيم قيمة المتغير على أقصى قيمة له</li>
+          <li>Polynomial Regression: استخدام درجات أعلى للـ features</li>
+        </ul>
+        <div class="key-point">المثال: x=[2,3,4], y=[3,4,5], θ₀=2, θ₁=2, α=0.1</div>
+      </div>
+    </div>
+
+    <!-- CH3: Logistic Regression -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#d9f0e2,#f0faf4)">
+        <div class="card-icon" style="background:#4a8c5c;color:white">🔀</div>
+        <div>
+          <div class="card-title">المحاضرة 3: Logistic Regression</div>
+          <div class="card-subtitle">الانحدار اللوجستي والتصنيف</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>يُستخدم للتصنيف (y = 0 أو 1) — ليس للانحدار</li>
+          <li>Sigmoid Function: g(z) = 1 / (1 + e⁻ᶻ)</li>
+          <li>h(x) = g(θ₀ + θ₁x) = 1 / (1 + e^(-(θ₀+θ₁x)))</li>
+        </ul>
+        <div class="formula-box">Decision Boundary: h(x) = 0.5 → z = 0
+If h(x) ≥ 0.5 → predict y = 1
+If h(x) < 0.5  → predict y = 0</div>
+        <ul>
+          <li>Cost Function (Convex): -y×log(h) - (1-y)×log(1-h)</li>
+          <li>Gradient Descent: نفس صيغة Linear Regression!</li>
+          <li>Decision Boundary مثال: θ₀=-3, θ₁=1, θ₂=1 → x₁+x₂=3</li>
+        </ul>
+        <div class="key-point">مثال: x=[3,5,10,12], y=[1,1,0,0], θ₀=2, θ₁=1</div>
+      </div>
+    </div>
+
+    <!-- CH4: Overfitting -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#fde8e7,#fff0f0)">
+        <div class="card-icon" style="background:#c0443a;color:white">⚖️</div>
+        <div>
+          <div class="card-title">المحاضرة 4: Overfitting & Regularization</div>
+          <div class="card-subtitle">الإفراط في التعلم والتنظيم</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Underfitting (High Bias):</strong> النموذج لا يتعلم جيداً من التدريب</li>
+          <li><strong>Overfitting (High Variance):</strong> النموذج يحفظ التدريب لكن يفشل في الاختبار</li>
+          <li><strong>حلول Overfitting:</strong></li>
+          <li>① جمع بيانات تدريب أكثر</li>
+          <li>② Feature Selection (اختيار المتغيرات)</li>
+          <li>③ Regularization</li>
+          <li>④ Cross Validation</li>
+        </ul>
+        <div class="formula-box">Ridge (L2): J = J_original + λ × Σθⱼ²
+Lasso (L1): J = J_original + λ × Σ|θⱼ|</div>
+        <ul>
+          <li>K-Fold Cross Validation: 5 ≤ k ≤ 10</li>
+          <li>Ridge تُقلل الـ coefficients ولكن لا تصفّرها</li>
+          <li>Lasso يمكنها تصفير بعض المعاملات (Feature Selection)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CH5: KNN & Naive Bayes -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#e8e0f5,#f5f0ff)">
+        <div class="card-icon" style="background:#7c5ba6;color:white">🔍</div>
+        <div>
+          <div class="card-title">المحاضرة 5: KNN & Naive Bayes</div>
+          <div class="card-subtitle">K-Nearest Neighbor والبايز الساذج</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>KNN يُستخدم في Classification و Regression</li>
+          <li>خطوات KNN: ① حساب المسافة ② الترتيب ③ اختيار K أقرب</li>
+        </ul>
+        <div class="formula-box">Euclidean Distance:
+d = √((x₂-x₁)² + (y₂-y₁)²)
+
+KNN Regression: Average of k nearest weights</div>
+        <ul>
+          <li>للتصنيف: Majority vote بين K جيران</li>
+          <li>للانحدار: متوسط قيم K الأقرب</li>
+          <li><strong>Naive Bayes:</strong> يعتمد على نظرية بايز للاحتمالات الشرطية</li>
+          <li>P(class|features) ∝ P(features|class) × P(class)</li>
+          <li>مثال: التنبؤ بلعب التنس بناءً على الطقس</li>
+        </ul>
+        <div class="key-point">مثال KNN Regression: k=3, query=(2,1) → avg top3 = 2</div>
+      </div>
+    </div>
+
+    <!-- CH6: SVM -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#fff3d9,#fffaeb)">
+        <div class="card-icon" style="background:#b8860b;color:white">⚡</div>
+        <div>
+          <div class="card-title">المحاضرة 6: Support Vector Machines</div>
+          <div class="card-subtitle">آلة المتجهات الداعمة</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>SVM تجد أفضل hyperplane يُعظّم الهامش بين الفئات</li>
+          <li><strong>Support Vectors:</strong> النقاط الأقرب إلى الـ hyperplane</li>
+        </ul>
+        <div class="formula-box">Hyperplane: b₀ + b₁x₁ + b₂x₂ = 0  (wᵀX = 0)
+Positive: wᵀX > 0
+Negative: wᵀX < 0</div>
+        <ul>
+          <li><strong>Hard Margin (Maximal Margin Classifier):</strong> بيانات مفصولة تماماً</li>
+          <li><strong>Soft Margin (Support Vector Classifier):</strong> يسمح ببعض الأخطاء</li>
+          <li><strong>Kernel Trick:</strong> تحويل البيانات لأبعاد أعلى لجعلها قابلة للفصل</li>
+          <li>أنواع Kernel: Linear, Polynomial, RBF (Gaussian)</li>
+          <li>C parameter: يتحكم في عدد الأخطاء المسموح بها</li>
+        </ul>
+        <div class="key-point">كبر C → أقل أخطاء لكن خطر Overfitting | صغر C → Soft Margin</div>
+      </div>
+    </div>
+
+    <!-- CH7: Ensemble -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#d9eef5,#ebf7fb)">
+        <div class="card-icon" style="background:#2a7fa6;color:white">🌲</div>
+        <div>
+          <div class="card-title">المحاضرة 7: Ensemble Methods</div>
+          <div class="card-subtitle">أساليب التجميع</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>تجميع نماذج متعددة للحصول على تنبؤ أفضل</li>
+          <li><strong>Homogeneous:</strong> نفس الخوارزمية + بيانات مختلفة</li>
+          <li><strong>Heterogeneous:</strong> خوارزميات مختلفة</li>
+        </ul>
+        <div class="formula-box">1. Max Voting (Majority)
+2. Averaging
+3. Weighted Averaging
+4. Bagging (Bootstrap Aggregating) → يقلل Variance
+5. Boosting → يقلل Bias
+6. Stacking</div>
+        <ul>
+          <li><strong>Bagging:</strong> يعيد أخذ عينات عشوائية مع الاستبدال → Random Forest</li>
+          <li><strong>Boosting:</strong> يُثقّل النقاط الخاطئة → AdaBoost, XGBoost</li>
+          <li><strong>Stacking:</strong> يستخدم نموذج Meta-learner للتجميع</li>
+        </ul>
+        <div class="key-point">Weighted Avg مثال: [5×0.23 + 4×0.23 + 5×0.18 + 4×0.18 + 4×0.18] = 4.41</div>
+      </div>
+    </div>
+
+    <!-- CH8: Model Evaluation -->
+    <div class="lecture-card">
+      <div class="card-header" style="background:linear-gradient(135deg,#e8f5d9,#f4fbe8)">
+        <div class="card-icon" style="background:#5c8a2a;color:white">📊</div>
+        <div>
+          <div class="card-title">المحاضرة 8: Model Evaluation</div>
+          <div class="card-subtitle">تقييم النماذج</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Regression Metrics:</strong> MSE, RMSE, MAE, R²</li>
+          <li><strong>Confusion Matrix</strong> للتصنيف الثنائي:</li>
+          <li>TP: صحيح موجب | TN: صحيح سالب | FP: خاطئ موجب | FN: خاطئ سالب</li>
+        </ul>
+        <div class="formula-box">Accuracy  = (TP + TN) / (TP + TN + FP + FN)
+Precision = TP / (TP + FP)
+Recall    = TP / (TP + FN)
+F1-Score  = 2 × (Precision × Recall) / (Precision + Recall)</div>
+        <ul>
+          <li>مثال: TP=120, FP=20, FN=10, TN=50 (إجمالي=200)</li>
+          <li>Accuracy = 170/200 = 0.85</li>
+          <li>Precision = 120/140 ≈ 0.857</li>
+          <li>Recall = 120/130 ≈ 0.923</li>
+        </ul>
+        <div class="key-point">F1-Score يوازن بين Precision و Recall — مفيد عند عدم توازن الفئات</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 2: EXAM
+══════════════════════════════════════════════ -->
+<div id="exam" class="section">
+  <div class="exam-header">
+    <div class="exam-info">
+      <h2>📝 الامتحان النهائي — Final Exam A</h2>
+      <p>اختر الإجابة الصحيحة لكل سؤال — ستظهر النتيجة فوراً</p>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="progress-label" id="progress-label">0 / 30 سؤال تم الإجابة عليه</div>
+    </div>
+    <div class="exam-stats">
+      <div class="stat-chip"><div class="num">30</div><div class="lbl">سؤال</div></div>
+      <div class="stat-chip"><div class="num">60</div><div class="lbl">درجة</div></div>
+      <div class="stat-chip"><div class="num">2</div><div class="lbl">د/سؤال</div></div>
+    </div>
+  </div>
+
+  <div id="results-panel">
+    <h2>🎓 نتيجة الامتحان</h2>
+    <div class="score-circle" id="score-circle">
+      <div class="big" id="score-display">0</div>
+      <div class="small">من 60</div>
+    </div>
+    <div class="grade-msg" id="grade-msg"></div>
+    <div class="grade-sub" id="grade-sub"></div>
+    <div class="results-grid">
+      <div class="results-stat"><div class="val" id="res-correct" style="color:var(--green)">0</div><div class="key">✅ صحيح</div></div>
+      <div class="results-stat"><div class="val" id="res-wrong" style="color:var(--red)">0</div><div class="key">❌ خطأ</div></div>
+      <div class="results-stat"><div class="val" id="res-pct" style="color:var(--primary)">0%</div><div class="key">📊 النسبة</div></div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS CONTAINER -->
+  <div id="questions-container"></div>
+
+  <div class="submit-area">
+    <button class="btn-submit" id="submit-btn" onclick="submitExam()">
+      🏁 إنهاء الامتحان وعرض النتيجة
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 3: SOLUTIONS
+══════════════════════════════════════════════ -->
+<div id="solutions" class="section">
+  <div class="page-title"><span class="icon">✅</span> الحلول التفصيلية لكل الأسئلة</div>
+  <div id="solutions-container"></div>
+</div>
+
+</main>
+
+<script>
+// ════════════════════════════════════
+// EXAM DATA
+// ════════════════════════════════════
+const questions = [
+  // ─── THEORETICAL (1-13) ───
+  {
+    id: 1,
+    type: 'theory',
+    q: 'وفقاً لتعريف Arthur Samuel (1959)، ما هو تعريف Machine Learning؟',
+    opts: [
+      'مجال يجعل الحاسوب يتعلم بدون أن يُبرمج صراحةً',
+      'مجال برمجة الحاسوب لحل المسائل الرياضية تلقائياً',
+      'نوع من قواعد البيانات التي تتعلم من المستخدم',
+      'تقنية لتحسين سرعة الحاسوب باستخدام الذكاء الاصطناعي'
+    ],
+    correct: 0,
+    explain: 'التعريف الكلاسيكي لـ Machine Learning بواسطة Arthur Samuel (1959) هو: "مجال الدراسة الذي يعطي الحواسيب القدرة على التعلم دون أن تُبرمج صراحةً".'
+  },
+  {
+    id: 2,
+    type: 'theory',
+    q: 'شركة تريد التنبؤ بعدد وحدات ستُباع خلال 3 أشهر. ما نوع مسألة ML المناسبة؟',
+    opts: [
+      'Classification — لأن الناتج فئات',
+      'Regression — لأن الناتج قيمة مستمرة',
+      'Clustering — لأن البيانات غير مصنفة',
+      'Reinforcement Learning — لأن النموذج يتعلم من البيئة'
+    ],
+    correct: 1,
+    explain: 'التنبؤ بعدد الوحدات المباعة يعطي قيمة مستمرة (رقم محدد)، لذا هي مسألة Regression. أما Classification فتُستخدم عندما يكون الناتج فئات محددة مثل: مريض/سليم.'
+  },
+  {
+    id: 3,
+    type: 'theory',
+    q: 'ما الفرق الأساسي بين Supervised وUnsupervised Learning؟',
+    opts: [
+      'Supervised يستخدم Python بينما Unsupervised يستخدم R',
+      'Supervised يعطي output labels في بيانات التدريب، Unsupervised لا يعطي',
+      'Supervised أبطأ من Unsupervised دائماً',
+      'Supervised للتصنيف فقط، Unsupervised للانحدار فقط'
+    ],
+    correct: 1,
+    explain: 'في Supervised Learning تُعطى بيانات المدخلات x مع الإجابات الصحيحة y (labels). أما Unsupervised Learning فيُعطى x فقط بدون labels، والخوارزمية تجد الأنماط بنفسها (مثل Clustering).'
+  },
+  {
+    id: 4,
+    type: 'theory',
+    q: 'ما الغرض من دالة التكلفة Cost Function J(θ) في الانحدار الخطي؟',
+    opts: [
+      'قياس سرعة الخوارزمية',
+      'قياس الفرق بين القيم المتنبأ بها والقيم الفعلية لتحسين النموذج',
+      'حساب عدد التكرارات اللازمة للتدريب',
+      'تحديد عدد المتغيرات في النموذج'
+    ],
+    correct: 1,
+    explain: 'J(θ) = (1/2m) × Σ(h(xᵢ) - yᵢ)² تقيس متوسط مربع الخطأ. الهدف من Gradient Descent هو تقليل J(θ) للوصول إلى أفضل قيم θ. كلما قلّت J كلما كان النموذج أفضل.'
+  },
+  {
+    id: 5,
+    type: 'theory',
+    q: 'ما هو تأثير اختيار Learning Rate (α) كبير جداً في Gradient Descent؟',
+    opts: [
+      'التقارع يحدث بشكل أسرع وأكثر دقة',
+      'J(θ) قد تزداد ولا يحدث تقارع (Divergence)',
+      'يقلل من overfitting تلقائياً',
+      'يجعل النموذج يتعلم عدد أكبر من الـ features'
+    ],
+    correct: 1,
+    explain: 'عندما يكون α كبيراً جداً، قد يتجاوز الـ Gradient Descent نقطة الحد الأدنى ويتذبذب أو ترتفع J(θ). أما إذا كان صغيراً جداً فسيكون التعلم بطيئاً جداً. الحل: رسم learning curve واختيار قيم مختلفة مثل 0.003, 0.03, 0.3.'
+  },
+  {
+    id: 6,
+    type: 'theory',
+    q: 'لماذا نستخدم Sigmoid Function في Logistic Regression؟',
+    opts: [
+      'لأنها تعطي قيم سالبة مفيدة في التصنيف',
+      'لأنها تحصر الناتج بين 0 و1 مما يجعله يُفسَّر كاحتمال',
+      'لأنها أسرع حسابياً من الدوال الأخرى',
+      'لأنها خطية وسهلة التفاضل'
+    ],
+    correct: 1,
+    explain: 'g(z) = 1/(1+e⁻ᶻ) تحصر الناتج في [0,1]، مما يجعله يُفسَّر كاحتمال P(y=1|x;θ). إذا كان الناتج ≥ 0.5 نتنبأ بـ y=1، وإلا y=0. Linear Regression لا تصلح للتصنيف لأنها قد تعطي قيم > 1 أو < 0.'
+  },
+  {
+    id: 7,
+    type: 'theory',
+    q: 'ما المقصود بـ Overfitting في نماذج ML؟',
+    opts: [
+      'النموذج لا يتعلم جيداً من بيانات التدريب',
+      'النموذج يؤدي جيداً على التدريب لكن يفشل على بيانات جديدة',
+      'النموذج يتعلم بسرعة كبيرة جداً',
+      'النموذج يستخدم متغيرات كثيرة جداً في الحساب'
+    ],
+    correct: 1,
+    explain: 'Overfitting (High Variance) يحدث عندما يحفظ النموذج بيانات التدريب بدل أن يتعلم الأنماط العامة. النموذج يؤدي ممتازاً على Training set لكن يفشل على Test set. يُعالج بـ: زيادة البيانات، Feature Selection، Regularization، أو Cross Validation.'
+  },
+  {
+    id: 8,
+    type: 'theory',
+    q: 'ما الفرق بين Ridge (L2) وLasso (L1) Regularization؟',
+    opts: [
+      'Ridge تُقلل المعاملات دون تصفيرها، Lasso يمكنها تصفير بعض المعاملات',
+      'Ridge للتصنيف فقط، Lasso للانحدار فقط',
+      'Ridge أسرع حسابياً من Lasso دائماً',
+      'Lasso تستخدم مربع المعاملات، Ridge تستخدم القيمة المطلقة'
+    ],
+    correct: 0,
+    explain: 'Ridge (L2): تُضيف λ×Σθⱼ² للـ cost function — تُقلل المعاملات ولكن لا تُصفّرها. Lasso (L1): تُضيف λ×Σ|θⱼ| — يمكنها تصفير بعض المعاملات مما يجعلها تعمل كـ Feature Selection أيضاً.'
+  },
+  {
+    id: 9,
+    type: 'theory',
+    q: 'ما الفكرة الأساسية لخوارزمية SVM (Support Vector Machines)؟',
+    opts: [
+      'إيجاد متوسط بيانات التدريب',
+      'إيجاد أفضل Hyperplane يُعظّم الهامش (Margin) بين الفئات',
+      'تجميع النقاط المتشابهة في مجموعات',
+      'حساب احتمال انتماء نقطة لكل فئة'
+    ],
+    correct: 1,
+    explain: 'SVM تجد الـ Hyperplane الأمثل (wᵀX=0) الذي يُعظّم المسافة (Margin) بين فئتي البيانات. Support Vectors هي أقرب النقاط للـ Hyperplane وهي التي تحدده. Maximum Margin → أفضل تعميم (Generalization).'
+  },
+  {
+    id: 10,
+    type: 'theory',
+    q: 'ما المقصود بـ Ensemble Learning؟',
+    opts: [
+      'تدريب نموذج واحد قوي على كل البيانات',
+      'تجميع عدة نماذج متنوعة للحصول على تنبؤ أفضل',
+      'استخدام نفس النموذج عدة مرات على نفس البيانات',
+      'تقسيم البيانات لأجزاء متساوية'
+    ],
+    correct: 1,
+    explain: 'Ensemble Learning يجمع نماذج متعددة ومتنوعة. كل نموذج يعطي تنبؤه، ثم يُحدد التنبؤ النهائي عن طريق Majority Vote أو Average. مثل سؤال 50 شخص بدل شخص واحد — يعطي نتيجة أكثر توازناً.'
+  },
+  {
+    id: 11,
+    type: 'theory',
+    q: 'ما الفرق بين Bagging وBoosting؟',
+    opts: [
+      'Bagging يُدرّب النماذج بالتوازي ويقلل Variance، Boosting يُدرّب بالتسلسل ويقلل Bias',
+      'Bagging يُدرّب بالتسلسل، Boosting يُدرّب بالتوازي',
+      'Bagging للتصنيف فقط، Boosting للانحدار فقط',
+      'لا فرق بينهما في الأداء'
+    ],
+    correct: 0,
+    explain: 'Bagging (Bootstrap Aggregating): يُدرّب نماذج متوازية على عينات مختلفة من البيانات → يُقلل Variance → Random Forest مثال. Boosting: يُدرّب نماذج بالتسلسل، كل نموذج يركّز على أخطاء السابق → يُقلل Bias → AdaBoost, XGBoost مثال.'
+  },
+  {
+    id: 12,
+    type: 'theory',
+    q: 'ماذا تقيس Precision في تقييم نماذج التصنيف؟',
+    opts: [
+      'من كل الحالات الموجبة الفعلية، كم نسبة ما صنّفه النموذج صحيحاً',
+      'من كل ما صنّفه النموذج موجباً، كم نسبة الصحيح فعلاً',
+      'نسبة التنبؤات الصحيحة من إجمالي التنبؤات',
+      'الوسط الهندسي بين Precision وRecall'
+    ],
+    correct: 1,
+    explain: 'Precision = TP / (TP + FP) تقيس: من كل ما صنّفه النموذج بالفئة الموجبة (+)، كم منها صحيح فعلاً؟ بينما Recall = TP/(TP+FN) تقيس: من كل الحالات الموجبة الفعلية، كم منها اكتشف النموذج؟'
+  },
+  {
+    id: 13,
+    type: 'theory',
+    q: 'ما هو الغرض من K-Fold Cross Validation؟',
+    opts: [
+      'تسريع عملية التدريب بتقسيم البيانات',
+      'الكشف عن Overfitting وتقييم النموذج بشكل أكثر موثوقية',
+      'اختيار أفضل قيمة لـ K في خوارزمية KNN',
+      'تقليل عدد المتغيرات في النموذج'
+    ],
+    correct: 1,
+    explain: 'K-Fold Cross Validation تُقسّم البيانات إلى K أجزاء متساوية. في كل مرة تُستخدم K-1 أجزاء للتدريب وجزء للاختبار، ثم تُحسب المتوسطات. يُوصى بـ 5 ≤ k ≤ 10. يُقلل من تحيّز التقييم ويكشف عن Overfitting.'
+  },
+
+  // ─── COMPUTATIONAL (14-30) ───
+  {
+    id: 14,
+    type: 'compute',
+    q: 'إذا كانت h(x) = θ₀ + θ₁x، وθ₀ = 1، θ₁ = 3، ما قيمة h(4)؟',
+    opts: ['10', '13', '12', '9'],
+    correct: 1,
+    explain: 'h(4) = θ₀ + θ₁ × x = 1 + 3 × 4 = 1 + 12 = 13',
+    hasData: true,
+    dataLabel: 'المعطيات',
+    dataText: 'θ₀ = 1 | θ₁ = 3 | x = 4'
+  },
+  {
+    id: 15,
+    type: 'compute',
+    q: 'باستخدام بيانات التدريب التالية وθ₀=2، θ₁=2، ما قيمة J(θ) (دالة التكلفة)؟',
+    opts: ['8.33', '6.25', '4.17', '12.5'],
+    correct: 0,
+    explain: 'h(2)=2+4=6, error=6-3=3 | h(3)=2+6=8, error=8-4=4 | h(4)=2+8=10, error=10-5=5\nJ(θ) = (1/2m) × Σerrors² = (1/6) × (9+16+25) = 50/6 ≈ 8.33',
+    hasData: true,
+    dataLabel: 'بيانات التدريب',
+    tableData: {
+      headers: ['x', 'y'],
+      rows: [['2','3'], ['3','4'], ['4','5']]
+    },
+    extraText: 'θ₀ = 2, θ₁ = 2, α = 0.1'
+  },
+  {
+    id: 16,
+    type: 'compute',
+    q: 'بعد iteration واحدة من Gradient Descent، ما قيمة θ₀ الجديدة؟ (استخدم بيانات السؤال السابق)',
+    opts: ['1.6', '2.0', '1.4', '0.6'],
+    correct: 0,
+    explain: '∂J/∂θ₀ = (1/m) × Σ(h(xᵢ)-yᵢ) = (1/3) × (3+4+5) = 4\nθ₀_new = θ₀ - α × 4 = 2 - 0.1 × 4 = 2 - 0.4 = 1.6',
+    hasData: true,
+    dataLabel: 'المعطيات (نفس بيانات السؤال السابق)',
+    dataText: 'x=[2,3,4], y=[3,4,5] | θ₀=2, θ₁=2, α=0.1'
+  },
+  {
+    id: 17,
+    type: 'compute',
+    q: 'بعد iteration واحدة من Gradient Descent، ما قيمة θ₁ الجديدة (تقريباً)؟',
+    opts: ['0.73', '1.0', '2.5', '1.27'],
+    correct: 0,
+    explain: '∂J/∂θ₁ = (1/m) × Σ(h(xᵢ)-yᵢ)×xᵢ = (1/3)×(3×2 + 4×3 + 5×4) = (1/3)×(6+12+20) = 38/3 ≈ 12.67\nθ₁_new = 2 - 0.1 × 12.67 = 2 - 1.267 ≈ 0.73',
+    hasData: true,
+    dataLabel: 'المعطيات (نفس بيانات السؤال السابق)',
+    dataText: 'x=[2,3,4], y=[3,4,5] | θ₀=2, θ₁=2, α=0.1'
+  },
+  {
+    id: 18,
+    type: 'compute',
+    q: 'في Logistic Regression، إذا كان θ₀=2 وθ₁=1 وx=0، ما قيمة h(x) تقريباً؟',
+    opts: ['0.88', '0.50', '0.73', '0.12'],
+    correct: 0,
+    explain: 'z = θ₀ + θ₁ × x = 2 + 1×0 = 2\nh(x) = 1/(1+e⁻²) = 1/(1+0.135) = 1/1.135 ≈ 0.88\nبما أن h > 0.5 → نتنبأ بـ y = 1',
+    hasData: true,
+    dataLabel: 'المعطيات',
+    dataText: 'θ₀ = 2 | θ₁ = 1 | x = 0'
+  },
+  {
+    id: 19,
+    type: 'compute',
+    q: 'في Logistic Regression، إذا كان θ₀=-3، θ₁=1، θ₂=1، ما معادلة حدود القرار (Decision Boundary)؟',
+    opts: ['x₁ + x₂ = 3', 'x₁ + x₂ = -3', 'x₁ × x₂ = 3', '2x₁ + 2x₂ = 6'],
+    correct: 0,
+    explain: 'عند Decision Boundary: z = 0\nz = θ₀ + θ₁x₁ + θ₂x₂ = 0\n-3 + 1×x₁ + 1×x₂ = 0\nx₁ + x₂ = 3\nهذا هو حد القرار. النقاط التي x₁+x₂ > 3 → y=1، والتي x₁+x₂ < 3 → y=0',
+    hasData: true,
+    dataLabel: 'المعطيات',
+    dataText: 'θ₀ = -3, θ₁ = 1, θ₂ = 1'
+  },
+  {
+    id: 20,
+    type: 'compute',
+    q: 'احسب المسافة الإقليدية (Euclidean) بين النقطتين (1,2) و(3,5):',
+    opts: ['√13 ≈ 3.61', '√5 ≈ 2.24', '5', '√18 ≈ 4.24'],
+    correct: 0,
+    explain: 'd = √((3-1)² + (5-2)²) = √(4+9) = √13 ≈ 3.61',
+    hasData: true,
+    dataLabel: 'المعطيات',
+    dataText: 'P1 = (1, 2) | P2 = (3, 5)'
+  },
+  {
+    id: 21,
+    type: 'compute',
+    q: 'في KNN Regression (k=3)، باستخدام بيانات التدريب التالية، ما قيمة الـ weight لنقطة الاستعلام (2,1)؟',
+    opts: ['2', '3', '1.5', '6/3'],
+    correct: 0,
+    explain: 'المسافات:\n• (7,7): √((7-2)²+(7-1)²) = √(25+36) = √61 ≈ 7.81 (الرابع)\n• (7,4): √(25+9) = √34 ≈ 5.83 (الثالث)\n• (3,4): √(1+9) = √10 ≈ 3.16 (الثاني)\n• (1,3): √(1+4) = √5 ≈ 2.23 (الأقرب)\n\nk=3 الأقرب: (1,3)→w=1, (3,4)→w=2, (7,4)→w=3\nالمتوسط = (1+2+3)/3 = 6/3 = 2',
+    hasData: true,
+    dataLabel: 'بيانات التدريب',
+    tableData: {
+      headers: ['x1', 'x2', 'weight'],
+      rows: [['7','7','6'], ['7','4','3'], ['3','4','2'], ['1','3','1']]
+    },
+    extraText: 'نقطة الاستعلام: x1=2, x2=1 | k=3'
+  },
+  {
+    id: 22,
+    type: 'compute',
+    q: 'من Confusion Matrix التالية، ما قيمة Accuracy؟',
+    opts: ['0.85', '0.857', '0.923', '0.75'],
+    correct: 0,
+    explain: 'Accuracy = (TP + TN) / Total = (120 + 50) / 200 = 170/200 = 0.85 = 85%',
+    hasData: true,
+    dataLabel: 'Confusion Matrix',
+    tableData: {
+      headers: ['', 'Actual: Spam', 'Actual: Not Spam'],
+      rows: [['Predicted: Spam','120','20'], ['Predicted: Not Spam','10','50']]
+    }
+  },
+  {
+    id: 23,
+    type: 'compute',
+    q: 'من نفس Confusion Matrix، ما قيمة Precision لفئة Spam (تقريباً)؟',
+    opts: ['0.857', '0.923', '0.85', '0.833'],
+    correct: 0,
+    explain: 'Precision = TP / (TP + FP) = 120 / (120 + 20) = 120/140 ≈ 0.857\n\nFP = 20 (صُنّفت كـ Spam لكنها Not Spam فعلاً)',
+    hasData: true,
+    dataLabel: 'Confusion Matrix (TP=120, FP=20, FN=10, TN=50)',
+    dataText: 'Total = 200 emails'
+  },
+  {
+    id: 24,
+    type: 'compute',
+    q: 'من نفس Confusion Matrix، ما قيمة Recall (تقريباً)؟',
+    opts: ['0.923', '0.857', '0.85', '0.750'],
+    correct: 0,
+    explain: 'Recall = TP / (TP + FN) = 120 / (120 + 10) = 120/130 ≈ 0.923\n\nFN = 10 (كانت Spam فعلاً لكن صُنّفت كـ Not Spam)',
+    hasData: true,
+    dataLabel: 'Confusion Matrix (TP=120, FP=20, FN=10, TN=50)',
+    dataText: 'Total = 200 emails'
+  },
+  {
+    id: 25,
+    type: 'compute',
+    q: 'طبّق Min-Max Normalization لتحويل قيمة 73,600 من المجال [12,000 – 98,000] إلى [0, 1]:',
+    opts: ['0.716', '0.750', '0.680', '0.800'],
+    correct: 0,
+    explain: 'v\' = (v - min) / (max - min)\nv\' = (73600 - 12000) / (98000 - 12000) = 61600 / 86000 ≈ 0.716',
+    hasData: true,
+    dataLabel: 'المعطيات',
+    dataText: 'v = 73,600 | min = 12,000 | max = 98,000 | target range = [0, 1]'
+  },
+  {
+    id: 26,
+    type: 'compute',
+    q: 'طبّق Z-Score Normalization على القيمة 73,600، بمعلومية أن المتوسط μ=54,000 والانحراف المعياري σ=16,000:',
+    opts: ['1.225', '0.716', '2.5', '0.85'],
+    correct: 0,
+    explain: 'z = (v - μ) / σ = (73600 - 54000) / 16000 = 19600 / 16000 = 1.225',
+    hasData: true,
+    dataLabel: 'المعطيات',
+    dataText: 'v = 73,600 | μ = 54,000 | σ = 16,000'
+  },
+  {
+    id: 27,
+    type: 'compute',
+    q: 'عند تطبيق Equal-Depth Binning بـ 3 bins على البيانات المرتبة التالية (12 قيمة)، ما محتوى Bin 2؟',
+    opts: [
+      '21, 21, 24, 25',
+      '15, 21, 21, 24',
+      '4, 8, 9, 15',
+      '24, 25, 26, 28'
+    ],
+    correct: 0,
+    explain: 'Equal-Depth: كل Bin يحتوي على 12/3 = 4 قيم\nBin 1: 4, 8, 9, 15\nBin 2: 21, 21, 24, 25\nBin 3: 26, 28, 29, 34',
+    hasData: true,
+    dataLabel: 'البيانات المرتبة',
+    dataText: '4, 8, 9, 15, 21, 21, 24, 25, 26, 28, 29, 34'
+  },
+  {
+    id: 28,
+    type: 'compute',
+    q: 'في Ensemble Weighted Averaging، احسب التقييم النهائي للـ laptop بالأوزان التالية:',
+    opts: ['4.41', '4.4', '4.5', '4.6'],
+    correct: 0,
+    explain: 'النتيجة = (5×0.23) + (4×0.23) + (5×0.18) + (4×0.18) + (4×0.18)\n= 1.15 + 0.92 + 0.90 + 0.72 + 0.72\n= 4.41',
+    hasData: true,
+    dataLabel: 'بيانات التقييم',
+    tableData: {
+      headers: ['زميل', '1', '2', '3', '4', '5'],
+      rows: [['الوزن','0.23','0.23','0.18','0.18','0.18'], ['التقييم','5','4','5','4','4']]
+    }
+  },
+  {
+    id: 29,
+    type: 'compute',
+    q: 'طبّق Feature Scaling بقسمة القيمة على الحد الأقصى. إذا كان x₁=2104 وMax(x₁)=5000، ما قيمة x₁ بعد Scaling؟',
+    opts: ['0.421', '2.104', '0.5', '0.380'],
+    correct: 0,
+    explain: 'Feature Scaling: x_scaled = x / Max(x) = 2104 / 5000 = 0.4208 ≈ 0.421\nالهدف هو جعل جميع المتغيرات في نفس النطاق (0 إلى 1) لتسريع Gradient Descent.',
+    hasData: true,
+    dataLabel: 'المعطيات',
+    dataText: 'x₁ = 2104 | Max(x₁) = 5000'
+  },
+  {
+    id: 30,
+    type: 'compute',
+    q: 'احسب Euclidean Dissimilarity بين النقطتين x1=(1,2) وx3=(2,0) من مصفوفة البيانات التالية:',
+    opts: ['√5 ≈ 2.24', '√13 ≈ 3.61', '√17 ≈ 4.12', '3'],
+    correct: 0,
+    explain: 'd(x1, x3) = √((2-1)² + (0-2)²) = √(1 + 4) = √5 ≈ 2.24',
+    hasData: true,
+    dataLabel: 'مصفوفة البيانات',
+    tableData: {
+      headers: ['النقطة', 'attr1', 'attr2'],
+      rows: [['x1','1','2'], ['x2','3','5'], ['x3','2','0'], ['x4','4','5']]
+    }
+  }
+];
+
+// ════════════════════════════════════
+// STATE
+// ════════════════════════════════════
+let answered = {};
+
+// ════════════════════════════════════
+// RENDER QUESTIONS
+// ════════════════════════════════════
+function renderQuestions() {
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+
+  questions.forEach((q, idx) => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    block.id = `q-block-${q.id}`;
+
+    let dataHTML = '';
+    if (q.hasData) {
+      if (q.tableData) {
+        let tableRows = q.tableData.rows.map(r =>
+          `<tr>${r.map(cell => `<td>${cell}</td>`).join('')}</tr>`
+        ).join('');
+        let tableHead = q.tableData.headers.map(h => `<th>${h}</th>`).join('');
+        dataHTML += `<div class="q-data-box">
+          <div class="data-label">${q.dataLabel}</div>
+          <table class="data-table"><thead><tr>${tableHead}</tr></thead><tbody>${tableRows}</tbody></table>
+          ${q.extraText ? `<div style="margin-top:8px;font-size:0.83rem;color:#555;">${q.extraText}</div>` : ''}
+        </div>`;
+      }
+      if (q.dataText) {
+        dataHTML += `<div class="q-data-box">
+          <div class="data-label">${q.dataLabel}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;">${q.dataText}</div>
+        </div>`;
+      }
+    }
+
+    const letters = ['أ', 'ب', 'ج', 'د'];
+    const optionsHTML = q.opts.map((opt, i) =>
+      `<button class="option-btn" id="opt-${q.id}-${i}" onclick="selectOption(${q.id}, ${i}, ${q.correct})">
+        <span class="option-letter">${letters[i]}</span>
+        <span class="option-text">${opt}</span>
+      </button>`
+    ).join('');
+
+    block.innerHTML = `
+      <div class="q-header">
+        <div class="q-num">Q${q.id}</div>
+        <div style="flex:1">
+          <div class="q-type-badge ${q.type === 'theory' ? 'type-theory' : 'type-compute'}">
+            ${q.type === 'theory' ? '🧠 نظري' : '🔢 حسابي'}
+          </div>
+          <div class="q-text">${q.q}</div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text-muted);flex-shrink:0;">2 درجة</div>
+      </div>
+      ${dataHTML}
+      <div class="options-list">${optionsHTML}</div>
+      <div class="feedback-msg" id="fb-${q.id}"></div>
+    `;
+    container.appendChild(block);
+  });
+}
+
+// ════════════════════════════════════
+// SELECT OPTION
+// ════════════════════════════════════
+function selectOption(qId, chosen, correct) {
+  if (answered[qId] !== undefined) return;
+  answered[qId] = chosen;
+
+  const isCorrect = (chosen === correct);
+  const block = document.getElementById(`q-block-${qId}`);
+  const fb = document.getElementById(`fb-${qId}`);
+  const letters = ['أ', 'ب', 'ج', 'د'];
+
+  // Disable all options
+  for (let i = 0; i < 4; i++) {
+    const btn = document.getElementById(`opt-${qId}-${i}`);
+    if (btn) btn.disabled = true;
+  }
+
+  // Mark correct
+  document.getElementById(`opt-${qId}-${correct}`).classList.add('correct');
+
+  if (!isCorrect) {
+    document.getElementById(`opt-${qId}-${chosen}`).classList.add('wrong');
+    block.classList.add('answered-wrong');
+    fb.className = 'feedback-msg wrong-fb show';
+    fb.innerHTML = `❌ إجابتك: <strong>${letters[chosen]}</strong> — الإجابة الصحيحة: <strong>${letters[correct]}</strong>`;
+  } else {
+    block.classList.add('answered-correct');
+    fb.className = 'feedback-msg correct-fb show';
+    fb.innerHTML = `✅ إجابة صحيحة!`;
+  }
+
+  updateProgress();
+}
+
+// ════════════════════════════════════
+// PROGRESS
+// ════════════════════════════════════
+function updateProgress() {
+  const total = questions.length;
+  const done = Object.keys(answered).length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${done} / ${total} سؤال تم الإجابة عليه`;
+}
+
+// ════════════════════════════════════
+// SUBMIT EXAM
+// ════════════════════════════════════
+function submitExam() {
+  // Answer all unanswered (mark as skipped — no penalty shown, but count wrong)
+  questions.forEach(q => {
+    if (answered[q.id] === undefined) {
+      answered[q.id] = -1; // skipped
+    }
+  });
+
+  let correct = 0;
+  questions.forEach(q => {
+    if (answered[q.id] === q.correct) correct++;
+  });
+
+  const wrong = questions.length - correct;
+  const score = correct * 2;
+  const pct = Math.round((score / 60) * 100);
+
+  // Show results
+  const panel = document.getElementById('results-panel');
+  panel.style.display = 'block';
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-pct').textContent = pct + '%';
+
+  const circle = document.getElementById('score-circle');
+  let grade, sub, cls;
+  if (pct >= 85) { grade = '🌟 ممتاز! أداء رائع'; sub = 'لقد أتقنت المادة بشكل ممتاز'; cls = 'score-pass'; }
+  else if (pct >= 75) { grade = '✨ جيد جداً'; sub = 'أداء قوي — راجع النقاط الناقصة'; cls = 'score-pass'; }
+  else if (pct >= 60) { grade = '📚 جيد — تحتاج مراجعة'; sub = 'راجع الملخصات وأعد المحاولة'; cls = 'score-ok'; }
+  else { grade = '📖 تحتاج إلى مزيد من الدراسة'; sub = 'راجع المحاضرات والملخصات بعناية'; cls = 'score-fail'; }
+
+  circle.className = 'score-circle ' + cls;
+  document.getElementById('grade-msg').textContent = grade;
+  document.getElementById('grade-sub').textContent = sub;
+
+  panel.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('progress-bar').style.width = '100%';
+  document.getElementById('progress-label').textContent = `30 / 30 سؤال تم الإجابة عليه`;
+
+  renderSolutions();
+}
+
+// ════════════════════════════════════
+// RENDER SOLUTIONS
+// ════════════════════════════════════
+function renderSolutions() {
+  const container = document.getElementById('solutions-container');
+  container.innerHTML = '';
+  const letters = ['أ', 'ب', 'ج', 'د'];
+
+  questions.forEach(q => {
+    const card = document.createElement('div');
+    card.className = 'solution-card';
+    card.innerHTML = `
+      <div class="sol-q">السؤال ${q.id} — ${q.type === 'theory' ? 'نظري' : 'حسابي'} (2 درجة)</div>
+      <div class="sol-q-text">${q.q}</div>
+      <div class="sol-answer">✅ الإجابة الصحيحة: (${letters[q.correct]}) ${q.opts[q.correct]}</div>
+      <div class="sol-explain">${q.explain.replace(/\n/g, '<br><div class="sol-formula" style="margin:6px 0">' ).replace(/<br><div[^>]*>/g, match => match.includes('sol-formula') ? match : '<br>').replace(/\n/g, '</div>')}</div>
+    `;
+    // Better explain rendering
+    const explainDiv = card.querySelector('.sol-explain');
+    explainDiv.innerHTML = q.explain.split('\n').map(line => {
+      if (line.trim().startsWith('J(') || line.trim().startsWith('∂') || line.trim().startsWith('z =') || line.trim().startsWith('h(') || line.trim().startsWith('d =') || line.trim().startsWith('v\'') || line.trim().startsWith('Precision') || line.trim().startsWith('Recall') || line.trim().startsWith('Accuracy') || line.trim().startsWith('θ') || line.trim().startsWith('Bin') || line.trim().startsWith('•') || line.trim().startsWith('=')) {
+        return `<div class="sol-formula">${line}</div>`;
+      }
+      return `<p style="margin:3px 0">${line}</p>`;
+    }).join('');
+
+    container.appendChild(card);
+  });
+}
+
+// ════════════════════════════════════
+// NAV
+// ════════════════════════════════════
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ════════════════════════════════════
+// INIT
+// ════════════════════════════════════
+renderQuestions();
+// Pre-render solutions
+renderSolutions();
+</script>
+</body>
+</html>
